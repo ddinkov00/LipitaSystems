@@ -2,12 +2,14 @@
 {
     using System.Reflection;
 
+    using CloudinaryDotNet;
     using LipitaSystems.Data;
     using LipitaSystems.Data.Common;
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
     using LipitaSystems.Data.Repositories;
     using LipitaSystems.Data.Seeding;
+    using LipitaSystems.Services;
     using LipitaSystems.Services.Data;
     using LipitaSystems.Services.Mapping;
     using LipitaSystems.Services.Messaging;
@@ -65,6 +67,16 @@
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+
+            Account account = new Account(
+               this.configuration["Cloudinary:AppName"],
+               this.configuration["Cloudinary:ApiKey"],
+               this.configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            services.AddSingleton(cloudinary);
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

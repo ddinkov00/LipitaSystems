@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace LipitaSystems.Data.Migrations
+﻿namespace LipitaSystems.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class BaseModelsCreated : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

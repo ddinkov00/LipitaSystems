@@ -34,6 +34,10 @@
 
         public DbSet<ProductOrder> ProductsOrders { get; set; }
 
+        public DbSet<HostingSubscription> HostingSubscriptions { get; set; }
+
+        public DbSet<Characteristic> Characteristics { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
@@ -88,6 +92,8 @@
                 .HasComputedColumnSql("[FirstName] + ' ' + [LastName]");
 
             builder.Entity<Product>().Ignore(p => p.PriceAfterDiscount);
+
+            builder.Entity<HostingSubscription>().Ignore(hs => hs.PriceAfterDiscount);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
