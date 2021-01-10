@@ -13,5 +13,15 @@
         {
             return this.View();
         }
+
+        public IActionResult AllSubCategories()
+        {
+            return this.View();
+        }
+
+        public IActionResult Products()
+        {
+            return this.View();
+        }
     }
 }
