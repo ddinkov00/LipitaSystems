@@ -24,7 +24,9 @@
         {
         }
 
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<MainCategory> MainCategories { get; set; }
+
+        public DbSet<SecondaryCategory> SecondaryCategories { get; set; }
 
         public DbSet<Image> Images { get; set; }
 
@@ -35,8 +37,6 @@
         public DbSet<ProductOrder> ProductsOrders { get; set; }
 
         public DbSet<HostingSubscription> HostingSubscriptions { get; set; }
-
-        public DbSet<Characteristic> Characteristics { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 

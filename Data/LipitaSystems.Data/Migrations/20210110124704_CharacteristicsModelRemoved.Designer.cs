@@ -4,14 +4,16 @@ using LipitaSystems.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LipitaSystems.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210110124704_CharacteristicsModelRemoved")]
+    partial class CharacteristicsModelRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,6 +141,35 @@ namespace LipitaSystems.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("LipitaSystems.Data.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("LipitaSystems.Data.Models.HostingSubscription", b =>
                 {
                     b.Property<int>("Id")
@@ -209,38 +240,6 @@ namespace LipitaSystems.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Images");
-                });
-
-            modelBuilder.Entity("LipitaSystems.Data.Models.MainCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("MainCategories");
                 });
 
             modelBuilder.Entity("LipitaSystems.Data.Models.Order", b =>
@@ -369,43 +368,6 @@ namespace LipitaSystems.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductsOrders");
-                });
-
-            modelBuilder.Entity("LipitaSystems.Data.Models.SecondaryCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("MainCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("MainCategoryId");
-
-                    b.ToTable("SecondaryCategories");
                 });
 
             modelBuilder.Entity("LipitaSystems.Data.Models.Setting", b =>
@@ -557,7 +519,7 @@ namespace LipitaSystems.Data.Migrations
 
             modelBuilder.Entity("LipitaSystems.Data.Models.Product", b =>
                 {
-                    b.HasOne("LipitaSystems.Data.Models.SecondaryCategory", "Category")
+                    b.HasOne("LipitaSystems.Data.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -583,13 +545,6 @@ namespace LipitaSystems.Data.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("LipitaSystems.Data.Models.SecondaryCategory", b =>
-                {
-                    b.HasOne("LipitaSystems.Data.Models.MainCategory", null)
-                        .WithMany("SecondaryCategories")
-                        .HasForeignKey("MainCategoryId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -652,9 +607,9 @@ namespace LipitaSystems.Data.Migrations
                     b.Navigation("Roles");
                 });
 
-            modelBuilder.Entity("LipitaSystems.Data.Models.MainCategory", b =>
+            modelBuilder.Entity("LipitaSystems.Data.Models.Category", b =>
                 {
-                    b.Navigation("SecondaryCategories");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("LipitaSystems.Data.Models.Order", b =>
@@ -667,11 +622,6 @@ namespace LipitaSystems.Data.Migrations
                     b.Navigation("Images");
 
                     b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("LipitaSystems.Data.Models.SecondaryCategory", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

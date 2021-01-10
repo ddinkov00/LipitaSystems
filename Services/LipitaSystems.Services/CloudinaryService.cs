@@ -1,13 +1,14 @@
-﻿using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace LipitaSystems.Services
+﻿namespace LipitaSystems.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading.Tasks;
+
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+    using Microsoft.AspNetCore.Http;
+
     public class CloudinaryService : ICloudinaryService
     {
         public async Task<List<string>> UploadAsync(Cloudinary cloudinary, ICollection<IFormFile> files)

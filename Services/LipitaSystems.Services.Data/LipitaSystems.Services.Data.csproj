@@ -21,7 +21,13 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\LipitaSystems.Data.Common\LipitaSystems.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\LipitaSystems.Data.Models\LipitaSystems.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\LipitaSystems.Web.ViewModels\LipitaSystems.Web.ViewModels.csproj" />
     <ProjectReference Include="..\LipitaSystems.Services.Mapping\LipitaSystems.Services.Mapping.csproj" />
+    <ProjectReference Include="..\LipitaSystems.Services\LipitaSystems.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Contracts\" />
   </ItemGroup>
 
 </Project>

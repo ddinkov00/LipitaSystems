@@ -4,14 +4,16 @@
 
     using LipitaSystems.Data.Common.Models;
 
-    public class Category : BaseDeletableModel<int>
+    public class SecondaryCategory : BaseDeletableModel<int>
     {
-        public Category()
+        public SecondaryCategory()
         {
             this.Products = new HashSet<Product>();
         }
 
         public string Name { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
     }
