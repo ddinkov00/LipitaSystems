@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LipitaSystems.Web.ViewModels.ViewModels.Products
+﻿namespace LipitaSystems.Web.ViewModels.ViewModels.Products
 {
-    class ProductListViewModel
+    using System.Collections.Generic;
+
+    public class ProductListViewModel : PagingViewModel
     {
+        public IEnumerable<ProductInListViewModel> Products { get; set; }
     }
 }
