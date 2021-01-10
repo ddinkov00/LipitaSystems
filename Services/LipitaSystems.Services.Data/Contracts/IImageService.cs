@@ -5,5 +5,7 @@
     public interface IImageService
     {
         Task CreateAsync(string imageUrl, int productId);
+
+        string GetProductTumbnail(int productId);
     }
 }
