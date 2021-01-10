@@ -1,7 +1,5 @@
 ﻿namespace LipitaSystems.Data.Models
 {
-    using System.Collections.Generic;
-
     using LipitaSystems.Data.Common.Models;
 
     public class HostingSubscription : BaseDeletableModel<int>

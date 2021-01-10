@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace LipitaSystems.Web.ViewModels.InputModels
+﻿namespace LipitaSystems.Web.ViewModels.InputModels
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using LipitaSystems.Web.ViewModels.ViewModels.Categories;
+    using Microsoft.AspNetCore.Http;
+
     public class ProductInputModel
     {
         [Required]
@@ -28,5 +28,7 @@ namespace LipitaSystems.Web.ViewModels.InputModels
         [Required]
         [Display(Name = "Снимки")]
         public IEnumerable<IFormFile> Images { get; set; }
+
+        public IEnumerable<MainCategoriesSelectListViewModel> CategoryItems { get; set; }
     }
 }

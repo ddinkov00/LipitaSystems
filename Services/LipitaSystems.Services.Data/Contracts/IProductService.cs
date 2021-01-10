@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LipitaSystems.Services.Data.Contracts
+﻿namespace LipitaSystems.Services.Data.Contracts
 {
-    class IProductService
+    using System.Threading.Tasks;
+
+    using LipitaSystems.Web.ViewModels.InputModels;
+
+    public interface IProductService
     {
+        Task<int> CreateAsync(ProductInputModel inputModel);
     }
 }

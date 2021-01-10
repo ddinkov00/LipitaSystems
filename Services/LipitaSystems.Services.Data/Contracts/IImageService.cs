@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LipitaSystems.Services.Data.Contracts
+﻿namespace LipitaSystems.Services.Data.Contracts
 {
-    class IImageService
+    using System.Threading.Tasks;
+
+    public interface IImageService
     {
+        Task CreateAsync(string imageUrl, int productId);
     }
 }
