@@ -18,11 +18,11 @@
                 return;
             }
 
-            var categoriesJson = File.ReadAllText(@"..\..\Data\LipitaSystems.Data\Seeding\Data\Categories.json");
-            var deserializedCategories = JsonConvert.DeserializeObject<List<MainCategory>>(categoriesJson);
+            //var categoriesJson = File.ReadAllText(@"..\..\Data\LipitaSystems.Data\Seeding\Data\Categories.json");
+            //var deserializedCategories = JsonConvert.DeserializeObject<List<MainCategory>>(categoriesJson);
 
-            await dbContext.MainCategories.AddRangeAsync(deserializedCategories);
-            await dbContext.SaveChangesAsync();
+            //await dbContext.MainCategories.AddRangeAsync(deserializedCategories);
+            //await dbContext.SaveChangesAsync();
         }
     }
 }

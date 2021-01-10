@@ -44,4 +44,9 @@
     <ProjectReference Include="..\LipitaSystems.Data.Models\LipitaSystems.Data.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Seeding\Data\Categories.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
