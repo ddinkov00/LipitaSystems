@@ -37,10 +37,6 @@
     <ProjectReference Include="..\LipitaSystems.Web.ViewModels\LipitaSystems.Web.ViewModels.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="Views\Shop\AllSubCategories.cshtml" />
-    <Content Remove="Views\Shop\Products.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Update="Views\Home\Index.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
