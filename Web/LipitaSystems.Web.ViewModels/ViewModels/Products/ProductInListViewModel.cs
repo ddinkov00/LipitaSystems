@@ -12,8 +12,6 @@
 
         public string ImageUrl { get; set; }
 
-        public int QuantityInStock { get; set; }
-
         public decimal OriginalPrice { get; set; }
 
         public decimal? PriceAfterDiscout { get; set; }

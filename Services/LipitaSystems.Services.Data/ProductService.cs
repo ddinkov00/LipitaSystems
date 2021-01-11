@@ -1,5 +1,6 @@
 ﻿namespace LipitaSystems.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -51,10 +52,26 @@
                     Id = p.Id,
                     Name = p.Name,
                     ImageUrl = this.imageService.GetProductTumbnail(p.Id),
-                    QuantityInStock = p.QuantityInStock,
                     OriginalPrice = p.OriginalPrice,
                     PriceAfterDiscout = p.PriceAfterDiscount,
                 }).ToList();
+        }
+
+        public ProductByIdViewModel GetById(int productId)
+        {
+            return this.productRepository.AllAsNoTracking()
+                .Where(p => p.Id == productId)
+                .Select(p => new ProductByIdViewModel
+                {
+                    Name = p.Name,
+                    Description = p.Description,
+                    OriginalPrice = decimal.Round(p.OriginalPrice, 2, MidpointRounding.AwayFromZero),
+                    PriceAfterDiscount = decimal.Round(p.OriginalPrice, 2, MidpointRounding.AwayFromZero),
+                    MainCategoryName = p.Category.MainCategory.Name,
+                    SecondaryCategoryName = p.Category.Name,
+                    ImagesUlr = p.Images
+                        .Select(i => i.Url),
+                }).FirstOrDefault();
         }
     }
 }
