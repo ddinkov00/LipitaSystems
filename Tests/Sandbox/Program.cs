@@ -20,6 +20,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using System.Linq;
 
     public static class Program
     {
@@ -54,6 +55,13 @@
 
             var settingsService = serviceProvider.GetService<ISettingsService>();
             Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
+
+            var url = "https://res.cloudinary.com/lipita-systems/image/upload/v1610369355/smarthome-pixabay-resized_tmvad8.png";
+
+            var splitUrl = url.Split("upload").ToList();
+            splitUrl.Insert(1, "upload/c_fill,h_354,w_500");
+
+            Console.WriteLine(splitUrl.ToString());
 
             Console.WriteLine(sw.Elapsed);
             return await Task.FromResult(0);

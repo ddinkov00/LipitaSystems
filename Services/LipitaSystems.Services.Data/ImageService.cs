@@ -38,5 +38,11 @@
                 .Select(i => i.Url)
                 .FirstOrDefault();
         }
+
+        public string TransformUrlToCropImage(string url)
+        {
+            var splitUrl = url.Split("upload");
+            return "";
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model List<LipitaSystems.Web.ViewModels.ViewModels.Categories.MainCategoriesSelectListViewModel>
+
 <br>
 <br>
 <br>
@@ -24,7 +25,9 @@
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
                     <div class="member">
                         <div class="member-img">
-                            <a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id"><img src="~/img/smartHome/rsz_access-control-technologies-for-enterprise.png" class="img-fluid" alt=""></a>
+                            <a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id">
+                                <img src="https://res.cloudinary.com/lipita-systems/image/upload/c_fill,h_354,w_500/v1610369355/smarthome-pixabay-resized_tmvad8.png" class="img-fluid" alt="">
+                            </a>
                         </div>
                         <div class="member-info">
                             <h4 class="d-inline"><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id" class="text-dark">@category.Name</a></h4>
