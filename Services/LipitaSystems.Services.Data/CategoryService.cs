@@ -31,7 +31,7 @@
                 {
                     Id = mc.Id,
                     Name = mc.Name,
-                    Url = this.imageService.TransformUrlToCropImage(mc.ImageUrl),
+                    Url = mc.ImageUrl,
                     SecondaryCategories = mc.SecondaryCategories
                         .Select(sc => new SecondaryCategorySelectListViewModel
                         {
