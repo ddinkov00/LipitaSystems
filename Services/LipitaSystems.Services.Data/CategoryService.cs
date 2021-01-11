@@ -52,6 +52,7 @@
                     Id = sc.Id,
                     Name = sc.Name,
                     Count = sc.Products.Count(),
+                    Url = sc.ImageUrl,
                 })
                 .ToList();
             model.Category = this.GetCategoryNameById(id);

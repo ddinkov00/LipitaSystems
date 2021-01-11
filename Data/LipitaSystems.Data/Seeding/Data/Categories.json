@@ -4,25 +4,32 @@
     "ImageUrl": "https://res.cloudinary.com/lipita-systems/image/upload/v1610369512/rsz_access-control-technologies-for-enterprise_dzebnb.png",
     "SecondaryCategories": [
       {
-        "Name": "Контролери"
+        "Name": "Контролери",
+        "ImageUrl": "https://res.cloudinary.com/lipita-systems/image/upload/v1610373370/maestro6ch_wpssl4.jpg"
       },
       {
-        "Name": "Картови четци"
+        "Name": "Картови четци",
+        "ImageUrl": "https://res.cloudinary.com/lipita-systems/image/upload/v1610373421/acr39u-nf-1-480x480_dcnn7f.png"
       },
       {
-        "Name": "Биометрични системи и терминали за работно време"
+        "Name": "Биометрични системи и терминали за работно време",
+        "ImageUrl": "https://res.cloudinary.com/lipita-systems/image/upload/v1610373318/rsz_face402-600x600_husas0.jpg"
       },
       {
-        "Name": "Заключващи механизми"
+        "Name": "Заключващи механизми",
+        "ImageUrl": "https://res.cloudinary.com/lipita-systems/image/upload/v1610373358/images_ryoz6p.jpg"
       },
       {
-        "Name": "Бутони"
+        "Name": "Бутони",
+        "ImageUrl": "https://res.cloudinary.com/lipita-systems/image/upload/v1610373348/rsz_but-bv12_hm5jpo.jpg"
       },
       {
-        "Name": "Карти, чипове и аксесоари"
+        "Name": "Карти, чипове и аксесоари",
+        "ImageUrl": "https://res.cloudinary.com/lipita-systems/image/upload/v1610373332/programator-za-prezapisvaemi-chipove-500x500_c9ooqm.jpg"
       },
       {
-        "Name": "Турникети и бариери"
+        "Name": "Турникети и бариери",
+        "ImageUrl": "https://res.cloudinary.com/lipita-systems/image/upload/v1610373340/rsz_barrier-turnstile_gk98gi.jpg"
       }
     ]
   },
