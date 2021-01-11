@@ -1,4 +1,5 @@
 ﻿@model List<LipitaSystems.Web.ViewModels.ViewModels.Categories.MainCategoriesSelectListViewModel>
+
 <br>
 <br>
 <br>
@@ -7,7 +8,7 @@
 
         <nav aria-label="breadcrumb" class="">
             <ol class="breadcrumb bg-white">
-                <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
+                <li class="breadcrumb-item"><a href="#">Начало</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Магазин</li>
             </ol>
         </nav>
@@ -24,7 +25,9 @@
                 <div class="col-lg-4 col-md-6 d-inline align-items-stretch" data-aos="fade-up" data-aos-delay="200">
                     <div class="member">
                         <div class="member-img">
-                            <a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id"><img src="@category.Url" class="img-fluid" alt=""></a>
+                            <a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id">
+                                <img src=@category.Url class="img-fluid" alt="">
+                            </a>
                         </div>
                         <div class="member-info">
                             <h4 class="d-inline"><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id" class="text-dark">@category.Name</a></h4>
@@ -34,12 +37,12 @@
                                 {
                                     @foreach (var subCategory in category.SecondaryCategories)
                                     {
-                                        <li class="mb-1"><a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-id="@subCategory.Id"><i class="icofont-arrow-right"></i>@subCategory.Name</a></li>
+                                        <li class="mb-1"><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id"><i class="icofont-arrow-right"></i>@subCategory.Name</a></li>
                                     }
                                 }
                                 else
                                 {
-                                    <li class="mb-1"><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id"><i class="icofont-arrow-right"></i>@category.Name</a></li>
+                                    <li class="mb-1"><a asp-area="" asp-controller="Home" asp-action="Index"><i class="icofont-arrow-right"></i>@category.Name</a></li>
                                     <li class="mb-1">Няма под категории!</li>
                                 }
                             </ul>

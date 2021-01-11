@@ -38,5 +38,12 @@
                 .Select(i => i.Url)
                 .FirstOrDefault();
         }
+
+        public string TransformUrlToCropImage(string url)
+        {
+            var splitUrl = url.Split("upload").ToList();
+            splitUrl.Insert(1, "upload/c_fill,h_354,w_500");
+            return string.Join(string.Empty, splitUrl);
+        }
     }
 }

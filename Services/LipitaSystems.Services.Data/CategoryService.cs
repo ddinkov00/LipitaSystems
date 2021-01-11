@@ -12,12 +12,16 @@
     {
         private readonly IDeletableEntityRepository<MainCategory> mainCategoryRepository;
         private readonly IDeletableEntityRepository<SecondaryCategory> secondaryCategoryRepository;
+        private readonly IImageService imageService;
 
-        public CategoryService(IDeletableEntityRepository<MainCategory> mainCategoryRepository,
-                               IDeletableEntityRepository<SecondaryCategory> secondaryCategoryRepository)
+        public CategoryService(
+            IDeletableEntityRepository<MainCategory> mainCategoryRepository,
+            IDeletableEntityRepository<SecondaryCategory> secondaryCategoryRepository,
+            IImageService imageService)
         {
             this.mainCategoryRepository = mainCategoryRepository;
             this.secondaryCategoryRepository = secondaryCategoryRepository;
+            this.imageService = imageService;
         }
 
         public IEnumerable<MainCategoriesSelectListViewModel> GetAllForSelectList()
@@ -27,7 +31,7 @@
                 {
                     Id = mc.Id,
                     Name = mc.Name,
-                    Url = mc.ImageUrl,
+                    Url = this.imageService.TransformUrlToCropImage(mc.ImageUrl),
                     SecondaryCategories = mc.SecondaryCategories
                         .Select(sc => new SecondaryCategorySelectListViewModel
                         {

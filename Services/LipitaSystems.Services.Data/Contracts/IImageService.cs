@@ -7,5 +7,7 @@
         Task CreateAsync(string imageUrl, int productId);
 
         string GetProductTumbnail(int productId);
+
+        string TransformUrlToCropImage(string url);
     }
 }
