@@ -21,7 +21,7 @@
 
             @foreach (var category in Model)
             {
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-lg-4 col-md-6 d-inline align-items-stretch" data-aos="fade-up" data-aos-delay="200">
                     <div class="member">
                         <div class="member-img">
                             <a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id"><img src="@category.Url" class="img-fluid" alt=""></a>
@@ -29,7 +29,7 @@
                         <div class="member-info">
                             <h4 class="d-inline"><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id" class="text-dark">@category.Name</a></h4>
                             <i id="showDropDown" style="font-size:30px" class="d-inline float-right icofont-arrow-down"></i>
-                            <ul class="list-unstyled" hidden>
+                            <ul class="list-unstyled mt-2" hidden>
                                 @if (category.SecondaryCategories.Any())
                                 {
                                     @foreach (var subCategory in category.SecondaryCategories)
