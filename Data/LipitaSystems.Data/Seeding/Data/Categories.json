@@ -1,36 +1,39 @@
 [
-    {
-        "Name": "Контрол на достъп",
-        "SecondaryCategories": [
-            {
-                "Name": "Контролери"
-            },
-            {
-                "Name": "Картови четци"
-            },
-            {
-                "Name": "Биометрични системи и терминали за работно време"
-            },
-            {
-                "Name": "Заключващи механизми"
-            },
-            {
-                "Name": "Бутони"
-            },
-            {
-                "Name": "Карти, чипове и аксесоари"
-            },
-            {
-                "Name": "Турникети и бариери"
-            }
-        ]
-    },
-    {
-      "Name": "Смарт хоум",
-      "SecondaryCategories": []
-    },
-    {
-      "Name": "Други",
-      "SecondaryCategories": []
-    }
+  {
+    "Name": "Контрол на достъп",
+    "ImageUrl": "https://res.cloudinary.com/lipita-systems/image/upload/v1610369512/rsz_access-control-technologies-for-enterprise_dzebnb.png",
+    "SecondaryCategories": [
+      {
+        "Name": "Контролери"
+      },
+      {
+        "Name": "Картови четци"
+      },
+      {
+        "Name": "Биометрични системи и терминали за работно време"
+      },
+      {
+        "Name": "Заключващи механизми"
+      },
+      {
+        "Name": "Бутони"
+      },
+      {
+        "Name": "Карти, чипове и аксесоари"
+      },
+      {
+        "Name": "Турникети и бариери"
+      }
+    ]
+  },
+  {
+    "Name": "Смарт хоум",
+    "ImageUrl": "https://res.cloudinary.com/lipita-systems/image/upload/v1610369355/smarthome-pixabay-resized_tmvad8.png",
+    "SecondaryCategories": []
+  },
+  {
+    "Name": "Други",
+    "ImageUrl": "https://res.cloudinary.com/lipita-systems/image/upload/v1610368738/rsz_5f30d0a9e83d3d816b4226e6_yom5sigjsyep7eokjwbt_what_is_digital_marketing1_ei1vo0.jpg",
+    "SecondaryCategories": []
+  }
 ]
