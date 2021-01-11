@@ -57,6 +57,13 @@
                 }).ToList();
         }
 
+        public int GetAllCountByCategory(int categoryid)
+        {
+            return this.productRepository.AllAsNoTracking()
+                .Where(p => p.CategoryId == categoryid)
+                .Count();
+        }
+
         public ProductByIdViewModel GetById(int productId)
         {
             return this.productRepository.AllAsNoTracking()
