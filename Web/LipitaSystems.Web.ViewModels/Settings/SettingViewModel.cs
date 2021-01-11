@@ -1,9 +1,8 @@
 ﻿namespace LipitaSystems.Web.ViewModels.Settings
 {
+    using AutoMapper;
     using LipitaSystems.Data.Models;
     using LipitaSystems.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {

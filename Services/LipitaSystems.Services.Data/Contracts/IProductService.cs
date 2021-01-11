@@ -11,5 +11,9 @@
         Task<int> CreateAsync(ProductInputModel inputModel);
 
         IEnumerable<ProductInListViewModel> GetAllByCategoryForPaging(int secondaryCategoryId, int page, int itemsPerPage);
+
+        ProductByIdViewModel GetById(int productId);
+
+        int GetAllCountByCategory(int categoryid);
     }
 }
