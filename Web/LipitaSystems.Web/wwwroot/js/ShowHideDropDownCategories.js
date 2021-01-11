@@ -1,7 +1,10 @@
 ﻿(function ($) {
     "use strict";
 
-    document.querySelector('#showDropDown').addEventListener('click', DropDown);
+    const el = document.querySelectorAll('#showDropDown');
+    for (let i = 0; i < el.length; i++) {
+        el[i].addEventListener('click', DropDown);
+    }
 
     function DropDown(e) {
         const ul = e.target.parentElement.parentElement.querySelector('ul');

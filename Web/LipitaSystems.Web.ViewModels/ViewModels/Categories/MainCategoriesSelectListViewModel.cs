@@ -4,6 +4,8 @@
 
     public class MainCategoriesSelectListViewModel
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public IEnumerable<SecondaryCategorySelectListViewModel> SecondaryCategories { get; set; }

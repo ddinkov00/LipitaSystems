@@ -7,5 +7,8 @@
     public interface ICategoryService
     {
         IEnumerable<MainCategoriesSelectListViewModel> GetAllForSelectList();
+
+        IEnumerable<SecondaryCategorySelectListViewModel> GetAllSubCategoriesForSelectList(int id);
+
     }
 }

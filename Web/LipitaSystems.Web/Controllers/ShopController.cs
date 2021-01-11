@@ -1,6 +1,7 @@
 ﻿namespace LipitaSystems.Web.Controllers
 {
     using System;
+
     using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Web.ViewModels.ViewModels.Products;
     using Microsoft.AspNetCore.Mvc;
@@ -8,20 +9,24 @@
     public class ShopController : BaseController
     {
         private readonly IProductService productService;
+        private readonly ICategoryService categoryService;
 
-        public ShopController(IProductService productService)
+        public ShopController(IProductService productService, ICategoryService categoryService)
         {
             this.productService = productService;
+            this.categoryService = categoryService;
         }
 
         public IActionResult All()
         {
-            return this.View();
+            var categories = this.categoryService.GetAllForSelectList();
+            return this.View(categories);
         }
 
-        public IActionResult AllSubCategories()
+        public IActionResult AllSubCategories(int id)
         {
-            return this.View();
+            var subCategories = this.categoryService.GetAllSubCategoriesForSelectList(id);
+            return this.View(subCategories);
         }
 
         public IActionResult Products(int id, int secondaryCategoryId)

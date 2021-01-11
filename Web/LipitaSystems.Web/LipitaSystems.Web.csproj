@@ -457,4 +457,9 @@
     <Folder Include="wwwroot\img\smartHome\" />
     <Folder Include="wwwroot\img\accessControl\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Startup.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
 </Project>

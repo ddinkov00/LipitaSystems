@@ -1,15 +1,14 @@
-﻿<br>
+﻿@model List<LipitaSystems.Web.ViewModels.ViewModels.Categories.MainCategoriesSelectListViewModel>
 <br>
 <br>
-<!-- ======= Team Section ======= -->
+<br>
 <section id="team" class="team section-bg mt-5">
     <div class="container" data-aos="fade-up">
 
         <nav aria-label="breadcrumb" class="">
             <ol class="breadcrumb bg-white">
-                <li class="breadcrumb-item"><a href="#">Category</a></li>
-                <li class="breadcrumb-item"><a href="#">Sub-Category</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Product Name</li>
+                <li class="breadcrumb-item"><a href="#">Начало</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Магазин</li>
             </ol>
         </nav>
         <div class="section-title">
@@ -19,68 +18,38 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-                <div class="member">
-                    <div class="member-img">
-                        <img src="~/img/smartHome/smarthome-pixabay-resized.png" class="img-fluid" alt="">
-                        <div class="social">
-                            <a href=""><i class="icofont-twitter"></i></a>
-                            <a href=""><i class="icofont-facebook"></i></a>
-                            <a href=""><i class="icofont-instagram"></i></a>
-                            <a href=""><i class="icofont-linkedin"></i></a>
+
+            @foreach (var category in Model)
+            {
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+                    <div class="member">
+                        <div class="member-img">
+                            <a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id"><img src="~/img/smartHome/rsz_access-control-technologies-for-enterprise.png" class="img-fluid" alt=""></a>
+                        </div>
+                        <div class="member-info">
+                            <h4 class="d-inline"><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id" class="text-dark">@category.Name</a></h4>
+                            <i id="showDropDown" style="font-size:30px" class="d-inline float-right icofont-arrow-down"></i>
+                            <ul class="list-unstyled" hidden>
+                                @if (category.SecondaryCategories.Any())
+                                {
+                                    @foreach (var subCategory in category.SecondaryCategories)
+                                    {
+                                        <li class="mb-1"><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@category.Id"><i class="icofont-arrow-right"></i>@subCategory.Name</a></li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li class="mb-1"><a asp-area="" asp-controller="Home" asp-action="Index"><i class="icofont-arrow-right"></i>@category.Name</a></li>
+                                    <li class="mb-1">Няма под категории!</li>
+                                }
+                            </ul>
                         </div>
                     </div>
-                    <div class="member-info">
-                        <h4>Смарт хоум</h4>
-                        <span>Chief Executive Officer</span>
-                    </div>
                 </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-                <div class="member">
-                    <div class="member-img">
-                        <a asp-area="" asp-controller="Shop" asp-action="AllSubCategories"><img src="~/img/smartHome/rsz_access-control-technologies-for-enterprise.png" class="img-fluid" alt=""></a>
-                    </div>
-                    <div class="member-info">
-                        <h4 class="d-inline"><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" class="text-dark">Контрол на достъпа</a></h4>
-                        <i id="showDropDown" style="font-size:30px" class="d-inline float-right icofont-arrow-down"></i>
-                        <ul class="list-unstyled" hidden>
-                            <li class="mb-1"><a asp-area="" asp-controller="Home" asp-action="Index">- Контролери</a></li>
-                            <li class="mb-1"><a asp-area="" asp-controller="Home" asp-action="Index">- Картови четци</a></li>
-                            <li class="mb-1"><a asp-area="" asp-controller="Home" asp-action="Index">- Биометрични системи и терминали за работно време</a></li>
-                            <li class="mb-1"><a asp-area="" asp-controller="Home" asp-action="Index">- Заключващи механизми</a></li>
-                            <li class="mb-1"><a asp-area="" asp-controller="Home" asp-action="Index">- Бутони</a></li>
-                            <li class="mb-1"><a asp-area="" asp-controller="Home" asp-action="Index">- Турникети и бариери</a></li>
-                            <li class="mb-1"><a asp-area="" asp-controller="Home" asp-action="Index">- Карти, чипове и аксесоари</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
-                <div class="member">
-                    <div class="member-img">
-                        <img src="~/img/rsz_5f30d0a9e83d3d816b4226e6_yom5sigjsyep7eokjwbt_what_is_digital_marketing1.jpg" class="img-fluid" alt="">
-                        <div class="social">
-                            <a href=""><i class="icofont-twitter"></i></a>
-                            <a href=""><i class="icofont-facebook"></i></a>
-                            <a href=""><i class="icofont-instagram"></i></a>
-                            <a href=""><i class="icofont-linkedin"></i></a>
-                        </div>
-                    </div>
-                    <div class="member-info">
-                        <h4>Други</h4>
-                        <span>CTO</span>
-                    </div>
-                </div>
-            </div>
-
-
+            }
         </div>
-
     </div>
-</section><!-- End Team Section -->
+</section>
 @section Scripts
 {
     <script src="~/js/ShowHideDropDownCategories.js"></script>

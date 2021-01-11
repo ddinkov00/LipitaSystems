@@ -11,6 +11,7 @@
     using LipitaSystems.Data.Seeding;
     using LipitaSystems.Services;
     using LipitaSystems.Services.Data;
+    using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Services.Mapping;
     using LipitaSystems.Services.Messaging;
     using LipitaSystems.Web.ViewModels;
@@ -67,6 +68,9 @@
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IImageService, ImageService>();
+            services.AddTransient<ICategoryService, CategoryService>();
 
             Account account = new Account(
                this.configuration["Cloudinary:AppName"],
