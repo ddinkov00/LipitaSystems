@@ -43,8 +43,9 @@
                         <a asp-area="" asp-controller="Shop" asp-action="AllSubCategories"><img src="~/img/smartHome/rsz_access-control-technologies-for-enterprise.png" class="img-fluid" alt=""></a>
                     </div>
                     <div class="member-info">
-                        <h4><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" class="text-dark">Контрол на достъпа</a></h4>
-                        <ul class="list-unstyled">
+                        <h4 class="d-inline"><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" class="text-dark">Контрол на достъпа</a></h4>
+                        <i id="showDropDown" style="font-size:30px" class="d-inline float-right icofont-arrow-down"></i>
+                        <ul class="list-unstyled" hidden>
                             <li class="mb-1"><a asp-area="" asp-controller="Home" asp-action="Index">- Контролери</a></li>
                             <li class="mb-1"><a asp-area="" asp-controller="Home" asp-action="Index">- Картови четци</a></li>
                             <li class="mb-1"><a asp-area="" asp-controller="Home" asp-action="Index">- Биометрични системи и терминали за работно време</a></li>
@@ -80,3 +81,7 @@
 
     </div>
 </section><!-- End Team Section -->
+@section Scripts
+{
+    <script src="~/js/ShowHideDropDownCategories.js"></script>
+}

@@ -137,7 +137,7 @@
 
             <nav class="nav-menu d-none d-lg-block">
                 <ul>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">За нас</a></li>
                     <li class="drop-down">
                         <a asp-area="" asp-controller="Host" asp-action="Pricing">Услуги</a>
@@ -198,7 +198,7 @@
                     <div class="col-lg-3 col-md-6 footer-links">
                         <h4>Полезни Линкове</h4>
                         <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Начало</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="#">За нас</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="#">Услуги</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="#">Магазин</a></li>
@@ -265,7 +265,7 @@
 
     <!-- Template Main JS File -->
     <script src="~/js/template.js"></script>
-
+    @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>
