@@ -18,7 +18,7 @@
                 return;
             }
 
-            var categoriesJson = File.ReadAllText(@"../../Data/LipitaSystems.Data/Seeding/Data/Categories.json");
+            var categoriesJson = File.ReadAllText(Path.Combine("..", "..", "Data", "LipitaSystems.Data", "Seeding", "Data", "Categories.json"));
             var deserializedCategories = JsonConvert.DeserializeObject<List<MainCategory>>(categoriesJson);
 
             await dbContext.MainCategories.AddRangeAsync(deserializedCategories);

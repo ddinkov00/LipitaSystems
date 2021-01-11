@@ -8,7 +8,8 @@
     {
         IEnumerable<MainCategoriesSelectListViewModel> GetAllForSelectList();
 
-        IEnumerable<SecondaryCategorySelectListViewModel> GetAllSubCategoriesForSelectList(int id);
+        SubCategoriesViewModel GetAllSubCategoriesForSelectList(int id);
 
+        string GetCategoryNameById(int id);
     }
 }

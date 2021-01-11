@@ -1,4 +1,4 @@
-﻿@model List<LipitaSystems.Web.ViewModels.ViewModels.Categories.SecondaryCategorySelectListViewModel>
+﻿@model LipitaSystems.Web.ViewModels.ViewModels.Categories.SubCategoriesViewModel
 <br>
 <br>
 <br>
@@ -7,20 +7,20 @@
 
         <nav aria-label="breadcrumb" class="">
             <ol class="breadcrumb bg-white">
-                <li class="breadcrumb-item"><a href="#">Category</a></li>
-                <li class="breadcrumb-item"><a href="#">Sub-Category</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Product Name</li>
+                <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
+                <li class="breadcrumb-item"><a asp-area="" asp-controller="Shop" asp-action="All">Магазин</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.Category</li>
             </ol>
         </nav>
         <div class="section-title">
-            <h2>Контрол на достъпа</h2>
-            <h3>Избери от нашите <span>Продукти за Контрол на достъпа</span></h3>
+            <h2>@Model.Category</h2>
+            <h3>Избери от нашите продукти за<span> @Model.Category</span></h3>
 
         </div>
 
         <div class="row">
 
-            @foreach (var subCategory in Model)
+            @foreach (var subCategory in Model.subCategories)
             {
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                     <div class="member">

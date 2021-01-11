@@ -27,6 +27,7 @@
                 {
                     Id = mc.Id,
                     Name = mc.Name,
+                    Url = mc.ImageUrl,
                     SecondaryCategories = mc.SecondaryCategories
                         .Select(sc => new SecondaryCategorySelectListViewModel
                         {
@@ -37,9 +38,10 @@
                 .ToList();
         }
 
-        public IEnumerable<SecondaryCategorySelectListViewModel> GetAllSubCategoriesForSelectList(int id)
+        public SubCategoriesViewModel GetAllSubCategoriesForSelectList(int id)
         {
-            return this.secondaryCategoryRepository.AllAsNoTracking()
+            var model = new SubCategoriesViewModel();
+            model.subCategories = this.secondaryCategoryRepository.AllAsNoTracking()
                 .Where(sc => sc.MainCategoryId == id)
                 .Select(sc => new SecondaryCategorySelectListViewModel
                 {
@@ -48,6 +50,14 @@
                     Count = sc.Products.Count(),
                 })
                 .ToList();
+            model.Category = this.GetCategoryNameById(id);
+            return model;
+        }
+
+        public string GetCategoryNameById(int id)
+        {
+            var category = this.mainCategoryRepository.AllAsNoTracking().FirstOrDefault(x => x.Id == id);
+            return category.Name;
         }
     }
 }
