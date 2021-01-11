@@ -1,23 +1,18 @@
 ﻿(function ($) {
     "use strict";
 
-    const el = document.querySelectorAll('#showDropDown');
-    for (let i = 0; i < el.length; i++) {
-        el[i].addEventListener('click', DropDown);
-    }
+    $('.showDropDown').on('click', function () {
+        if ($(this).parent().parent().find("ul").eq(0).is(":visible")) {
 
-    function DropDown(e) {
-        const ul = e.target.parentElement.parentElement.querySelector('ul');
-        if (ul.hidden == true) {
-            ul.hidden = false;
-            e.target.classList.remove("icofont-arrow-down");
-            e.target.classList.add("icofont-arrow-up");
+            $(this).parent().parent().find("ul").eq(0).hide(500);
+            $(this).removeClass("icofont-arrow-up");
+            $(this).addClass("icofont-arrow-down");
         }
         else {
-            ul.hidden = true;
-            e.target.classList.remove("icofont-arrow-up");
-            e.target.classList.add("icofont-arrow-down");
+            $(this).parent().parent().find("ul").eq(0).show(500);
+            $(this).removeClass("icofont-arrow-down");
+            $(this).addClass("icofont-arrow-up");
         }
-    }
+    });
 
 })(jQuery);
