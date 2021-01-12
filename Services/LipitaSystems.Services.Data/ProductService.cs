@@ -52,7 +52,6 @@
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    ImageUrl = this.imageService.GetProductTumbnail(p.Id),
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,

@@ -63,6 +63,11 @@
                 Products = this.productService.GetAllByCategoryForPaging(secondaryCategoryId, id, itemsPerPage),
             };
 
+            foreach (var product in viewModel.Products)
+            {
+                product.ImageUrl = this.imageService.GetProductTumbnail(product.Id);
+            }
+
             return this.View(viewModel);
         }
 
@@ -72,7 +77,7 @@
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult AddProduct()
         {
             var inputModel = new ProductInputModel();
             inputModel.CategoryItems = this.categoryService.GetAllForSelectList();
@@ -80,7 +85,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductInputModel inputModel)
+        public async Task<IActionResult> AddProduct(ProductInputModel inputModel)
         {
             if (!this.ModelState.IsValid)
             {
