@@ -32,31 +32,31 @@
             this.imageService = imageService;
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            var inputModel = new ProductInputModel();
-            inputModel.CategoryItems = this.categoryService.GetAllForSelectList();
-            return this.View(inputModel);
-        }
+        //[HttpGet]
+        //public IActionResult Create()
+        //{
+        //    var inputModel = new ProductInputModel();
+        //    inputModel.CategoryItems = this.categoryService.GetAllForSelectList();
+        //    return this.View(inputModel);
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> Create(ProductInputModel inputModel)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View();
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> Create(ProductInputModel inputModel)
+        //{
+        //    if (!this.ModelState.IsValid)
+        //    {
+        //        return this.View();
+        //    }
 
-            var productId = await this.productService.CreateAsync(inputModel);
-            var imageUrls = await this.cloudinaryService.UploadAsync(this.cloudinary, inputModel.Images.ToList());
+        //    var productId = await this.productService.CreateAsync(inputModel);
+        //    var imageUrls = await this.cloudinaryService.UploadAsync(this.cloudinary, inputModel.Images.ToList());
 
-            foreach (var imageUrl in imageUrls)
-            {
-                await this.imageService.CreateAsync(imageUrl, productId);
-            }
+        //    foreach (var imageUrl in imageUrls)
+        //    {
+        //        await this.imageService.CreateAsync(imageUrl, productId);
+        //    }
 
-            return this.RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
-        }
+        //    return this.RedirectToAction(nameof(HomeController.Index), nameof(HomeController));
+        //}
     }
 }

@@ -453,7 +453,6 @@
     <Folder Include="wwwroot\favicons\" />
     <Folder Include="Views\Host\" />
     <Folder Include="Views\Security\" />
-    <Folder Include="Views\Shop\" />
     <Folder Include="wwwroot\img\smartHome\" />
     <Folder Include="wwwroot\img\accessControl\" />
   </ItemGroup>

@@ -25,10 +25,10 @@
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                     <div class="member">
                         <div class="member-img">
-                            <a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-id="@subCategory.Id"><img src="@subCategory.Url" class="img-fluid" alt=""></a>
+                            <a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-secondaryCategoryId="@subCategory.Id"><img src="@subCategory.Url" class="img-fluid cropped2" alt=""></a>
                         </div>
                         <div class="member-info">
-                            <h4><a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-id="@subCategory.Id">@subCategory.Name</a></h4>
+                            <h4><a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-secondaryCategoryId="@subCategory.Id">@subCategory.Name</a></h4>
                             <span class="col-2 badge badge-primary text-white">@subCategory.Count</span>
                         </div>
                     </div>

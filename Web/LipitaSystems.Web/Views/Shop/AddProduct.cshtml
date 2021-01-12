@@ -1,0 +1,39 @@
+﻿@model LipitaSystems.Web.ViewModels.InputModels.ProductInputModel
+
+    <section class="container mt-5">
+        <form method="post" class="mt-5" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="Images"></label>
+                <input asp-for="Images" name="Images" class="form-control" />
+                <span asp-validation-for="Images" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input type="text" asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" rows="5" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input type="number" asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuantityInstock"></label>
+                <input type="number" asp-for="QuantityInstock" class="form-control" />
+                <span asp-validation-for="QuantityInstock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecondaryCategoryId"></label>
+                <input type="number" asp-for="SecondaryCategoryId" class="form-control" />
+                <span asp-validation-for="SecondaryCategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Добавяне</button>
+            </div>
+        </form>
+    </section>
