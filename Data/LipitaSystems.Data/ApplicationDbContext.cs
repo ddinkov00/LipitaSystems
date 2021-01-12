@@ -90,10 +90,6 @@
             builder.Entity<Order>()
                 .Property(p => p.FullName)
                 .HasComputedColumnSql("[FirstName] + ' ' + [LastName]");
-
-            builder.Entity<Product>().Ignore(p => p.PriceAfterDiscount);
-
-            builder.Entity<HostingSubscription>().Ignore(hs => hs.PriceAfterDiscount);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

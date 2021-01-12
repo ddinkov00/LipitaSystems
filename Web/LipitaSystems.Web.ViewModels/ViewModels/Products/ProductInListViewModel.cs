@@ -12,8 +12,17 @@
 
         public string ImageUrl { get; set; }
 
+        public string SecondaryCategoryName { get; set; }
+
         public decimal OriginalPrice { get; set; }
 
-        public decimal? PriceAfterDiscout { get; set; }
+        public int? DiscountPercentage { get; set; }
+
+        public decimal? PriceAfterDiscout => this.DiscountPercentage == null
+            ? null
+            : decimal.Round(
+                this.OriginalPrice - (((decimal)this.DiscountPercentage / 100) * this.OriginalPrice),
+                2,
+                MidpointRounding.AwayFromZero);
     }
 }

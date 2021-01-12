@@ -25,7 +25,6 @@
         [Display(Name = "Категория")]
         public int SecondaryCategoryId { get; set; }
 
-        [Required]
         [Display(Name = "Снимки")]
         public IEnumerable<IFormFile> Images { get; set; }
 

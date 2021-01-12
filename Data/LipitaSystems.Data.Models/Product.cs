@@ -20,10 +20,6 @@
 
         public int? DiscountPercentage { get; set; }
 
-        public decimal? PriceAfterDiscount => this.DiscountPercentage is not null
-            ? this.OriginalPrice - ((this.DiscountPercentage / 100) * this.OriginalPrice)
-            : this.OriginalPrice;
-
         public int QuantityInStock { get; set; }
 
         public int CategoryId { get; set; }
