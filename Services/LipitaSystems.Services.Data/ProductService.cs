@@ -76,7 +76,7 @@
                     Name = p.Name,
                     Description = p.Description,
                     OriginalPrice = decimal.Round(p.OriginalPrice, 2, MidpointRounding.AwayFromZero),
-                    PriceAfterDiscount = decimal.Round(p.OriginalPrice, 2, MidpointRounding.AwayFromZero),
+                    DiscountPercentage = p.DiscountPercentage,
                     MainCategoryName = p.Category.MainCategory.Name,
                     SecondaryCategoryName = p.Category.Name,
                     ImagesUlr = p.Images

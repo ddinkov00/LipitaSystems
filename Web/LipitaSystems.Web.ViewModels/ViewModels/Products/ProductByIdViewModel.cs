@@ -1,5 +1,6 @@
 ﻿namespace LipitaSystems.Web.ViewModels.ViewModels.Products
 {
+    using System;
     using System.Collections.Generic;
 
     public class ProductByIdViewModel
@@ -12,7 +13,14 @@
 
         public decimal OriginalPrice { get; set; }
 
-        public decimal? PriceAfterDiscount { get; set; }
+        public int? DiscountPercentage { get; set; }
+
+        public decimal? PriceAfterDiscout => this.DiscountPercentage == null
+            ? null
+            : decimal.Round(
+                this.OriginalPrice - (((decimal)this.DiscountPercentage / 100) * this.OriginalPrice),
+                2,
+                MidpointRounding.AwayFromZero);
 
         public string MainCategoryName { get; set; }
 

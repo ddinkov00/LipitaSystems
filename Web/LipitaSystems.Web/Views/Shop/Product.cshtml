@@ -67,7 +67,14 @@
                     <p id="productId" hidden>@Model.Id</p>
                     <h5>@Model.Name</h5>
                     <p class="mb-2 text-muted text-uppercase small">@Model.SecondaryCategoryName</p>
-                    <p><span class="mr-1 h4"><strong>@Model.OriginalPrice лв.</strong></span></p>
+                    @if (Model.DiscountPercentage == null)
+                    {
+                        <p><span class="mr-1 h4"><strong>@Model.OriginalPrice лв.</strong></span></p>
+                    }
+                    else
+                    {
+                        <p><span class="mr-1 h4 text-danger"><strong><del class="text-dark h5">@Model.OriginalPrice лв</del> | @Model.PriceAfterDiscout лв</strong></span></p>
+                    }
                     <p class="pt-1">@Model.Description</p>
                     <hr>
                     @if (Model.QuantityInStock <= 0)
@@ -93,7 +100,7 @@
                         </div>
 
                         <hr>
-                        <h5>Обща цена: <span class="text-danger h4">@Model.OriginalPrice лв.</span></h5>
+                        <h5>Обща цена: <span class="text-danger h4">@Model.PriceAfterDiscout лв.</span></h5>
                         <button type="button" class="btn-primary btn btn-md mr-1 mb-2">Купи сега</button>
                         <button type="button" id="shoppingCartBtn" class="btn-outline-dark btn btn-md mr-1 mb-2"><i class="icofont-shopping-cart">Добави в количка</i></button>
                     }
