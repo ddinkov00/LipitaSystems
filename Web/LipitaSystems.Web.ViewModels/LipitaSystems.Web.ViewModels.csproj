@@ -24,4 +24,7 @@
     <ProjectReference Include="..\..\Services\LipitaSystems.Services.Mapping\LipitaSystems.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Cart\" />
+  </ItemGroup>
 </Project>

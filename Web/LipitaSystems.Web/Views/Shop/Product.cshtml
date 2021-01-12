@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-
+                    <p id="productId" hidden>12</p>
                     <h5>Example product name</h5>
                     <p class="mb-2 text-muted text-uppercase small">Sub-Category</p>
                     <p><span class="mr-1"><strong>29 lv</strong></span></p>
@@ -53,13 +53,14 @@
                     <p>Quantity</p>
                     <div class="btn-group col-md-4 col-7" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-secondary"><i class="icofont-minus"></i></button>
-                        <input type="text" class="form-control " value="1" />
+                        <input id="productQuantity" type="text" class="form-control " value="1" />
                         <button type="button" class="btn btn-secondary"><i class="icofont-plus"></i></button>
                     </div>
+
                     <hr>
                     <h5>Final Price: <span class="text-danger h4">29 lv</span></h5>
-                    <button type="button" class="btn-primary btn btn-md mr-1 mb-2">Buy now</button>
-                    <button type="button" class="btn-outline-dark btn btn-md mr-1 mb-2"><i class="icofont-shopping-cart">Add to cart</i></button>
+                    <button type="button" class="btn-primary btn btn-md mr-1 mb-2">Купи сега</button>
+                    <button type="button" id="shoppingCartBtn" class="btn-outline-dark btn btn-md mr-1 mb-2"><i class="icofont-shopping-cart">Добави в количка</i></button>
                 </div>
             </div>
         </section>
@@ -69,3 +70,8 @@
     </div>
 </main>
 <hr>
+
+@section Scripts
+{
+    <script src="~/js/AddProductToTheCockies.js"></script>
+}
