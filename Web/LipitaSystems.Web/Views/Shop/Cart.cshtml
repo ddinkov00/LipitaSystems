@@ -4,25 +4,6 @@
 <br>
 <br>
 <br>
-@*<table class="table mt-5">
-        <thead>
-            <tr>
-                <th scope="col">Product</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var cookie in Model)
-            {
-                <tr>
-                    <td>@cookie.Product</td>
-                    <td>@cookie.Quantity</td>
-                    <td>@cookie.Price</td>
-                </tr>
-            }
-        </tbody>
-    </table>*@
 <section class="mt-5 container">
 
     <!--Grid row-->
@@ -35,96 +16,59 @@
             <div class="mb-3">
                 <div class="pt-4 wish-list">
 
-                    <h5 class="mb-4">Количка (<span>2</span> продукта)</h5>
+                    <h5 class="mb-4">Количка (<span>@Model.Count</span> продукта)</h5>
                     <hr>
-                    <div class="row mb-4">
-                        <div class="col-md-5 col-lg-3 col-xl-3">
-                            <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
-                                <img class="img-fluid w-100"
-                                     src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">
+                    @foreach (var product in Model)
+                    {
+                        <div class="row mb-4">
+                            <div class="col-md-5 col-lg-3 col-xl-3">
+                                <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
+                                    <img class="img-fluid w-100"
+                                         src="@product.ImageUrl" alt="Sample">
 
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-7 col-lg-9 col-xl-9">
-                            <div>
-                                <div class="d-flex justify-content-between row">
-                                    <div class="col-md-6">
-                                        <h5>Product</h5>
-                                        <p class="mb-3 text-muted text-uppercase small">Sub-category</p>
-                                    </div>
-                                    <div class="col-md-5 offset-md-1">
-                                        <div class="def-number-input number-input safari_only mb-0 w-100 form-inline offset-2">
-                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                                    class="minus decrease form-control-sm form-control form-group col-md-3 col-2">
-                                                <i class="icofont-minus"></i>
-                                            </button>
-                                            <input class="quantity form-control form-control-sm form-group col-md-6 col-4" min="1" name="quantity" value="1" type="number">
-                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                                    class="plus increase form-group form-control-sm form-control col-md-3 col-2">
-                                                <i class="icofont-plus"></i>
-                                            </button>
+                            <div class="col-md-7 col-lg-9 col-xl-9">
+                                <div>
+                                    <div class="d-flex justify-content-between row">
+                                        <div class="col-md-6">
+                                            <h5>@product.Product</h5>
+                                            <p class="mb-3 text-muted text-uppercase small">@product.SubCategory</p>
                                         </div>
-                                        <small id="passwordHelpBlock" class="form-text text-muted text-center">
-                                            (Note, 1 piece)
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <a href="#" class="card-link-secondary small text-uppercase mr-3 text-danger">
-                                            <i class="icofont-trash"></i> Remove item
-                                        </a>
-                                    </div>
-                                    <p class="mb-0"><span><strong id="summary">$17.99</strong></span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="mb-4">
-                    <div class="row mb-4">
-                        <div class="col-md-5 col-lg-3 col-xl-3">
-                            <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
-                                <img class="img-fluid w-100"
-                                     src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13a.jpg" alt="Sample">
-
-                            </div>
-                        </div>
-                        <div class="col-md-7 col-lg-9 col-xl-9">
-                            <div>
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <h5>Product</h5>
-                                        <p class="mb-3 text-muted text-uppercase small">Sub-category</p>
-                                    </div>
-                                    <div>
-                                        <div class="def-number-input number-input safari_only mb-0 w-100">
-                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                                    class="minus">
-                                                <i class="icofont-minus"></i>
-                                            </button>
-                                            <input class="quantity" min="1" name="quantity" value="1" type="number">
-                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                                    class="plus">
-                                                <i class="icofont-plus"></i>
-                                            </button>
+                                        <div class="col-md-5 offset-md-1">
+                                            <h5>Количество:</h5>
+                                            <div class="def-number-input number-input safari_only mb-0 w-100 form-inline offset-2">
+                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                                        class="minus decrease form-control-sm form-control form-group col-md-3 col-2">
+                                                    <i class="icofont-minus"></i>
+                                                </button>
+                                                <input class="quantity form-control form-control-sm form-group col-md-6 col-4" min="1" max="@product.ProductMaxQuantity" name="quantity" value="@product.Quantity" type="number">
+                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                                        class="plus increase form-group form-control-sm form-control col-md-3 col-2">
+                                                    <i class="icofont-plus"></i>
+                                                </button>
+                                            </div>
+                                            <small id="passwordHelpBlock" class="form-text text-muted text-center">
+                                                (Note, 1 piece)
+                                            </small>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <a href="#!" class="card-link-secondary small text-uppercase mr-3 text-danger">
-                                            <i class="icofont-trash"></i> Remove item
-                                        </a>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <a href="#" class="card-link-secondary small text-uppercase mr-3 text-danger">
+                                                <i class="icofont-trash"></i> Remove item
+                                            </a>
+                                        </div>
+                                        <p class="mb-0"><span><strong id="summary">Цена: @(@product.Price * @product.Quantity) лв.</strong></span></p>
                                     </div>
-                                    <p class="mb-0"><span><strong>$35.99</strong></span></p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <hr>
+                        <hr class="mb-4">
+                    }
                     <p class="text-primary mb-0">
-                        <i class="fas fa-info-circle mr-1"></i> Do not delay the purchase, adding
-                        items to your cart does not mean booking them.
+                        <i class="fas fa-info-circle mr-1"></i> Не се бавете с поръчката, добавянето
+                        на продуктите в кошницата ви не значи че ги запазвате.
                     </p>
 
                 </div>
@@ -186,3 +130,8 @@
     <!-- Grid row -->
 
 </section>
+
+@section Scripts
+{
+    <script src="~/js/ChangeQuantityInCart.js"></script>
+}

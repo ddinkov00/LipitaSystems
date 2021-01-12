@@ -89,7 +89,24 @@
 
         public IEnumerable<CartViewModel> GetProductsForCart(Dictionary<int, int> products)
         {
-            throw new NotImplementedException();
+            var viewModel = new List<CartViewModel>();
+            foreach (var key in products.Keys)
+            {
+                var product = this.GetById(key);
+                viewModel.Add(new CartViewModel
+                {
+                    Id = product.Id,
+                    ImageUrl = product.ImagesUlr.First(),
+                    Price = product.OriginalPrice,
+                    Product = product.Name,
+                    ProductMaxQuantity = product.QuantityInStock,
+                    Quantity = products[key],
+                    SubCategory = product.SecondaryCategoryName,
+                    SubCategoryId = product.SecondaryCategoryId,
+                });
+            }
+
+            return viewModel;
         }
     }
 }

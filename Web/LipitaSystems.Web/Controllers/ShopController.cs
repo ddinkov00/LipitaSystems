@@ -109,9 +109,9 @@
         {
             var viewModel = new List<CartViewModel>();
 
-            if (this.HttpContext.Request.Cookies.ContainsKey("cartProduct"))
+            if (this.HttpContext.Request.Cookies.ContainsKey("cartProducts"))
             {
-                var cookies = this.HttpContext.Request.Cookies["cartProduct"].Split('_');
+                var cookies = this.HttpContext.Request.Cookies["cartProducts"].Split('_');
                 var products = new Dictionary<int, int>();
                 for (int i = 0; i < cookies.Length; i += 2)
                 {
@@ -122,6 +122,8 @@
 
                     products[int.Parse(cookies[i])] += int.Parse(cookies[i + 1]);
                 }
+
+                viewModel = this.productService.GetProductsForCart(products).ToList();
             }
 
             return this.View(viewModel);
