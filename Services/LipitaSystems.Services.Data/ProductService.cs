@@ -72,6 +72,7 @@
                 .Where(p => p.Id == productId)
                 .Select(p => new ProductByIdViewModel
                 {
+                    Id = p.Id,
                     Name = p.Name,
                     Description = p.Description,
                     OriginalPrice = decimal.Round(p.OriginalPrice, 2, MidpointRounding.AwayFromZero),
@@ -80,6 +81,7 @@
                     SecondaryCategoryName = p.Category.Name,
                     ImagesUlr = p.Images
                         .Select(i => i.Url),
+                    QuantityInStock = p.QuantityInStock,
                 }).FirstOrDefault();
         }
 

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LipitaSystems.Web.ViewModels.ViewModels.Products
+﻿namespace LipitaSystems.Web.ViewModels.ViewModels.Products
 {
+    using System.Collections.Generic;
+
     public class ProductByIdViewModel
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -17,6 +17,8 @@ namespace LipitaSystems.Web.ViewModels.ViewModels.Products
         public string MainCategoryName { get; set; }
 
         public string SecondaryCategoryName { get; set; }
+
+        public int QuantityInStock { get; set; }
 
         public IEnumerable<string> ImagesUlr { get; set; }
     }

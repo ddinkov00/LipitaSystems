@@ -72,9 +72,10 @@
             return this.View(viewModel);
         }
 
-        public IActionResult Product()
+        public IActionResult Product(int id)
         {
-            return this.View();
+            var viewModel = this.productService.GetById(id);
+            return this.View(viewModel);
         }
 
         [HttpGet]
