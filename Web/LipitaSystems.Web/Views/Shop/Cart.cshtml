@@ -1,4 +1,7 @@
 ﻿@model List<LipitaSystems.Web.ViewModels.ViewModels.Cart.CartViewModel>
+@{
+    var totalSum = Model.Sum(x => x.Price * x.Quantity);
+}
 <br>
 <br>
 <br>
@@ -78,7 +81,7 @@
             <div class="mb-3">
                 <div class="pt-4">
 
-                    <h5 class="mb-4">Expected shipping delivery</h5>
+                    <h5 class="mb-4">Очаквайте доставката между</h5>
 
                     <p class="mb-0"> Thu., 12.03. - Mon., 16.03.</p>
                 </div>
@@ -94,29 +97,32 @@
             <div class="mb-3">
                 <div class="pt-4">
 
-                    <h5 class="mb-3">The total amount of</h5>
+                    <h5 class="mb-3">Крайна сума на поръчката</h5>
 
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                            Temporary amount
-                            <span>$25.98</span>
-                        </li>
+                        @foreach (var product in Model)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                @product.Product
+                                <span><strong>@product.Price лв.</strong> x @product.Quantity</span>
+                            </li>
+                        }
                         <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                            Shipping
+                            Доставка
                             <span>Gratis</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                             <div>
-                                <strong>The total amount of</strong>
+                                <strong>Крайна сума</strong>
                                 <strong>
-                                    <p class="mb-0">(including VAT)</p>
+                                    <p class="mb-0">(с ДДС.)</p>
                                 </strong>
                             </div>
-                            <span><strong>$53.98</strong></span>
+                            <span class="text-danger h4"><strong>@totalSum лв.</strong></span>
                         </li>
                     </ul>
 
-                    <button type="button" class="btn btn-primary btn-block">go to checkout</button>
+                    <button type="button" class="btn btn-primary btn-block">Потвърждаване</button>
 
                 </div>
             </div>
