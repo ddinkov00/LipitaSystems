@@ -2,7 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using CloudinaryDotNet;
+    using LipitaSystems.Services;
     using LipitaSystems.Services.Data.Contracts;
+    using LipitaSystems.Web.ViewModels.InputModels;
     using LipitaSystems.Web.ViewModels.ViewModels.Cart;
     using LipitaSystems.Web.ViewModels.ViewModels.Products;
     using Microsoft.AspNetCore.Mvc;
@@ -11,11 +16,22 @@
     {
         private readonly IProductService productService;
         private readonly ICategoryService categoryService;
+        private readonly Cloudinary cloudinary;
+        private readonly ICloudinaryService cloudinaryService;
+        private readonly IImageService imageService;
 
-        public ShopController(IProductService productService, ICategoryService categoryService)
+        public ShopController(
+            IProductService productService,
+            ICategoryService categoryService,
+            Cloudinary cloudinary,
+            ICloudinaryService cloudinaryService,
+            IImageService imageService)
         {
             this.productService = productService;
             this.categoryService = categoryService;
+            this.cloudinary = cloudinary;
+            this.cloudinaryService = cloudinaryService;
+            this.imageService = imageService;
         }
 
         public IActionResult All()
@@ -30,7 +46,7 @@
             return this.View(subCategories);
         }
 
-        public IActionResult Products(int secondaryCategoryId, int id = 0)
+        public IActionResult Products(int secondaryCategoryId, int id = 1)
         {
             if (id <= 0)
             {
@@ -53,6 +69,33 @@
         public IActionResult Product()
         {
             return this.View();
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var inputModel = new ProductInputModel();
+            inputModel.CategoryItems = this.categoryService.GetAllForSelectList();
+            return this.View(inputModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(ProductInputModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
+            var productId = await this.productService.CreateAsync(inputModel);
+            var imageUrls = await this.cloudinaryService.UploadAsync(this.cloudinary, inputModel.Images.ToList());
+
+            foreach (var imageUrl in imageUrls)
+            {
+                await this.imageService.CreateAsync(imageUrl, productId);
+            }
+
+            return this.Redirect("/");
         }
 
         public IActionResult Cart()
