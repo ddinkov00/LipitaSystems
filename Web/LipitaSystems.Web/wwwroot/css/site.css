@@ -84,3 +84,12 @@ body {
     width: 400px;
     height: 250px;
 }
+
+.zoom-img {
+    transition: transform 1.3s ease;
+}
+
+    /* [3] Finally, transforming the image when container gets hovered */
+    .zoom-img:hover {
+        transform: scale(1.3);
+    }
