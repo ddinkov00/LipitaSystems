@@ -9,6 +9,7 @@
     using LipitaSystems.Data.Models;
     using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Web.ViewModels.InputModels;
+    using LipitaSystems.Web.ViewModels.ViewModels.Cart;
     using LipitaSystems.Web.ViewModels.ViewModels.Products;
 
     public class ProductService : IProductService
@@ -80,6 +81,11 @@
                     ImagesUlr = p.Images
                         .Select(i => i.Url),
                 }).FirstOrDefault();
+        }
+
+        public IEnumerable<CartViewModel> GetProductsForCart(Dictionary<int, int> products)
+        {
+            throw new NotImplementedException();
         }
     }
 }

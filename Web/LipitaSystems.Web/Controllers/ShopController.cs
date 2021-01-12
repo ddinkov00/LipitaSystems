@@ -30,7 +30,7 @@
             return this.View(subCategories);
         }
 
-        public IActionResult Products(int id, int secondaryCategoryId)
+        public IActionResult Products(int secondaryCategoryId, int id = 0)
         {
             if (id <= 0)
             {
