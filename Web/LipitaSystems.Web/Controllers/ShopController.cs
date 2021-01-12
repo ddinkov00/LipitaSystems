@@ -62,15 +62,15 @@
             if (this.HttpContext.Request.Cookies.ContainsKey("cartProduct"))
             {
                 var cookies = this.HttpContext.Request.Cookies["cartProduct"].Split('_');
-                for (int i = 0; i < cookies.Length; i += 3)
+                var products = new Dictionary<int, int>();
+                for (int i = 0; i < cookies.Length; i += 2)
                 {
-                    viewModel.Add(new CartViewModel
+                    if (!products.ContainsKey(int.Parse(cookies[i])))
                     {
-                        Product = cookies[i],
-                        Quantity = cookies[i + 1],
-                        Price = cookies[i + 2],
+                        products.Add(int.Parse(cookies[i]), 0);
+                    }
 
-                    });
+                    products[int.Parse(cookies[i])] += int.Parse(cookies[i + 1]);
                 }
             }
 

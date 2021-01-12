@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using LipitaSystems.Web.ViewModels.InputModels;
+    using LipitaSystems.Web.ViewModels.ViewModels.Cart;
     using LipitaSystems.Web.ViewModels.ViewModels.Products;
 
     public interface IProductService
@@ -15,5 +16,7 @@
         ProductByIdViewModel GetById(int productId);
 
         int GetAllCountByCategory(int categoryid);
+
+        IEnumerable<CartViewModel> GetProductsForCart(Dictionary<int, int> products);
     }
 }
