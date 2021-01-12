@@ -64,5 +64,10 @@
             var category = this.mainCategoryRepository.AllAsNoTracking().FirstOrDefault(x => x.Id == id);
             return category.Name;
         }
+
+        public SecondaryCategory GetSubCategoryNameById(int id)
+        {
+            return this.secondaryCategoryRepository.AllAsNoTracking().FirstOrDefault(x => x.Id == id);
+        }
     }
 }

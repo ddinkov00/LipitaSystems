@@ -46,7 +46,7 @@
             return this.View(subCategories);
         }
 
-        public IActionResult Products(int secondaryCategoryId, int id = 1)
+        public IActionResult Products(int id, int page = 1)
         {
             if (id <= 0)
             {
@@ -54,13 +54,14 @@
             }
 
             const int itemsPerPage = 9;
-
+            var subCategory = this.categoryService.GetSubCategoryNameById(id);
+            var category = this.categoryService.GetCategoryNameById(subCategory.MainCategoryId);
             var viewModel = new ProductListViewModel
             {
-                ItemsPerPage = itemsPerPage,
-                PageNumber = id,
-                ItemsCount = this.productService.GetAllCountByCategory(secondaryCategoryId),
-                Products = this.productService.GetAllByCategoryForPaging(secondaryCategoryId, id, itemsPerPage),
+                Category = category,
+                Id = subCategory.MainCategoryId,
+                SubCategory = subCategory.Name,
+                Products = this.productService.GetAllByCategoryForPaging(id, page, itemsPerPage),
             };
 
             foreach (var product in viewModel.Products)

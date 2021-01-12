@@ -19,7 +19,8 @@
 
         public ProductService(
             IDeletableEntityRepository<Product> productRepository,
-            IImageService imageService)
+            IImageService imageService
+            )
         {
             this.productRepository = productRepository;
             this.imageService = imageService;

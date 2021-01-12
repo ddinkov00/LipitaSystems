@@ -8,9 +8,10 @@
 
         <nav aria-label="breadcrumb" class="">
             <ol class="breadcrumb bg-white">
-                <li class="breadcrumb-item"><a href="#">Category</a></li>
-                <li class="breadcrumb-item"><a href="#">Sub-Category</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Product Name</li>
+                <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
+                <li class="breadcrumb-item"><a asp-area="" asp-controller="Shop" asp-action="All">Магазин</a></li>
+                <li class="breadcrumb-item"><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@Model.Id">@Model.Category</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.SubCategory</li>
             </ol>
         </nav>
         <div class="section-title">

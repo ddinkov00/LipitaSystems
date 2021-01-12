@@ -1,7 +1,7 @@
 ﻿namespace LipitaSystems.Services.Data.Contracts
 {
     using System.Collections.Generic;
-
+    using LipitaSystems.Data.Models;
     using LipitaSystems.Web.ViewModels.ViewModels.Categories;
 
     public interface ICategoryService
@@ -11,5 +11,7 @@
         SubCategoriesViewModel GetAllSubCategoriesForSelectList(int id);
 
         string GetCategoryNameById(int id);
+
+        SecondaryCategory GetSubCategoryNameById(int id);
     }
 }
