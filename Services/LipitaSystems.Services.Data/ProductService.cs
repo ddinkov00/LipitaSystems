@@ -79,6 +79,8 @@
                     DiscountPercentage = p.DiscountPercentage,
                     MainCategoryName = p.Category.MainCategory.Name,
                     SecondaryCategoryName = p.Category.Name,
+                    SecondaryCategoryId = p.Category.Id,
+                    MainCategoryId = p.Category.MainCategory.Id,
                     ImagesUlr = p.Images
                         .Select(i => i.Url),
                     QuantityInStock = p.QuantityInStock,

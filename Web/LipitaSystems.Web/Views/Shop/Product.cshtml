@@ -8,9 +8,11 @@
         <section class="mb-0">
             <nav aria-label="breadcrumb" class="">
                 <ol class="breadcrumb bg-white">
-                    <li class="breadcrumb-item"><a href="#">Category</a></li>
-                    <li class="breadcrumb-item"><a href="#">Sub-Category</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Product Name</li>
+                    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
+                    <li class="breadcrumb-item"><a asp-area="" asp-controller="Shop" asp-action="All">Магазин</a></li>
+                    <li class="breadcrumb-item"><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@Model.MainCategoryId">@Model.MainCategoryName</a></li>
+                    <li class="breadcrumb-item"><a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-id="@Model.SecondaryCategoryId">@Model.SecondaryCategoryName</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
                 </ol>
             </nav>
             <div class="row mt-5">
@@ -19,19 +21,19 @@
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         @if (Model.ImagesUlr.Count() > 1)
                         {
-                        <ol class="carousel-indicators">
-                            @for (int i = 0; i < Model.ImagesUlr.Count(); i++)
-                            {
-                                if (i == 0)
+                            <ol class="carousel-indicators">
+                                @for (int i = 0; i < Model.ImagesUlr.Count(); i++)
                                 {
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="active bg-dark"></li>
+                                    if (i == 0)
+                                    {
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="active bg-dark"></li>
+                                    }
+                                    else
+                                    {
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="bg-dark"></li>
+                                    }
                                 }
-                                else
-                                {
-                                    <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="bg-dark"></li>
-                                }
-                            }
-                        </ol>
+                            </ol>
                         }
                         <div class="carousel-inner">
                             @for (int i = 0; i < Model.ImagesUlr.Count(); i++)
@@ -66,7 +68,7 @@
                 <div class="col-md-6">
                     <p id="productId" hidden>@Model.Id</p>
                     <h5>@Model.Name</h5>
-                    <p class="mb-2 text-muted text-uppercase small">@Model.SecondaryCategoryName</p>
+                    <p class="mb-4 text-muted text-uppercase small">@Model.SecondaryCategoryName</p>
                     @if (Model.DiscountPercentage == null)
                     {
                         <p><span class="mr-1 h4"><strong>@Model.OriginalPrice лв.</strong></span></p>
@@ -94,13 +96,20 @@
                         <hr>
                         <p>Количество</p>
                         <div class="btn-group col-md-4 col-7" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-secondary"><i class="icofont-minus"></i></button>
-                            <input id="productQuantity" type="text" class="form-control " value="1" />
-                            <button type="button" class="btn btn-secondary"><i class="icofont-plus"></i></button>
+                            <button id="minisQuanityProduct" type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-secondary"><i class="icofont-minus"></i></button>
+                            <input id="productQuantity" type="number" class="form-control" min="1" max="@Model.QuantityInStock" value="1" />
+                            <button id="plusQuanityProduct" type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-secondary"><i class="icofont-plus"></i></button>
                         </div>
 
                         <hr>
-                        <h5>Обща цена: <span class="text-danger h4">@Model.PriceAfterDiscout лв.</span></h5>
+                        @if (Model.PriceAfterDiscout != null)
+                        {
+                            <h5>Обща цена: <span id="totalSumField" class="text-danger h4">@Model.PriceAfterDiscout лв.</span></h5>
+                        }
+                        else
+                        {
+                            <h5>Обща цена: <span id="totalSumField" class="text-danger h4">@Model.OriginalPrice лв.</span></h5>
+                        }
                         <button type="button" class="btn-primary btn btn-md mr-1 mb-2">Купи сега</button>
                         <button type="button" id="shoppingCartBtn" class="btn-outline-dark btn btn-md mr-1 mb-2"><i class="icofont-shopping-cart">Добави в количка</i></button>
                     }
@@ -117,4 +126,5 @@
 @section Scripts
 {
     <script src="~/js/AddProductToTheCockies.js"></script>
+    <script src="~/js/IncreaseTotalSumOfProduct.js"></script>
 }

@@ -24,7 +24,11 @@
 
         public string MainCategoryName { get; set; }
 
+        public int MainCategoryId { get; set; }
+
         public string SecondaryCategoryName { get; set; }
+
+        public int SecondaryCategoryId { get; set; }
 
         public int QuantityInStock { get; set; }
 
