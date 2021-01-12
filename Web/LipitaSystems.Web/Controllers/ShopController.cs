@@ -1,8 +1,9 @@
 ﻿namespace LipitaSystems.Web.Controllers
 {
     using System;
-
+    using System.Collections.Generic;
     using LipitaSystems.Services.Data.Contracts;
+    using LipitaSystems.Web.ViewModels.ViewModels.Cart;
     using LipitaSystems.Web.ViewModels.ViewModels.Products;
     using Microsoft.AspNetCore.Mvc;
 
@@ -52,6 +53,28 @@
         public IActionResult Product()
         {
             return this.View();
+        }
+
+        public IActionResult Cart()
+        {
+            var viewModel = new List<CartViewModel>();
+
+            if (this.HttpContext.Request.Cookies.ContainsKey("cartProduct"))
+            {
+                var cookies = this.HttpContext.Request.Cookies["cartProduct"].Split('_');
+                for (int i = 0; i < cookies.Length; i += 3)
+                {
+                    viewModel.Add(new CartViewModel
+                    {
+                        Product = cookies[i],
+                        Quantity = cookies[i + 1],
+                        Price = cookies[i + 2],
+
+                    });
+                }
+            }
+
+            return this.View(viewModel);
         }
     }
 }

@@ -1,0 +1,25 @@
+﻿@model List<LipitaSystems.Web.ViewModels.ViewModels.Cart.CartViewModel>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <table class="table mt-5">
+        <thead>
+            <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cookie in Model)
+            {
+                <tr>
+                    <td>@cookie.Product</td>
+                    <td>@cookie.Quantity</td>
+                    <td>@cookie.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
