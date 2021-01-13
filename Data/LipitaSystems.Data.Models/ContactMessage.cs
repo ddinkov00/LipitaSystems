@@ -10,8 +10,7 @@
         public string Name { get; set; }
 
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        public string Contact { get; set; }
 
         [Required]
         public string Subject { get; set; }

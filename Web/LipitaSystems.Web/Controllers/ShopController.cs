@@ -75,6 +75,12 @@
         public IActionResult Product(int id)
         {
             var viewModel = this.productService.GetById(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
             return this.View(viewModel);
         }
 

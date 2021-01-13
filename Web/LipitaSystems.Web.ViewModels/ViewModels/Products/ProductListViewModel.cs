@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class ProductListViewModel
+    public class ProductListViewModel : PagingViewModel
     {
         public string Category { get; set; }
 

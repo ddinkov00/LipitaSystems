@@ -4,20 +4,18 @@
 
     public class ContactFormInputModel
     {
-        [Required]
         [Display(Name = "Име")]
         public string Name { get; set; }
 
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Имейл")]
-        public string Email { get; set; }
+        [Required(ErrorMessage = " е задължителна!")]
+        [Display(Name = "Обратна връзка")]
+        public string Contact { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = " е задължителна!")]
         [Display(Name = "Тема")]
         public string Subject { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = " е задължително!")]
         [MinLength(10)]
         [Display(Name = "Съобщение")]
         public string Message { get; set; }

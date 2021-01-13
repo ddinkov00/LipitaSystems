@@ -1,5 +1,4 @@
 ﻿@model LipitaSystems.Web.ViewModels.InputModels.ContactFormInputModel
-
 <!-- ======= Contact Section ======= -->
 <br>
 <br>
@@ -17,7 +16,7 @@
             <div class="col-lg-6">
                 <div class="info-box mb-4">
                     <i class="bx bx-map"></i>
-                    <h3>Our Address</h3>
+                    <h3>Нашите адреси</h3>
                     <p>A108 Adam Street, New York, NY 535022</p>
                 </div>
             </div>
@@ -25,7 +24,7 @@
             <div class="col-lg-3 col-md-6">
                 <div class="info-box  mb-4">
                     <i class="bx bx-envelope"></i>
-                    <h3>Email Us</h3>
+                    <h3>Изпрати ни имейл</h3>
                     <p>lipitasystems@gmail.com</p>
                 </div>
             </div>
@@ -33,17 +32,17 @@
             <div class="col-lg-3 col-md-6">
                 <div class="info-box  mb-4">
                     <i class="bx bx-phone-call"></i>
-                    <h3>Call Us</h3>
+                    <h3>Обади ни се</h3>
                     <p>+359 894 325 544</p>
                 </div>
             </div>
 
         </div>
 
-        <div class="row" data-aos="fade-up" data-aos-delay="100">
+        <div class="row mb-0" data-aos="fade-up" data-aos-delay="100">
 
             <div class="col-lg-6 ">
-                <iframe class="mb-4 mb-lg-0" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 384px;" allowfullscreen></iframe>
+                <iframe class="mb-4 mb-lg-0" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" style="border:0; width: 100%; height: 385px;" allowfullscreen></iframe>
             </div>
 
             <div class="col-lg-6">
@@ -55,20 +54,20 @@
                             <span asp-validation-for="Name"></span>
                         </div>
                         <div class="col form-group">
-                            <label asp-for="Email"></label>
-                            <input type="text" asp-for="Email" class="form-control" placeholder="Имейл..." />
-                            <span asp-validation-for="Email"></span>
+                            <label asp-for="Contact"></label>
+                            <span asp-validation-for="Contact" class="text-danger"></span>
+                            <input type="text" asp-for="Contact" class="form-control" placeholder="Имейл/Телефон..." />
                         </div>
                     </div>
                     <div class="form-group">
                         <label asp-for="Subject"></label>
+                        <span asp-validation-for="Subject" class="text-danger"></span>
                         <input type="text" asp-for="Subject" class="form-control" placeholder="Тема..." />
-                        <span asp-validation-for="Subject"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Message"></label>
-                        <input type="text" asp-for="Message" class="form-control" placeholder="Съобщение..." />
-                        <span asp-validation-for="Message"></span>
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                        <textarea asp-for="Message" rows="5" class="form-control" placeholder="Съобщение..."></textarea>
                     </div>
                     <div class="text-center"><button type="submit" class="btn btn-primary">Изпрати</button></div>
                 </form>
@@ -78,3 +77,8 @@
 
     </div>
 </section><!-- End Contact Section -->
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
+}

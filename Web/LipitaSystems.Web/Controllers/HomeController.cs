@@ -39,6 +39,11 @@
         [HttpPost]
         public async Task<IActionResult> Contact(ContactFormInputModel input)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
             await this.contactMessageService.Send(input);
             return this.View();
         }

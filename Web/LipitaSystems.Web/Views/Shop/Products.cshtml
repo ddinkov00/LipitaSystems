@@ -26,7 +26,7 @@
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                     <div class="member">
                         <div class="member-img portfolio-item">
-                            <a asp-area="" asp-controller="Shop" asp-action="Product"  asp-route-id="@produt.Id"><img src=@produt.ImageUrl class="img-fluid cropped2" alt=""></a>
+                            <a asp-area="" asp-controller="Shop" asp-action="Product" asp-route-id="@produt.Id"><img src=@produt.ImageUrl class="img-fluid cropped2" alt=""></a>
                             <div class="portfolio-info">
                                 <h4>@produt.Name</h4>
                                 <p>@produt.SecondaryCategoryName</p>
@@ -50,6 +50,6 @@
                 </div>
             }
         </div>
-
+        <partial name="_PagingPartial" model="@Model" />
     </div>
 </section><!-- End Team Section -->

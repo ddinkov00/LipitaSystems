@@ -21,7 +21,7 @@
             var contactMessage = new ContactMessage
             {
                 Name = input.Name,
-                Email = input.Email,
+                Contact = input.Contact,
                 Subject = input.Subject,
                 Message = input.Message,
             };
