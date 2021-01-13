@@ -118,18 +118,21 @@
             if (this.HttpContext.Request.Cookies.ContainsKey("cartProducts"))
             {
                 var cookies = this.HttpContext.Request.Cookies["cartProducts"].Split('_');
-                var products = new Dictionary<int, int>();
-                for (int i = 0; i < cookies.Length; i += 2)
+                if (cookies[0] != "")
                 {
-                    if (!products.ContainsKey(int.Parse(cookies[i])))
+                    var products = new Dictionary<int, int>();
+                    for (int i = 0; i < cookies.Length; i += 2)
                     {
-                        products.Add(int.Parse(cookies[i]), 0);
+                        if (!products.ContainsKey(int.Parse(cookies[i])))
+                        {
+                            products.Add(int.Parse(cookies[i]), 0);
+                        }
+
+                        products[int.Parse(cookies[i])] += int.Parse(cookies[i + 1]);
                     }
 
-                    products[int.Parse(cookies[i])] += int.Parse(cookies[i + 1]);
+                    viewModel = this.productService.GetProductsForCart(products).ToList();
                 }
-
-                viewModel = this.productService.GetProductsForCart(products).ToList();
             }
 
             return this.View(viewModel);

@@ -52,15 +52,12 @@
                                                     <i class="icofont-plus"></i>
                                                 </button>
                                             </div>
-                                            <small id="passwordHelpBlock" class="form-text text-muted text-center">
-                                                (Note, 1 piece)
-                                            </small>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <a href="#" class="card-link-secondary small text-uppercase mr-3 text-danger">
-                                                <i class="icofont-trash"></i> Remove item
+                                            <a asp-area="" asp-controller="Shop" asp-action="Cart" class="card-link-secondary small text-uppercase mr-3 text-danger removeFromCart">
+                                                <i class="icofont-trash"></i> Махни от количката
                                             </a>
                                         </div>
                                         <p class="mb-0"><span><strong title="@product.Price" id="summary">Цена: @(@product.Price * @product.Quantity) лв.</strong></span></p>
@@ -141,4 +138,5 @@
 @section Scripts
 {
     <script src="~/js/ChangeQuantityInCart.js"></script>
+    <script src="~/js/RemoveFromCart.js"></script>
 }
