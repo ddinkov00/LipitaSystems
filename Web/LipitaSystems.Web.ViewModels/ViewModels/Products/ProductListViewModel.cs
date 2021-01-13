@@ -10,6 +10,8 @@
 
         public string SubCategory { get; set; }
 
+        public int SubCategoryId { get; set; }
+
         public IEnumerable<ProductInListViewModel> Products { get; set; }
     }
 }

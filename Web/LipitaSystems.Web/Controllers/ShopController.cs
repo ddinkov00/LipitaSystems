@@ -53,7 +53,7 @@
                 return this.NotFound();
             }
 
-            const int itemsPerPage = 9;
+            const int itemsPerPage = 3;
             var subCategory = this.categoryService.GetSubCategoryNameById(id);
             var category = this.categoryService.GetCategoryNameById(subCategory.MainCategoryId);
             var viewModel = new ProductListViewModel
@@ -61,6 +61,7 @@
                 Category = category,
                 Id = subCategory.MainCategoryId,
                 SubCategory = subCategory.Name,
+                SubCategoryId = id,
                 ItemsPerPage = itemsPerPage,
                 PageNumber = page,
                 ItemsCount = this.productService.GetAllCountByCategory(id),

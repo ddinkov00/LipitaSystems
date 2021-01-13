@@ -1,6 +1,7 @@
 ﻿namespace LipitaSystems.Services.Data.Contracts
 {
     using System.Collections.Generic;
+
     using LipitaSystems.Data.Models;
     using LipitaSystems.Web.ViewModels.ViewModels.Categories;
 
