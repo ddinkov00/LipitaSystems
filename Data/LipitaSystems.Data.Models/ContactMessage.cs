@@ -6,7 +6,6 @@
 
     public class ContactMessage : BaseDeletableModel<int>
     {
-        [Required]
         public string Name { get; set; }
 
         [Required]

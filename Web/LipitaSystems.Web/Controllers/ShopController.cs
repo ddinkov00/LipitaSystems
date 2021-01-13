@@ -48,7 +48,7 @@
 
         public IActionResult Products(int id, int page = 1)
         {
-            if (id <= 0)
+            if (page <= 0)
             {
                 return this.NotFound();
             }
@@ -61,6 +61,9 @@
                 Category = category,
                 Id = subCategory.MainCategoryId,
                 SubCategory = subCategory.Name,
+                ItemsPerPage = itemsPerPage,
+                PageNumber = page,
+                ItemsCount = this.productService.GetAllCountByCategory(id),
                 Products = this.productService.GetAllByCategoryForPaging(id, page, itemsPerPage),
             };
 
