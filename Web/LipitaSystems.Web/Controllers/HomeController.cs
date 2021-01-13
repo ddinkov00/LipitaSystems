@@ -1,13 +1,21 @@
 ﻿namespace LipitaSystems.Web.Controllers
 {
     using System.Diagnostics;
-
+    using System.Threading.Tasks;
+    using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Web.ViewModels;
-
+    using LipitaSystems.Web.ViewModels.InputModels;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
+        private readonly IContactMessageService contactMessageService;
+
+        public HomeController(IContactMessageService contactMessageService)
+        {
+            this.contactMessageService = contactMessageService;
+        }
+
         public IActionResult Index()
         {
             return this.View();
@@ -25,6 +33,13 @@
 
         public IActionResult Contact()
         {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Contact(ContactFormInputModel input)
+        {
+            await this.contactMessageService.Send(input);
             return this.View();
         }
 

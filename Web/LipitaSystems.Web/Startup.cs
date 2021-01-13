@@ -73,6 +73,7 @@
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IContactMessageService, ContactMessageService>();
 
             Account account = new Account(
                this.configuration["Cloudinary:AppName"],
