@@ -53,7 +53,7 @@
                 return this.NotFound();
             }
 
-            const int itemsPerPage = 3;
+            const int itemsPerPage = 12;
             var subCategory = this.categoryService.GetSubCategoryNameById(id);
             var category = this.categoryService.GetCategoryNameById(subCategory.MainCategoryId);
             var viewModel = new ProductListViewModel
