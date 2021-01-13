@@ -97,7 +97,7 @@
                 {
                     Id = product.Id,
                     ImageUrl = product.ImagesUlr.First(),
-                    Price = product.OriginalPrice,
+                    Price = product.PriceAfterDiscout == null ? product.OriginalPrice : (decimal)product.PriceAfterDiscout,
                     Product = product.Name,
                     ProductMaxQuantity = product.QuantityInStock,
                     Quantity = products[key],
