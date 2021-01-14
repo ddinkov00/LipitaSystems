@@ -116,12 +116,33 @@
                         </li>
                     </ul>
 
-                    <button type="button" class="btn btn-primary btn-block">Потвърждаване</button>
+                    <form method="post">
+                        <input name="discoundCode" type="text" value="" hidden />
+                        <button id="toCheckout" type="submit" class="btn btn-primary btn-block">Потвърждаване</button>
+                    </form>
 
                 </div>
             </div>
             <!-- Card -->
+            <div class="mb-3">
+                <div class="pt-4">
 
+                    <a class="dark-grey-text d-flex justify-content-between" data-toggle="collapse" href="#collapseExample"
+                       aria-expanded="false" aria-controls="collapseExample">
+                        Добави код за отстъпка
+                        <span><i class="icofont-arrow-down"></i></span>
+                    </a>
+
+                    <div class="collapse" id="collapseExample">
+                        <div class="mt-3">
+                            <div class="md-form md-outline mb-0">
+                                <input type="text" id="discountCodeInput" class="form-control font-weight-light"
+                                       placeholder="Код за отстъпка">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <!--Grid column-->
@@ -135,4 +156,5 @@
 {
     <script src="~/js/ChangeQuantityInCart.js"></script>
     <script src="~/js/RemoveFromCart.js"></script>
+    <script src="~/js/Checkout.js"></script>
 }
