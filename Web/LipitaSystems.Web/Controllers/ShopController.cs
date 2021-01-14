@@ -1,9 +1,9 @@
 ﻿namespace LipitaSystems.Web.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using CloudinaryDotNet;
     using LipitaSystems.Services;
     using LipitaSystems.Services.Data.Contracts;
@@ -140,7 +140,7 @@
             if (this.HttpContext.Request.Cookies.ContainsKey("cartProducts"))
             {
                 var cookies = this.HttpContext.Request.Cookies["cartProducts"].Split('_');
-                if (cookies[0] != "")
+                if (cookies[0] != string.Empty)
                 {
                     var products = new Dictionary<int, int>();
                     for (int i = 0; i < cookies.Length; i += 2)
@@ -166,7 +166,7 @@
             if (this.HttpContext.Request.Cookies.ContainsKey("cartProducts"))
             {
                 var cookies = this.HttpContext.Request.Cookies["cartProducts"].Split('_');
-                if (cookies[0] != "")
+                if (cookies[0] != string.Empty)
                 {
                     var products = new Dictionary<int, int>();
                     for (int i = 0; i < cookies.Length; i += 2)
@@ -178,7 +178,6 @@
 
                         products[int.Parse(cookies[i])] += int.Parse(cookies[i + 1]);
                     }
-
                 }
             }
 
