@@ -24,11 +24,11 @@
                 Сортирай
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Discount" asp-route-page="1" asp-route-order="PriceAscending">Цена <i class="icofont-arrow-down h5"></i></a>
-                <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Discount" asp-route-page="1" asp-route-order="PriceDescending">Цена <i class="icofont-arrow-up h5"></i></a>
+                <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Discount" asp-route-order="PriceAscending">Цена <i class="icofont-arrow-down h5"></i></a>
+                <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Discount" asp-route-order="PriceDescending">Цена <i class="icofont-arrow-up h5"></i></a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Discount" asp-route-page="1" asp-route-order="QuantityAscending">Количество <i class="icofont-arrow-down h5"></i></a>
-                <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Discount" asp-route-page="1" asp-route-order="QuantityDescending">Количество <i class="icofont-arrow-up h5"></i></a>
+                <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Discount" asp-route-order="QuantityAscending">Количество <i class="icofont-arrow-down h5"></i></a>
+                <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Discount" asp-route-order="QuantityDescending">Количество <i class="icofont-arrow-up h5"></i></a>
             </div>
         </div>
 
@@ -68,13 +68,13 @@
             <nav aria-label="..." class="mb-5">
                 <ul class="pagination justify-content-center">
                     <li class="page-item @if (!Model.HasPreviousPage) { <text>disabled</text>} ">
-                        <a class="page-link" asp-action="@ViewContext.RouteData.Values["action"].ToString()" asp-route-order="@Context.Request.Query["order"]" asp-route-id="@Model.SubCategoryId" asp-route-page="@Model.PreviousPageNumber">&#60;</a>
+                        <a class="page-link" asp-action="@ViewContext.RouteData.Values["action"].ToString()" asp-route-order="@Context.Request.Query["order"]" asp-route-page="@Model.PreviousPageNumber">&#60;</a>
                     </li>
                     @for (int i = Model.PageNumber - 4; i < Model.PageNumber; i++)
                     {
                         if (i > 0)
                         {
-                            <li class="page-item"><a class="page-link" asp-action="@ViewContext.RouteData.Values["action"].ToString()" asp-route-order="@Context.Request.Query["order"]" asp-route-id="@Model.SubCategoryId" asp-route-page="@i">@i</a></li>
+                            <li class="page-item"><a class="page-link" asp-action="@ViewContext.RouteData.Values["action"].ToString()" asp-route-order="@Context.Request.Query["order"]" asp-route-page="@i">@i</a></li>
                         }
                     }
                     <li class="page-item active" aria-current="page">
@@ -87,11 +87,11 @@
                     {
                         if (i <= Model.PagesCount)
                         {
-                            <li class="page-item"><a class="page-link" asp-action="@ViewContext.RouteData.Values["action"].ToString()" asp-route-order="@Context.Request.Query["order"]" asp-route-id="@Model.SubCategoryId" asp-route-page="@i">@i</a></li>
+                            <li class="page-item"><a class="page-link" asp-action="@ViewContext.RouteData.Values["action"].ToString()" asp-route-order="@Context.Request.Query["order"]" asp-route-page="@i">@i</a></li>
                         }
                     }
                     <li class="page-item @if (!Model.HasNextPage) { <text>disabled</text> }">
-                        <a class="page-link" asp-action="@ViewContext.RouteData.Values["action"].ToString()" asp-route-order="@Context.Request.Query["order"]" asp-route-id="@Model.SubCategoryId" asp-route-page="@Model.NextPageNumber">&#62;</a>
+                        <a class="page-link" asp-action="@ViewContext.RouteData.Values["action"].ToString()" asp-route-order="@Context.Request.Query["order"]" asp-route-page="@Model.NextPageNumber">&#62;</a>
                     </li>
                 </ul>
             </nav>

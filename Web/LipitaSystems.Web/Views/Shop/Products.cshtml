@@ -69,7 +69,7 @@
             <nav aria-label="..." class="mb-5">
                 <ul class="pagination justify-content-center">
                     <li class="page-item @if (!Model.HasPreviousPage) { <text>disabled</text>} ">
-                        <a class="page-link" asp-action="@ViewContext.RouteData.Values["action"].ToString()" asp-route-order="@Context.Request.Query["order"]" asp-route-id="@Model.SubCategoryId" asp-route-page="@Model.PreviousPageNumber">&#60;</a>
+                        <a class="page-link" asp-action="@ViewContext.RouteData.Values["action"].ToString()" asp-route-order="@Context.Request.Query["order"]" asp-route-search="@Model.SubCategoryId" asp-route-page="@Model.PreviousPageNumber">&#60;</a>
                     </li>
                     @for (int i = Model.PageNumber - 4; i < Model.PageNumber; i++)
                     {
