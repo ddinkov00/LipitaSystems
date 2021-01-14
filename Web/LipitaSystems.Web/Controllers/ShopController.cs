@@ -160,6 +160,31 @@
             return this.View(viewModel);
         }
 
+        [HttpPost]
+        public IActionResult Cart(string discoundCode)
+        {
+            if (this.HttpContext.Request.Cookies.ContainsKey("cartProducts"))
+            {
+                var cookies = this.HttpContext.Request.Cookies["cartProducts"].Split('_');
+                if (cookies[0] != "")
+                {
+                    var products = new Dictionary<int, int>();
+                    for (int i = 0; i < cookies.Length; i += 2)
+                    {
+                        if (!products.ContainsKey(int.Parse(cookies[i])))
+                        {
+                            products.Add(int.Parse(cookies[i]), 0);
+                        }
+
+                        products[int.Parse(cookies[i])] += int.Parse(cookies[i + 1]);
+                    }
+
+                }
+            }
+
+            return this.Redirect("/");
+        }
+
         public IActionResult Discount(string order, int page = 1)
         {
             if (page <= 0)
