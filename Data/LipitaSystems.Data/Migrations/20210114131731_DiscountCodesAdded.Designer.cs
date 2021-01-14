@@ -4,20 +4,37 @@ using LipitaSystems.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LipitaSystems.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210114131731_DiscountCodesAdded")]
+    partial class DiscountCodesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
+
+            modelBuilder.Entity("DiscountCodeMainCategory", b =>
+                {
+                    b.Property<int>("DiscountCodesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MainCategoriesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DiscountCodesId", "MainCategoriesId");
+
+                    b.HasIndex("MainCategoriesId");
+
+                    b.ToTable("DiscountCodeMainCategory");
+                });
 
             modelBuilder.Entity("LipitaSystems.Data.Models.ApplicationRole", b =>
                 {
@@ -460,9 +477,6 @@ namespace LipitaSystems.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DiscountCodeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -479,8 +493,6 @@ namespace LipitaSystems.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DiscountCodeId");
 
                     b.HasIndex("IsDeleted");
 
@@ -625,6 +637,21 @@ namespace LipitaSystems.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("DiscountCodeMainCategory", b =>
+                {
+                    b.HasOne("LipitaSystems.Data.Models.DiscountCode", null)
+                        .WithMany()
+                        .HasForeignKey("DiscountCodesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LipitaSystems.Data.Models.MainCategory", null)
+                        .WithMany()
+                        .HasForeignKey("MainCategoriesId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("LipitaSystems.Data.Models.Image", b =>
                 {
                     b.HasOne("LipitaSystems.Data.Models.Product", "Product")
@@ -668,10 +695,6 @@ namespace LipitaSystems.Data.Migrations
 
             modelBuilder.Entity("LipitaSystems.Data.Models.SecondaryCategory", b =>
                 {
-                    b.HasOne("LipitaSystems.Data.Models.DiscountCode", null)
-                        .WithMany("SecondaryCategories")
-                        .HasForeignKey("DiscountCodeId");
-
                     b.HasOne("LipitaSystems.Data.Models.MainCategory", "MainCategory")
                         .WithMany("SecondaryCategories")
                         .HasForeignKey("MainCategoryId")
@@ -739,11 +762,6 @@ namespace LipitaSystems.Data.Migrations
                     b.Navigation("Logins");
 
                     b.Navigation("Roles");
-                });
-
-            modelBuilder.Entity("LipitaSystems.Data.Models.DiscountCode", b =>
-                {
-                    b.Navigation("SecondaryCategories");
                 });
 
             modelBuilder.Entity("LipitaSystems.Data.Models.MainCategory", b =>
