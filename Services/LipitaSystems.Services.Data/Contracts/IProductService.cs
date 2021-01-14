@@ -5,6 +5,7 @@
 
     using LipitaSystems.Web.ViewModels.InputModels;
     using LipitaSystems.Web.ViewModels.ViewModels.Cart;
+    using LipitaSystems.Web.ViewModels.ViewModels.Discount_Codes;
     using LipitaSystems.Web.ViewModels.ViewModels.Products;
 
     public interface IProductService
@@ -23,7 +24,7 @@
 
         ProductByIdViewModel GetById(int productId);
 
-        ProductForCheckoutViewModel GetProductForCheckoutById(int id, int quantity, string code);
+        ProductForCheckoutViewModel GetProductForCheckoutById(int id, int quantity, DiscountCodeWithCategoryIds code);
 
         int GetAllCountByCategory(int categoryid);
 

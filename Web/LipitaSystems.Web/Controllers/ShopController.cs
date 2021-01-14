@@ -19,19 +19,22 @@
         private readonly Cloudinary cloudinary;
         private readonly ICloudinaryService cloudinaryService;
         private readonly IImageService imageService;
+        private readonly IDiscountCodeService discountCodeService;
 
         public ShopController(
             IProductService productService,
             ICategoryService categoryService,
             Cloudinary cloudinary,
             ICloudinaryService cloudinaryService,
-            IImageService imageService)
+            IImageService imageService,
+            IDiscountCodeService discountCodeService)
         {
             this.productService = productService;
             this.categoryService = categoryService;
             this.cloudinary = cloudinary;
             this.cloudinaryService = cloudinaryService;
             this.imageService = imageService;
+            this.discountCodeService = discountCodeService;
         }
 
         public IActionResult All()
@@ -163,25 +166,7 @@
         [HttpPost]
         public IActionResult Cart(string discountCode)
         {
-            if (this.HttpContext.Request.Cookies.ContainsKey("cartProducts"))
-            {
-                var cookies = this.HttpContext.Request.Cookies["cartProducts"].Split('_');
-                if (cookies[0] != string.Empty)
-                {
-                    var products = new Dictionary<int, int>();
-                    for (int i = 0; i < cookies.Length; i += 2)
-                    {
-                        if (!products.ContainsKey(int.Parse(cookies[i])))
-                        {
-                            products.Add(int.Parse(cookies[i]), 0);
-                        }
-
-                        products[int.Parse(cookies[i])] += int.Parse(cookies[i + 1]);
-                    }
-                }
-            }
-
-            return this.RedirectToAction(nameof(this.Checkout), nameof(ShopController).Replace("Controller", string.Empty), discountCode);
+            return this.RedirectToAction(nameof(this.Checkout), new { discountCode = discountCode});
         }
 
         public IActionResult Checkout(string discountCode)
@@ -189,13 +174,15 @@
             var cookies = this.HttpContext.Request.Cookies["cartProducts"].Split('_');
             var viewModel = new ProductListForCashOutInputModel();
 
+            var code = this.discountCodeService.GetDiscountCode(discountCode);
+
             for (int i = 0; i < cookies.Length; i += 2)
             {
                 var productId = int.Parse(cookies[i]);
                 var productQuantity = int.Parse(cookies[i + 1]);
 
                 viewModel.Products.Add(this.productService
-                    .GetProductForCheckoutById(productId, productQuantity, discountCode));
+                    .GetProductForCheckoutById(productId, productQuantity, code));
             }
 
             return this.View(viewModel);

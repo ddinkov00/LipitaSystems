@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LipitaSystems.Services.Data.Contracts
+﻿namespace LipitaSystems.Services.Data.Contracts
 {
+
+    using LipitaSystems.Web.ViewModels.ViewModels.Discount_Codes;
+
     public interface IDiscountCodeService
     {
-        decimal ApplyDiscount(decimal summedPrice, int categoryId, bool isDiscounted, string code);
+        decimal ApplyDiscount(DiscountCodeWithCategoryIds code, bool isDiscounted, int categoryId, decimal summedPrice);
+
+        DiscountCodeWithCategoryIds GetDiscountCode(string code);
     }
 }

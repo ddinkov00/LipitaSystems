@@ -16,31 +16,29 @@
             this.discountCodeRepository = discountCodeRepository;
         }
 
-        public decimal ApplyDiscount(decimal summedPrice, int categoryId, bool isDiscounted, string code)
+        public DiscountCodeWithCategoryIds GetDiscountCode(string code)
         {
-            if (code == null)
+            return this.discountCodeRepository.AllAsNoTracking()
+               .Where(dc => dc.Code == code)
+               .Select(dc => new DiscountCodeWithCategoryIds
+               {
+                   DiscountPercentage = dc.DiscountPercentage,
+                   DoesWorkOnDiscountedProducts = dc.DoesWorkOnDiscountedProducts,
+                   CategoryIds = dc.SecondaryCategories
+                       .Select(sc => sc.Id)
+                       .ToList(),
+               })
+               .FirstOrDefault();
+        }
+
+        public decimal ApplyDiscount(DiscountCodeWithCategoryIds discountCode, bool isDiscounted, int categoryId, decimal summedPrice)
+        {
+            if (!discountCode.CategoryIds.Contains(categoryId))
             {
                 return summedPrice;
             }
-
-            var discountCode = this.discountCodeRepository.AllAsNoTracking()
-                .Where(dc => dc.Code == code)
-                .Select(dc => new DiscountCodeWithCategoryIds
-                {
-                    DiscountPercentage = dc.DiscountPercentage,
-                    DoesWorkOnDiscountedProducts = dc.DoesWorkOnDiscountedProducts,
-                    CategoryIds = dc.SecondaryCategories
-                        .Select(sc => sc.Id)
-                        .ToList(),
-                })
-                .FirstOrDefault();
 
             if (isDiscounted && discountCode.DoesWorkOnDiscountedProducts == false)
-            {
-                return summedPrice;
-            }
-
-            if (!discountCode.CategoryIds.Contains(categoryId))
             {
                 return summedPrice;
             }

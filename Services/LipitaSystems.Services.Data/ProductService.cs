@@ -10,6 +10,7 @@
     using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Web.ViewModels.InputModels;
     using LipitaSystems.Web.ViewModels.ViewModels.Cart;
+    using LipitaSystems.Web.ViewModels.ViewModels.Discount_Codes;
     using LipitaSystems.Web.ViewModels.ViewModels.Products;
 
     public class ProductService : IProductService
@@ -256,7 +257,7 @@
                 .Count();
         }
 
-        public ProductForCheckoutViewModel GetProductForCheckoutById(int id, int quantity, string code)
+        public ProductForCheckoutViewModel GetProductForCheckoutById(int id, int quantity, DiscountCodeWithCategoryIds code)
         {
             var product = this.productRepository.AllAsNoTracking()
                 .Where(p => p.Id == id)
@@ -278,10 +279,10 @@
             {
                 product.FinalPrice = this.discountCodeService
                 .ApplyDiscount(
-                    (decimal)product.SummedPrice,
-                    product.SecondaryCategoryId,
+                    code,
                     product.IsDiscounted,
-                    code);
+                    product.SecondaryCategoryId,
+                    (decimal)product.SummedPrice);
             }
             else
             {

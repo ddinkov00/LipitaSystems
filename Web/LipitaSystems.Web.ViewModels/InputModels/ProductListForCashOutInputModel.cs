@@ -8,6 +8,11 @@
 
     public class ProductListForCashOutInputModel
     {
+        public ProductListForCashOutInputModel()
+        {
+            this.Products = new List<ProductForCheckoutViewModel>();
+        }
+
         [Required]
         public string FirstName { get; set; }
 
