@@ -161,7 +161,7 @@
         }
 
         [HttpPost]
-        public IActionResult Cart(string discoundCode)
+        public IActionResult Cart(string discountCode)
         {
             if (this.HttpContext.Request.Cookies.ContainsKey("cartProducts"))
             {
@@ -182,6 +182,29 @@
                 }
             }
 
+            return this.RedirectToAction(nameof(this.Checkout), nameof(ShopController).Replace("Controller", string.Empty), discountCode);
+        }
+
+        public IActionResult Checkout(string discountCode)
+        {
+            var cookies = this.HttpContext.Request.Cookies["cartProducts"].Split('_');
+            var viewModel = new ProductListForCashOutInputModel();
+
+            for (int i = 0; i < cookies.Length; i += 2)
+            {
+                var productId = int.Parse(cookies[i]);
+                var productQuantity = int.Parse(cookies[i + 1]);
+
+                viewModel.Products.Add(this.productService
+                    .GetProductForCheckoutById(productId, productQuantity, discountCode));
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Checkout()
+        {
             return this.Redirect("/");
         }
 

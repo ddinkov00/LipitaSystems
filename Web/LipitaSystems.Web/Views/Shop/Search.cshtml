@@ -18,17 +18,18 @@
             <h3>Избери от нашите <span>Продукти</span></h3>
 
         </div>
-
-        <div class="dropdown mb-4 float-right">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Сортирай
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="PriceAscending">Цена <i class="icofont-arrow-down h5"></i></a>
-                <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="PriceDescending">Цена <i class="icofont-arrow-up h5"></i></a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="QuantityAscending">Количество <i class="icofont-arrow-down h5"></i></a>
-                <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="QuantityDescending">Количество <i class="icofont-arrow-up h5"></i></a>
+        <div class="d-flex flex-row-reverse">
+            <div class="dropdown mb-4 float-right">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Сортирай
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="PriceAscending">Цена <i class="icofont-arrow-down h5"></i></a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="PriceDescending">Цена <i class="icofont-arrow-up h5"></i></a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="QuantityAscending">Количество <i class="icofont-arrow-down h5"></i></a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="QuantityDescending">Количество <i class="icofont-arrow-up h5"></i></a>
+                </div>
             </div>
         </div>
 

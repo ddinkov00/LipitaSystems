@@ -23,6 +23,8 @@
 
         ProductByIdViewModel GetById(int productId);
 
+        ProductForCheckoutViewModel GetProductForCheckoutById(int id, int quantity, string code);
+
         int GetAllCountByCategory(int categoryid);
 
         int GetCountBySearch(string search);
@@ -38,7 +40,6 @@
         IEnumerable<ProductInListViewModel> DiscountProductsQuantityAscendingForPaging(int page, int itemsPerPage);
 
         IEnumerable<ProductInListViewModel> DiscountProductsQuantityDescendingForPaging(int page, int itemsPerPage);
-
 
         IEnumerable<CartViewModel> GetProductsForCart(Dictionary<int, int> products);
 

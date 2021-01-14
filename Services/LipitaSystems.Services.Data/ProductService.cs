@@ -14,14 +14,17 @@
 
     public class ProductService : IProductService
     {
+        private readonly IDiscountCodeService discountCodeService;
         private readonly IDeletableEntityRepository<Product> productRepository;
         private readonly IImageService imageService;
 
         public ProductService(
+            IDiscountCodeService discountCodeService,
             IDeletableEntityRepository<Product> productRepository,
             IImageService imageService
             )
         {
+            this.discountCodeService = discountCodeService;
             this.productRepository = productRepository;
             this.imageService = imageService;
         }
@@ -251,6 +254,41 @@
             return this.productRepository.AllAsNoTracking()
                 .Where(p => p.Name.Contains(search))
                 .Count();
+        }
+
+        public ProductForCheckoutViewModel GetProductForCheckoutById(int id, int quantity, string code)
+        {
+            var product = this.productRepository.AllAsNoTracking()
+                .Where(p => p.Id == id)
+                .Select(p => new ProductForCheckoutViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    ImageUrl = p.Images
+                        .Select(i => i.Url)
+                        .FirstOrDefault(),
+                    Quantity = quantity,
+                    OriginalPrice = p.OriginalPrice,
+                    SecondaryCategoryId = p.CategoryId,
+                    SecondaryCategoryName = p.Category.Name,
+                    DiscountPercentage = p.DiscountPercentage,
+                }).FirstOrDefault();
+
+            if (code != null)
+            {
+                product.FinalPrice = this.discountCodeService
+                .ApplyDiscount(
+                    (decimal)product.SummedPrice,
+                    product.SecondaryCategoryId,
+                    product.IsDiscounted,
+                    code);
+            }
+            else
+            {
+                product.FinalPrice = product.SummedPrice;
+            }
+
+            return product;
         }
 
         public IEnumerable<CartViewModel> GetProductsForCart(Dictionary<int, int> products)
