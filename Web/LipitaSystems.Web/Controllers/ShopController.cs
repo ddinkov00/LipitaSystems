@@ -160,6 +160,49 @@
             return this.View(viewModel);
         }
 
+        public IActionResult Discount(string order, int page = 1)
+        {
+            if (page <= 0)
+            {
+                page = 1;
+            }
+
+            const int itemsPerPage = 12;
+            var viewModel = new ProductListViewModel
+            {
+                Search = "Намалени продукти",
+                ItemsPerPage = itemsPerPage,
+                PageNumber = page,
+                ItemsCount = this.productService.GetCountByDiscount(),
+            };
+
+            switch (order)
+            {
+                case "PriceAscending":
+                    viewModel.Products = this.productService.DiscountProductsPriceAscendingForPaging(page, itemsPerPage);
+                    break;
+                case "PriceDescending":
+                    viewModel.Products = this.productService.DiscountProductsPriceDescendingForPaging(page, itemsPerPage);
+                    break;
+                case "QuantityAscending":
+                    viewModel.Products = this.productService.DiscountProductsQuantityAscendingForPaging(page, itemsPerPage);
+                    break;
+                case "QuantityDescending":
+                    viewModel.Products = this.productService.DiscountProductsQuantityDescendingForPaging(page, itemsPerPage);
+                    break;
+                default:
+                    viewModel.Products = this.productService.DiscountProductsForPaging(page, itemsPerPage);
+                    break;
+            }
+
+            foreach (var product in viewModel.Products)
+            {
+                product.ImageUrl = this.imageService.GetProductTumbnail(product.Id);
+            }
+
+            return this.View(viewModel);
+        }
+
         public IActionResult Search(string search, string order, int page = 1)
         {
             if (page <= 0)
@@ -174,7 +217,6 @@
                 ItemsPerPage = itemsPerPage,
                 PageNumber = page,
                 ItemsCount = this.productService.GetCountBySearch(search),
-                Products = this.productService.SearchProductsForPaging(page, itemsPerPage, search),
             };
 
             switch (order)
