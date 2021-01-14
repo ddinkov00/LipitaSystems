@@ -46,11 +46,11 @@
             return this.View(subCategories);
         }
 
-        public IActionResult Products(int id, int page = 1)
+        public IActionResult Products(int id, string order, int page = 1)
         {
             if (page <= 0)
             {
-                return this.NotFound();
+                page = 1;
             }
 
             const int itemsPerPage = 12;
@@ -65,8 +65,26 @@
                 ItemsPerPage = itemsPerPage,
                 PageNumber = page,
                 ItemsCount = this.productService.GetAllCountByCategory(id),
-                Products = this.productService.GetAllByCategoryForPaging(id, page, itemsPerPage),
             };
+
+            switch (order)
+            {
+                case "PriceAscending":
+                    viewModel.Products = this.productService.GetAllByCategoryPriceAscendingForPaging(id, page, itemsPerPage);
+                    break;
+                case "PriceDescending":
+                    viewModel.Products = this.productService.GetAllByCategoryPriceDescendingForPaging(id, page, itemsPerPage);
+                    break;
+                case "QuantityAscending":
+                    viewModel.Products = this.productService.GetAllByCategoryQuantityAscendingForPaging(id, page, itemsPerPage);
+                    break;
+                case "QuantityDescending":
+                    viewModel.Products = this.productService.GetAllByCategoryQuantityDescendingForPaging(id, page, itemsPerPage);
+                    break;
+                default:
+                    viewModel.Products = this.productService.GetAllByCategoryForPaging(id, page, itemsPerPage);
+                    break;
+            }
 
             foreach (var product in viewModel.Products)
             {
@@ -137,6 +155,50 @@
 
                     viewModel = this.productService.GetProductsForCart(products).ToList();
                 }
+            }
+
+            return this.View(viewModel);
+        }
+
+        public IActionResult Search(string search, string order, int page = 1)
+        {
+            if (page <= 0)
+            {
+                page = 1;
+            }
+
+            const int itemsPerPage = 12;
+            var viewModel = new ProductListViewModel
+            {
+                Search = search,
+                ItemsPerPage = itemsPerPage,
+                PageNumber = page,
+                ItemsCount = this.productService.GetCountBySearch(search),
+                Products = this.productService.SearchProductsForPaging(page, itemsPerPage, search),
+            };
+
+            switch (order)
+            {
+                case "PriceAscending":
+                    viewModel.Products = this.productService.SearchProductsPriceAscendingForPaging(page, itemsPerPage, search);
+                    break;
+                case "PriceDescending":
+                    viewModel.Products = this.productService.SearchProductsPriceDescendingForPaging(page, itemsPerPage, search);
+                    break;
+                case "QuantityAscending":
+                    viewModel.Products = this.productService.SearchProductsQuantityAscendingForPaging(page, itemsPerPage, search);
+                    break;
+                case "QuantityDescending":
+                    viewModel.Products = this.productService.SearchProductsQuantityDescendingForPaging(page, itemsPerPage, search);
+                    break;
+                default:
+                    viewModel.Products = this.productService.SearchProductsForPaging(page, itemsPerPage, search);
+                    break;
+            }
+
+            foreach (var product in viewModel.Products)
+            {
+                product.ImageUrl = this.imageService.GetProductTumbnail(product.Id);
             }
 
             return this.View(viewModel);

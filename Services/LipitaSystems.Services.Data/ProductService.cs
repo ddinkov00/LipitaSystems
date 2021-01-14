@@ -59,6 +59,74 @@
                 }).ToList();
         }
 
+        public IEnumerable<ProductInListViewModel> GetAllByCategoryPriceAscendingForPaging(int secondaryCategoryId, int page, int itemsPerPage)
+        {
+            return this.productRepository.AllAsNoTracking()
+                .Where(p => p.CategoryId == secondaryCategoryId)
+                .OrderBy(p => p.OriginalPrice)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .Select(p => new ProductInListViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    SecondaryCategoryName = p.Category.Name,
+                    OriginalPrice = p.OriginalPrice,
+                    DiscountPercentage = p.DiscountPercentage,
+                }).ToList();
+        }
+
+        public IEnumerable<ProductInListViewModel> GetAllByCategoryPriceDescendingForPaging(int secondaryCategoryId, int page, int itemsPerPage)
+        {
+            return this.productRepository.AllAsNoTracking()
+                .Where(p => p.CategoryId == secondaryCategoryId)
+                .OrderByDescending(p => p.OriginalPrice)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .Select(p => new ProductInListViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    SecondaryCategoryName = p.Category.Name,
+                    OriginalPrice = p.OriginalPrice,
+                    DiscountPercentage = p.DiscountPercentage,
+                }).ToList();
+        }
+
+        public IEnumerable<ProductInListViewModel> GetAllByCategoryQuantityAscendingForPaging(int secondaryCategoryId, int page, int itemsPerPage)
+        {
+            return this.productRepository.AllAsNoTracking()
+                .Where(p => p.CategoryId == secondaryCategoryId)
+                .OrderBy(p => p.QuantityInStock)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .Select(p => new ProductInListViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    SecondaryCategoryName = p.Category.Name,
+                    OriginalPrice = p.OriginalPrice,
+                    DiscountPercentage = p.DiscountPercentage,
+                }).ToList();
+        }
+
+        public IEnumerable<ProductInListViewModel> GetAllByCategoryQuantityDescendingForPaging(int secondaryCategoryId, int page, int itemsPerPage)
+        {
+            return this.productRepository.AllAsNoTracking()
+                .Where(p => p.CategoryId == secondaryCategoryId)
+                .OrderByDescending(p => p.QuantityInStock)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .Select(p => new ProductInListViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    SecondaryCategoryName = p.Category.Name,
+                    OriginalPrice = p.OriginalPrice,
+                    DiscountPercentage = p.DiscountPercentage,
+                }).ToList();
+        }
+
         public int GetAllCountByCategory(int categoryid)
         {
             return this.productRepository.AllAsNoTracking()
@@ -87,6 +155,13 @@
                 }).FirstOrDefault();
         }
 
+        public int GetCountBySearch(string search)
+        {
+            return this.productRepository.AllAsNoTracking()
+                .Where(p => p.Name.Contains(search))
+                .Count();
+        }
+
         public IEnumerable<CartViewModel> GetProductsForCart(Dictionary<int, int> products)
         {
             var viewModel = new List<CartViewModel>();
@@ -107,6 +182,90 @@
             }
 
             return viewModel;
+        }
+
+        public IEnumerable<ProductInListViewModel> SearchProductsForPaging(int page, int itemsPerPage, string search)
+        {
+            return this.productRepository.AllAsNoTracking()
+                .Where(p => p.Name.Contains(search))
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .Select(p => new ProductInListViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    SecondaryCategoryName = p.Category.Name,
+                    OriginalPrice = p.OriginalPrice,
+                    DiscountPercentage = p.DiscountPercentage,
+                }).ToList();
+        }
+
+        public IEnumerable<ProductInListViewModel> SearchProductsPriceAscendingForPaging(int page, int itemsPerPage, string search)
+        {
+            return this.productRepository.AllAsNoTracking()
+                .Where(p => p.Name.Contains(search))
+                .OrderBy(p => p.OriginalPrice)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .Select(p => new ProductInListViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    SecondaryCategoryName = p.Category.Name,
+                    OriginalPrice = p.OriginalPrice,
+                    DiscountPercentage = p.DiscountPercentage,
+                }).ToList();
+        }
+
+        public IEnumerable<ProductInListViewModel> SearchProductsPriceDescendingForPaging(int page, int itemsPerPage, string search)
+        {
+            return this.productRepository.AllAsNoTracking()
+                .Where(p => p.Name.Contains(search))
+                .OrderByDescending(p => p.OriginalPrice)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .Select(p => new ProductInListViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    SecondaryCategoryName = p.Category.Name,
+                    OriginalPrice = p.OriginalPrice,
+                    DiscountPercentage = p.DiscountPercentage,
+                }).ToList();
+        }
+
+        public IEnumerable<ProductInListViewModel> SearchProductsQuantityAscendingForPaging(int page, int itemsPerPage, string search)
+        {
+            return this.productRepository.AllAsNoTracking()
+                .Where(p => p.Name.Contains(search))
+                .OrderBy(p => p.QuantityInStock)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .Select(p => new ProductInListViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    SecondaryCategoryName = p.Category.Name,
+                    OriginalPrice = p.OriginalPrice,
+                    DiscountPercentage = p.DiscountPercentage,
+                }).ToList();
+        }
+
+        public IEnumerable<ProductInListViewModel> SearchProductsQuantityDescendingForPaging(int page, int itemsPerPage, string search)
+        {
+            return this.productRepository.AllAsNoTracking()
+                .Where(p => p.Name.Contains(search))
+                .OrderByDescending(p => p.QuantityInStock)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .Select(p => new ProductInListViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    SecondaryCategoryName = p.Category.Name,
+                    OriginalPrice = p.OriginalPrice,
+                    DiscountPercentage = p.DiscountPercentage,
+                }).ToList();
         }
     }
 }

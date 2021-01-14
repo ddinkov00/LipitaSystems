@@ -140,8 +140,8 @@
                         <a asp-area="" asp-controller="Shop" asp-action="All">Магазин</a>
                         <ul>
                             <li>
-                                <form class="form-inline">
-                                    <input class="form-control" type="text" placeholder="Search Product..." />
+                                <form method="get" class="form-inline" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-page="1">
+                                    <input name="search" class="form-control" type="text" placeholder="Потърси Продукт..." />
                                 </form>
                             </li>
                             <li class="drop-down dropleft">
@@ -172,7 +172,7 @@
                             <li><a href="#">Drop Down 4</a></li>
                         </ul>
                     </li>
-                    <li class="h5"><a asp-area="" asp-controller="Shop" asp-action="Cart">Количка<i class="icofont-shopping-cart"></i></a></li>
+                    <li><a asp-area="" asp-controller="Shop" asp-action="Cart">Количка<i class="icofont-shopping-cart"></i></a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">За нас</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контакти</a></li>
                 </ul>

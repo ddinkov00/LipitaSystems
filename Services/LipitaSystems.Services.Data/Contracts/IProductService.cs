@@ -13,10 +13,31 @@
 
         IEnumerable<ProductInListViewModel> GetAllByCategoryForPaging(int secondaryCategoryId, int page, int itemsPerPage);
 
+        IEnumerable<ProductInListViewModel> GetAllByCategoryPriceDescendingForPaging(int secondaryCategoryId, int page, int itemsPerPage);
+
+        IEnumerable<ProductInListViewModel> GetAllByCategoryPriceAscendingForPaging(int secondaryCategoryId, int page, int itemsPerPage);
+
+        IEnumerable<ProductInListViewModel> GetAllByCategoryQuantityAscendingForPaging(int secondaryCategoryId, int page, int itemsPerPage);
+
+        IEnumerable<ProductInListViewModel> GetAllByCategoryQuantityDescendingForPaging(int secondaryCategoryId, int page, int itemsPerPage);
+
         ProductByIdViewModel GetById(int productId);
 
         int GetAllCountByCategory(int categoryid);
 
+        int GetCountBySearch(string search);
+
         IEnumerable<CartViewModel> GetProductsForCart(Dictionary<int, int> products);
+
+        IEnumerable<ProductInListViewModel> SearchProductsForPaging(int page, int itemsPerPage, string search);
+
+        IEnumerable<ProductInListViewModel> SearchProductsPriceDescendingForPaging(int page, int itemsPerPage, string search);
+
+        IEnumerable<ProductInListViewModel> SearchProductsPriceAscendingForPaging(int page, int itemsPerPage, string search);
+
+        IEnumerable<ProductInListViewModel> SearchProductsQuantityDescendingForPaging(int page, int itemsPerPage, string search);
+
+        IEnumerable<ProductInListViewModel> SearchProductsQuantityAscendingForPaging(int page, int itemsPerPage, string search);
+
     }
 }
