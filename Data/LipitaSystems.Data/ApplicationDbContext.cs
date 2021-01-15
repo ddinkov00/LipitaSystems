@@ -92,10 +92,6 @@
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
-
-            builder.Entity<Order>()
-                .Property(p => p.FullName)
-                .HasComputedColumnSql("[FirstName] + ' ' + [LastName]");
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

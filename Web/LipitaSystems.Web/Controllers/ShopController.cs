@@ -20,6 +20,7 @@
         private readonly ICloudinaryService cloudinaryService;
         private readonly IImageService imageService;
         private readonly IDiscountCodeService discountCodeService;
+        private readonly IOrderService orderService;
 
         public ShopController(
             IProductService productService,
@@ -27,7 +28,8 @@
             Cloudinary cloudinary,
             ICloudinaryService cloudinaryService,
             IImageService imageService,
-            IDiscountCodeService discountCodeService)
+            IDiscountCodeService discountCodeService,
+            IOrderService orderService)
         {
             this.productService = productService;
             this.categoryService = categoryService;
@@ -35,6 +37,7 @@
             this.cloudinaryService = cloudinaryService;
             this.imageService = imageService;
             this.discountCodeService = discountCodeService;
+            this.orderService = orderService;
         }
 
         public IActionResult All()
@@ -193,13 +196,28 @@
         }
 
         [HttpPost]
-        public IActionResult Checkout(ProductListForCashOutInputModel input)
+        public async Task<IActionResult> Checkout(ProductListForCashOutInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.View(input);
             }
 
+            var cookies = this.HttpContext.Request.Cookies["cartProducts"].Split('_');
+
+            if (cookies.Any())
+            {
+                for (int i = 0; i < cookies.Length; i += 2)
+                {
+                    var productId = int.Parse(cookies[i]);
+                    var productQuantity = int.Parse(cookies[i + 1]);
+
+                    input.Products.Add(this.productService
+                        .GetProductForCheckoutById(productId, productQuantity, null));
+                }
+            }
+
+            await this.orderService.MakeOrder(input);
             return this.Redirect("/");
         }
 

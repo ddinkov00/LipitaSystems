@@ -11,11 +11,7 @@
             this.Products = new HashSet<ProductOrder>();
         }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public string FullName { get; private set; }
+        public string FullName { get; set; }
 
         public string PhoneNumber { get; set; }
 
