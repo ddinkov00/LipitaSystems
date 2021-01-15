@@ -14,5 +14,10 @@
         {
             return this.View();
         }
+
+        public IActionResult Maintanance()
+        {
+            return this.View();
+        }
     }
 }
