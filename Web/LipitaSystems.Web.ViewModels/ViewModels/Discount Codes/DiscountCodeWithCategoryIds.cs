@@ -6,6 +6,8 @@
     {
         public int DiscountPercentage { get; set; }
 
+        public string DiscountName { get; set; }
+
         public bool DoesWorkOnDiscountedProducts { get; set; }
 
         public List<int> CategoryIds { get; set; }

@@ -166,7 +166,7 @@
         [HttpPost]
         public IActionResult Cart(string discountCode)
         {
-            return this.RedirectToAction(nameof(this.Checkout), new { discountCode = discountCode});
+            return this.RedirectToAction(nameof(this.Checkout), new { discountCode = discountCode });
         }
 
         public IActionResult Checkout(string discountCode)
@@ -174,17 +174,22 @@
             var cookies = this.HttpContext.Request.Cookies["cartProducts"].Split('_');
             var viewModel = new ProductListForCashOutInputModel();
 
-            var code = this.discountCodeService.GetDiscountCode(discountCode);
-
-            for (int i = 0; i < cookies.Length; i += 2)
+            if (cookies.Any())
             {
-                var productId = int.Parse(cookies[i]);
-                var productQuantity = int.Parse(cookies[i + 1]);
 
-                viewModel.Products.Add(this.productService
-                    .GetProductForCheckoutById(productId, productQuantity, code));
+
+                var code = this.discountCodeService.GetDiscountCode(discountCode);
+                viewModel.DiscountCode = code;
+
+                for (int i = 0; i < cookies.Length; i += 2)
+                {
+                    var productId = int.Parse(cookies[i]);
+                    var productQuantity = int.Parse(cookies[i + 1]);
+
+                    viewModel.Products.Add(this.productService
+                        .GetProductForCheckoutById(productId, productQuantity, code));
+                }
             }
-
             return this.View(viewModel);
         }
 

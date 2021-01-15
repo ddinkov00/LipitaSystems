@@ -8,7 +8,9 @@
 <br>
 <br>
 <section class="mt-5 container">
-
+    <div class="section-title">
+        <h2>Количка</h2>
+    </div>
     <!--Grid row-->
     <div class="row">
 
@@ -26,8 +28,10 @@
                         <div class="row mb-4">
                             <div class="col-md-5 col-lg-3 col-xl-3">
                                 <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
-                                    <img class="img-fluid w-100"
-                                         src="@product.ImageUrl" alt="Sample">
+                                    <a asp-area="" asp-controller="Shop" asp-action="Product" asp-route-id="@product.Id">
+                                        <img class="img-fluid w-100"
+                                             src="@product.ImageUrl" alt="Sample">
+                                    </a>
 
                                 </div>
                             </div>
@@ -36,8 +40,8 @@
                                     <div class="d-flex justify-content-between row">
                                         <div class="col-md-6">
                                             <p id="productId" hidden>@product.Id</p>
-                                            <h5>@product.Product</h5>
-                                            <p class="mb-3 text-muted text-uppercase small">@product.SubCategory</p>
+                                            <a class="h5 d-block" asp-area="" asp-controller="Shop" asp-action="Product" asp-route-id="@product.Id">@product.Product</a>
+                                            <a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-id="@product.SubCategoryId" asp-route-page="1" class="d-block mb-3 text-muted text-uppercase small">@product.SubCategory</a>
                                         </div>
                                         <div class="col-md-5 offset-md-1">
                                             <h5>Количество:</h5>
@@ -76,14 +80,6 @@
             </div>
             <!-- Card -->
             <!-- Card -->
-            <div class="mb-3">
-                <div class="pt-4">
-
-                    <h5 class="mb-4">Очаквайте доставката между</h5>
-
-                    <p class="mb-0"> Thu., 12.03. - Mon., 16.03.</p>
-                </div>
-            </div>
             <!-- Card -->
 
         </div>
@@ -116,10 +112,17 @@
                         </li>
                     </ul>
 
-                    <form method="post">
-                        <input name="discountCode" type="text" value="" hidden />
-                        <button id="toCheckout" type="submit" class="btn btn-primary btn-block">Потвърждаване</button>
-                    </form>
+                    @if (Model.Any())
+                    {
+                        <form method="post">
+                            <input name="discountCode" type="text" value="" hidden />
+                            <button id="toCheckout" type="submit" class="btn btn-primary btn-block">Потвърждаване</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <button id="toCheckout" type="button" class="btn btn-primary btn-block" disabled>Празна Количка</button>
+                    }
 
                 </div>
             </div>

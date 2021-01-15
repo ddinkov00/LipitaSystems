@@ -1,1 +1,127 @@
-﻿@model LipitaSystems.Web.ViewModels.InputModels.ProductListForCashOutInputModel 
+﻿@model LipitaSystems.Web.ViewModels.InputModels.ProductListForCashOutInputModel
+<br>
+<br>
+<br>
+<br>
+<br>
+<section class="mt-5 container">
+    <div class="mb-3">
+        <div class="pt-4 wish-list">
+            @if (Model.DiscountCode != null)
+            {
+                <p>Вие използвахте код за намеление @Model.DiscountCode.DiscountName</p>
+            }
+            <hr>
+            @foreach (var product in Model.Products)
+            {
+                <div class="row mb-4">
+                    <div class="col-md-5 col-lg-3 col-xl-3">
+                        <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
+                            <a asp-area="" asp-controller="Shop" asp-action="Product" asp-route-id="@product.Id">
+                                <img class="img-fluid w-100"
+                                     src="@product.ImageUrl" alt="Sample">
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-lg-9 col-xl-9">
+                        <div>
+                            <div class="d-flex justify-content-between row">
+                                <div class="col-md-6">
+                                    <p id="productId" hidden>@product.Id</p>
+                                    <a class="h5 d-block" asp-area="" asp-controller="Shop" asp-action="Product" asp-route-id="@product.Id">@product.Name</a>
+                                    <a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-id="@product.SecondaryCategoryId" asp-route-page="1" class="mb-3 text-muted text-uppercase small d-block">@product.SecondaryCategoryName</a>
+                                    @if (product.Quantity == 1)
+                                    {
+                                        <p>@product.Quantity брой</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@product.Quantity броя</p>
+                                    }
+                                    <p>
+                                        Цена за брой без промо код: <strong>@(@product.DiscountPercentage == null ? product.OriginalPrice : (decimal)(1 - product.DiscountPercentage / 100.0) * product.OriginalPrice) лв.</strong>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <p class="mb-0"><span><strong class="text-danger" id="summary">Цена: @product.FinalPrice лв.</strong></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-4">
+            }
+        </div>
+    </div>
+    <h5 class="mb-4">Информация за доставката</h5>
+
+    <form>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4"><strong>Име и Фамилия</strong></label>
+                <input type="text" class="form-control border border-primary rounded" id="inputEmail4" placeholder="Иван Иванов">
+                <small id="emailHelp" class="form-text text-muted">Двете имена са нужни само за доставката. Няма да ги използваме с други цели.</small>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPassword4"><strong>Телефон за връзка</strong></label>
+                <input type="text" class="form-control border border-primary rounded" id="inputPassword4" placeholder="0891234567">
+                <small id="emailHelp" class="form-text text-muted">Телефонът е нужен за доставката. Наш служител ще те свърже с вас за потвърждение.</small>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputCity"><strong>Държава</strong></label>
+                <input type="text" class="form-control border border-primary rounded" id="inputCity" value="България" disabled>
+                <small class="form-text text-muted">За момента правим доставки само на територията на България.</small>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputState"><strong>Град / Село</strong></label>
+                <input type="text" class="form-control border border-primary rounded" id="inputCity" placeholder="Пловдив">
+                <small class="form-text text-muted"></small>
+            </div>
+        </div>
+        <div class="mb-4 mt-4 form-group">
+            <label><strong>Изберете начин на доставка.</strong></label>
+            <select id="deliveryType" data-width="50%" class="selectpicker d-block border border-primary rounded">
+                <option value="address" data-tokens="ketchup mustard">До адрес</option>
+                <option value="office" data-tokens="mustard">До офис на Speedy</option>
+            </select>
+            <small class="form-text text-muted">Ако желаете друг начин на доставка, моля посочете го в полето Допълнителни към доставката.</small>
+        </div>
+        <div id="addressHome" class="form-group">
+            <label for="inputAddress"><strong>Адрес за доставка.</strong></label>
+            <input type="text" class="form-control border border-primary rounded" id="inputAddress" placeholder="ул. Тодор Каблешков 20, Пловдив">
+        </div>
+        <div id="officeSpeedy" class="form-group" hidden>
+            <label><strong>Изберете офис на Speedy за доставка.</strong></label>
+            <select class="selectpicker d-block border border-primary rounded" data-width="100%" data-live-search="true">
+                <option data-tokens="ketchup mustard">офис 1</option>
+                <option data-tokens="mustard">офис 2</option>
+                <option data-tokens="frosting">офис 3</option>
+            </select>
+            <small class="form-text text-muted">Изберете офис до който да ви доставим поръчката. Ако желаете друг начин на доставка, моля посочете го в полето Допълнителни към доставката.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1"><strong>Допълнителни бележки към доставката</strong></label>
+            <textarea class="form-control border border-primary rounded" id="exampleFormControlTextarea1" rows="4"></textarea>
+            <small class="form-text text-muted">Тук можете да опишете ако имате допълнителни изисквания към доставката.</small>
+        </div>
+        <div class="mb-3">
+            <div class="pt-4">
+
+                <h5 class="mb-4">Кога да очаквате доставката?</h5>
+
+                <p class="mb-0">Наш служител ще се свърже с вас за потвърждение.</p>
+            </div>
+        </div>
+        <hr>
+        <p class="mb-4 text-danger h5">Крайна сума (без доставка): <strong>@Model.TotalPrice лв.</strong></p>
+        <button type="submit" class="btn btn-primary">Поръчай</button>
+    </form>
+</section>
+
+@section Scripts
+{
+    <script src="~/js/SelectTypeForDelivery.js"></script>
+}

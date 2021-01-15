@@ -24,6 +24,7 @@
                {
                    DiscountPercentage = dc.DiscountPercentage,
                    DoesWorkOnDiscountedProducts = dc.DoesWorkOnDiscountedProducts,
+                   DiscountName = dc.Code,
                    CategoryIds = dc.SecondaryCategories
                        .Select(sc => sc.Id)
                        .ToList(),

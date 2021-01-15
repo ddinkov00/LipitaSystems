@@ -4,6 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
+    using LipitaSystems.Web.ViewModels.ViewModels.Discount_Codes;
     using LipitaSystems.Web.ViewModels.ViewModels.Products;
 
     public class ProductListForCashOutInputModel
@@ -22,7 +23,18 @@
         [Phone]
         public string PhoneNumber { get; set; }
 
+        [Required]
+        public string Address { get; set; }
+
+        [Required]
+        public string DeliveryType { get; set; }
+
+        [Required]
+        public string OptionsForTheDelivery { get; set; }
+
         public decimal TotalPrice => this.Products.Sum(p => p.FinalPrice);
+
+        public DiscountCodeWithCategoryIds DiscountCode { get; set; }
 
         public ICollection<ProductForCheckoutViewModel> Products { get; set; }
     }
