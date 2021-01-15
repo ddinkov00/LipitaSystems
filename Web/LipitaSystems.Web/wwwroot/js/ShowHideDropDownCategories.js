@@ -14,5 +14,4 @@
             $(this).addClass("icofont-arrow-up");
         }
     });
-
 })(jQuery);

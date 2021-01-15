@@ -176,8 +176,6 @@
 
             if (cookies.Any())
             {
-
-
                 var code = this.discountCodeService.GetDiscountCode(discountCode);
                 viewModel.DiscountCode = code;
 
@@ -190,12 +188,18 @@
                         .GetProductForCheckoutById(productId, productQuantity, code));
                 }
             }
+
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Checkout()
+        public IActionResult Checkout(ProductListForCashOutInputModel input)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
             return this.Redirect("/");
         }
 

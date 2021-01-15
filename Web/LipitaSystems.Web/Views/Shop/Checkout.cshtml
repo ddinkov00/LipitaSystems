@@ -56,17 +56,20 @@
     </div>
     <h5 class="mb-4">Информация за доставката</h5>
 
-    <form>
+    <form method="post">
+        <input asp-for="DiscountCodeName" value="@Model.DiscountCode?.DiscountName" hidden />
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="inputEmail4"><strong>Име и Фамилия</strong></label>
-                <input type="text" class="form-control border border-primary rounded" id="inputEmail4" placeholder="Иван Иванов">
+                <input asp-for="FullName" type="text" class="form-control border border-primary rounded" id="inputEmail4" placeholder="Иван Иванов">
                 <small id="emailHelp" class="form-text text-muted">Двете имена са нужни само за доставката. Няма да ги използваме с други цели.</small>
+                <span class="text-danger" asp-validation-for="FullName"></span>
             </div>
             <div class="form-group col-md-6">
                 <label for="inputPassword4"><strong>Телефон за връзка</strong></label>
-                <input type="text" class="form-control border border-primary rounded" id="inputPassword4" placeholder="0891234567">
+                <input asp-for="PhoneNumber" type="text" class="form-control border border-primary rounded" id="inputPassword4" placeholder="0891234567">
                 <small id="emailHelp" class="form-text text-muted">Телефонът е нужен за доставката. Наш служител ще те свърже с вас за потвърждение.</small>
+                <span class="text-danger" asp-validation-for="PhoneNumber"></span>
             </div>
         </div>
         <div class="form-row">
@@ -83,19 +86,21 @@
         </div>
         <div class="mb-4 mt-4 form-group">
             <label><strong>Изберете начин на доставка.</strong></label>
-            <select id="deliveryType" data-width="50%" class="selectpicker d-block border border-primary rounded">
+            <select asp-for="DeliveryType" id="deliveryType" data-width="50%" class="selectpicker d-block border border-primary rounded">
                 <option value="address" data-tokens="ketchup mustard">До адрес</option>
                 <option value="office" data-tokens="mustard">До офис на Speedy</option>
             </select>
             <small class="form-text text-muted">Ако желаете друг начин на доставка, моля посочете го в полето Допълнителни към доставката.</small>
+            <span class="text-danger" asp-validation-for="DeliveryType"></span>
         </div>
         <div id="addressHome" class="form-group">
             <label for="inputAddress"><strong>Адрес за доставка.</strong></label>
-            <input type="text" class="form-control border border-primary rounded" id="inputAddress" placeholder="ул. Тодор Каблешков 20, Пловдив">
+            <input id="addressInput" asp-for="Address" type="text" class="form-control border border-primary rounded" id="inputAddress" placeholder="ул. Тодор Каблешков 20, Пловдив">
+            <span class="text-danger" asp-validation-for="Address"></span>
         </div>
         <div id="officeSpeedy" class="form-group" hidden>
             <label><strong>Изберете офис на Speedy за доставка.</strong></label>
-            <select class="selectpicker d-block border border-primary rounded" data-width="100%" data-live-search="true">
+            <select id="speedyOfficeDropdown" class="selectpicker d-block border border-primary rounded" data-width="100%" data-live-search="true">
                 <option data-tokens="ketchup mustard">офис 1</option>
                 <option data-tokens="mustard">офис 2</option>
                 <option data-tokens="frosting">офис 3</option>
@@ -104,8 +109,9 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlTextarea1"><strong>Допълнителни бележки към доставката</strong></label>
-            <textarea class="form-control border border-primary rounded" id="exampleFormControlTextarea1" rows="4"></textarea>
+            <textarea asp-for="OptionsForTheDelivery" class="form-control border border-primary rounded" id="exampleFormControlTextarea1" rows="4"></textarea>
             <small class="form-text text-muted">Тук можете да опишете ако имате допълнителни изисквания към доставката.</small>
+            <span class="text-danger" asp-validation-for="OptionsForTheDelivery"></span>
         </div>
         <div class="mb-3">
             <div class="pt-4">
@@ -123,5 +129,7 @@
 
 @section Scripts
 {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
     <script src="~/js/SelectTypeForDelivery.js"></script>
 }

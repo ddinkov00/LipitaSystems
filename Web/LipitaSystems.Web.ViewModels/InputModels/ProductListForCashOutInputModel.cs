@@ -15,12 +15,10 @@
         }
 
         [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
+        public string FullName { get; set; }
 
         [Phone]
+        [Required]
         public string PhoneNumber { get; set; }
 
         [Required]
@@ -29,8 +27,10 @@
         [Required]
         public string DeliveryType { get; set; }
 
-        [Required]
+        [MaxLength(500)]
         public string OptionsForTheDelivery { get; set; }
+
+        public string DiscountCodeName { get; set; }
 
         public decimal TotalPrice => this.Products.Sum(p => p.FinalPrice);
 

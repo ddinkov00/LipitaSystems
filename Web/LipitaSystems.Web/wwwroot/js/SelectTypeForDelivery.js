@@ -15,5 +15,11 @@
             speedyAddress.removeAttribute('hidden');
         }
 
-    })
+    });
+
+    $('#speedyOfficeDropdown').on('change', function (e) {
+
+        document.querySelector('#addressInput').value = $("#speedyOfficeDropdown option:selected").text();
+    });
+
 })(jQuery);

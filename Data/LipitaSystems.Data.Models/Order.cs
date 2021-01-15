@@ -21,6 +21,12 @@
 
         public decimal TotalPrice { get; set; }
 
+        public string Address { get; set; }
+
+        public string DeliveryType { get; set; }
+
+        public string DeliveryNotes { get; set; }
+
         public virtual ICollection<ProductOrder> Products { get; set; }
     }
 }
