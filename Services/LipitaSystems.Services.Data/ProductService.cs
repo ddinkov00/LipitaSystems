@@ -314,6 +314,16 @@
             return viewModel;
         }
 
+        public async Task ReduceQuantityInStock(int id, int boughtQuantity)
+        {
+            var product = this.productRepository.AllAsNoTracking()
+                .Where(p => p.Id == id)
+                .FirstOrDefault();
+
+            product.QuantityInStock -= boughtQuantity;
+            await this.productRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<ProductInListViewModel> SearchProductsForPaging(int page, int itemsPerPage, string search)
         {
             return this.productRepository.AllAsNoTracking()

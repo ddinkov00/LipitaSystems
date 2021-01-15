@@ -32,6 +32,8 @@
 
         int GetCountByDiscount();
 
+        Task ReduceQuantityInStock(int id, int boughtQuantity);
+
         IEnumerable<ProductInListViewModel> DiscountProductsForPaging(int page, int itemsPerPage);
 
         IEnumerable<ProductInListViewModel> DiscountProductsPriceAscendingForPaging(int page, int itemsPerPage);

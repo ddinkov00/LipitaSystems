@@ -23,6 +23,10 @@
 
         public string DeliveryNotes { get; set; }
 
+        public int? DeliveryOfficeId { get; set; }
+
+        public virtual DeliveryOffice DeliveryOffice { get; set; }
+
         public virtual ICollection<ProductOrder> Products { get; set; }
     }
 }

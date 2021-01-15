@@ -76,6 +76,7 @@
             services.AddTransient<IContactMessageService, ContactMessageService>();
             services.AddTransient<IDiscountCodeService, DiscountCodeService>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IDeliveryOfficeService, DeliveryOfficeService>();
 
             Account account = new Account(
                this.configuration["Cloudinary:AppName"],

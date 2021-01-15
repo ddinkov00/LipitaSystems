@@ -21,6 +21,7 @@
         private readonly IImageService imageService;
         private readonly IDiscountCodeService discountCodeService;
         private readonly IOrderService orderService;
+        private readonly IDeliveryOfficeService deliveryOfficeService;
 
         public ShopController(
             IProductService productService,
@@ -29,7 +30,8 @@
             ICloudinaryService cloudinaryService,
             IImageService imageService,
             IDiscountCodeService discountCodeService,
-            IOrderService orderService)
+            IOrderService orderService,
+            IDeliveryOfficeService deliveryOfficeService)
         {
             this.productService = productService;
             this.categoryService = categoryService;
@@ -38,6 +40,7 @@
             this.imageService = imageService;
             this.discountCodeService = discountCodeService;
             this.orderService = orderService;
+            this.deliveryOfficeService = deliveryOfficeService;
         }
 
         public IActionResult All()
@@ -192,6 +195,8 @@
                 }
             }
 
+            viewModel.DeliveryOfficeItems = this.deliveryOfficeService.GetAllForSelectList();
+
             return this.View(viewModel);
         }
 
@@ -200,6 +205,7 @@
         {
             if (!this.ModelState.IsValid)
             {
+                // selectList items ad products !!!!!
                 return this.View(input);
             }
 
@@ -211,6 +217,8 @@
                 {
                     var productId = int.Parse(cookies[i]);
                     var productQuantity = int.Parse(cookies[i + 1]);
+
+                    await this.productService.ReduceQuantityInStock(productId, productQuantity);
 
                     input.Products.Add(this.productService
                         .GetProductForCheckoutById(productId, productQuantity, null));

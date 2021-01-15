@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using LipitaSystems.Data.Common.Repositories;
-using LipitaSystems.Data.Models;
-using LipitaSystems.Services.Data.Contracts;
-using LipitaSystems.Web.ViewModels.InputModels;
-
-namespace LipitaSystems.Services.Data
+﻿namespace LipitaSystems.Services.Data
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using LipitaSystems.Data.Common.Repositories;
+    using LipitaSystems.Data.Models;
+    using LipitaSystems.Services.Data.Contracts;
+    using LipitaSystems.Web.ViewModels.InputModels;
+
     public class OrderService : IOrderService
     {
         private readonly IDeletableEntityRepository<Order> orderRepository;
@@ -32,6 +32,7 @@ namespace LipitaSystems.Services.Data
                     ProductId = x.Id,
                     Quantity = x.Quantity,
                 }).ToList(),
+                DeliveryOfficeId = input.DeliveryOfficeId != null ? (int)input.DeliveryOfficeId : null,
             });
 
             await this.orderRepository.SaveChangesAsync();
