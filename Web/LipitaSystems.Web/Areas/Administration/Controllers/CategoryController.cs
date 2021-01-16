@@ -20,9 +20,9 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
 
         public IActionResult AddSecondaryCategory()
         {
-            var viewModel = new AddSecondaryCategoryInputModel();
-            viewModel.MainCategoryItems = this.categoryService.GetMainCategoriesForSelectList();
-            return this.View(viewModel);
+            var inputModel = new AddSecondaryCategoryInputModel();
+            inputModel.MainCategoryItems = this.categoryService.GetMainCategoriesForSelectList();
+            return this.View(inputModel);
         }
 
         [HttpPost]
@@ -39,6 +39,14 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 nameof(ShopController.AllSubCategories),
                 nameof(ShopController).Replace("Controller", string.Empty),
                 new { id = mainCategoryId });
+        }
+
+        public IActionResult AddMainCategory()
+        {
+            var inputModel = new AddSecondaryCategoryInputModel()
+            {
+
+            }
         }
     }
 }
