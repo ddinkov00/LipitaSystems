@@ -229,9 +229,10 @@
             }
 
             await this.orderService.MakeOrder(input);
-            this.Response.Cookies.Append("cartProducts", string.Empty, new CookieOptions()
+            this.Response.Cookies.Delete("cartProducts", new CookieOptions()
             {
                 Expires = DateTime.Now.AddDays(-1),
+                Secure = true,
             });
             return this.Redirect("/");
         }
