@@ -6,6 +6,6 @@
 
     public interface IContactMessageService
     {
-        Task Send(ContactFormInputModel input);
+        Task SendAsync(ContactFormInputModel input);
     }
 }

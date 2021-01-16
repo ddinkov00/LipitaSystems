@@ -44,7 +44,7 @@
                 return this.View();
             }
 
-            await this.contactMessageService.Send(input);
+            await this.contactMessageService.SendAsync(input);
             return this.View();
         }
 

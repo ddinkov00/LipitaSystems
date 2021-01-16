@@ -6,7 +6,7 @@
     {
         Task CreateAsync(string imageUrl, int productId);
 
-        string GetProductTumbnail(int productId);
+        Task<string> GetProductTumbnailAsync(int productId);
 
         string TransformUrlToCropImage(string url);
     }

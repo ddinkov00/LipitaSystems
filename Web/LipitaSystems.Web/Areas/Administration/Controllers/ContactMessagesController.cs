@@ -1,29 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using LipitaSystems.Data;
-using LipitaSystems.Data.Models;
-
-namespace LipitaSystems.Web.Areas.Administration.Controllers
+﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
+    using System.Threading.Tasks;
+
+    using LipitaSystems.Data.Common.Repositories;
+    using LipitaSystems.Data.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+
     [Area("Administration")]
     public class ContactMessagesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDeletableEntityRepository<ContactMessage> contactMessageRepository;
 
-        public ContactMessagesController(ApplicationDbContext context)
+        public ContactMessagesController(IDeletableEntityRepository<ContactMessage> deletableEntityRepository)
         {
-            _context = context;
+            this.contactMessageRepository = deletableEntityRepository;
         }
 
         // GET: Administration/ContactMessages
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ContactMessages.ToListAsync());
+            return this.View(await this.contactMessageRepository.AllAsNoTracking().ToListAsync());
         }
 
         // GET: Administration/ContactMessages/Details/5
@@ -31,23 +28,23 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var contactMessage = await _context.ContactMessages
+            var contactMessage = await this.contactMessageRepository.All()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (contactMessage == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(contactMessage);
+            return this.View(contactMessage);
         }
 
         // GET: Administration/ContactMessages/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Administration/ContactMessages/Create
@@ -57,13 +54,14 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Contact,Subject,Message,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] ContactMessage contactMessage)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(contactMessage);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await this.contactMessageRepository.AddAsync(contactMessage);
+                await this.contactMessageRepository.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(contactMessage);
+
+            return this.View(contactMessage);
         }
 
         // GET: Administration/ContactMessages/Edit/5
@@ -71,15 +69,18 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var contactMessage = await _context.ContactMessages.FindAsync(id);
+            var contactMessage = await this.contactMessageRepository.All()
+                .FirstOrDefaultAsync(cm => cm.Id == id);
+
             if (contactMessage == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(contactMessage);
+
+            return this.View(contactMessage);
         }
 
         // POST: Administration/ContactMessages/Edit/5
@@ -91,30 +92,32 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id != contactMessage.Id)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(contactMessage);
-                    await _context.SaveChangesAsync();
+                    this.contactMessageRepository.Update(contactMessage);
+                    await this.contactMessageRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContactMessageExists(contactMessage.Id))
+                    if (!await this.ContactMessageExists(contactMessage.Id))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(contactMessage);
+
+            return this.View(contactMessage);
         }
 
         // GET: Administration/ContactMessages/Delete/5
@@ -122,33 +125,38 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var contactMessage = await _context.ContactMessages
+            var contactMessage = await this.contactMessageRepository.All()
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (contactMessage == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(contactMessage);
+            return this.View(contactMessage);
         }
 
         // POST: Administration/ContactMessages/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contactMessage = await _context.ContactMessages.FindAsync(id);
-            _context.ContactMessages.Remove(contactMessage);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var contactMessage = await this.contactMessageRepository.AllAsNoTracking()
+                .FirstOrDefaultAsync(cm => cm.Id == id);
+
+            this.contactMessageRepository.Delete(contactMessage);
+            await this.contactMessageRepository.SaveChangesAsync();
+
+            return this.RedirectToAction(nameof(this.Index));
         }
 
-        private bool ContactMessageExists(int id)
+        private async Task<bool> ContactMessageExists(int id)
         {
-            return _context.ContactMessages.Any(e => e.Id == id);
+            return await this.contactMessageRepository.AllAsNoTracking().AnyAsync(e => e.Id == id);
         }
     }
 }

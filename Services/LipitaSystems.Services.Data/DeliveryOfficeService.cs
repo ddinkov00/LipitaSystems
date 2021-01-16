@@ -4,11 +4,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-
+    using System.Threading.Tasks;
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
     using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Web.ViewModels.ViewModels.Delivery_Addersses;
+    using Microsoft.EntityFrameworkCore;
 
     public class DeliveryOfficeService : IDeliveryOfficeService
     {
@@ -19,15 +20,15 @@
             this.deliveryOfficeRepository = deliveryOfficeRepository;
         }
 
-        public ICollection<DeliveryOfficeSelectListViewModel> GetAllForSelectList()
+        public async Task<ICollection<DeliveryOfficeSelectListViewModel>> GetAllForSelectListAsync()
         {
-            return this.deliveryOfficeRepository.AllAsNoTracking()
+            return await this.deliveryOfficeRepository.AllAsNoTracking()
                 .Select(o => new DeliveryOfficeSelectListViewModel
                 {
                     Id = o.Id.ToString(),
                     Name = o.Name,
                     Address = o.Address,
-                }).ToList();
+                }).ToListAsync();
         }
     }
 }

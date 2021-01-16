@@ -9,6 +9,7 @@
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
     using LipitaSystems.Services.Data.Contracts;
+    using Microsoft.EntityFrameworkCore;
 
     public class ImageService : IImageService
     {
@@ -31,12 +32,12 @@
             await this.imageRepository.SaveChangesAsync();
         }
 
-        public string GetProductTumbnail(int productId)
+        public async Task<string> GetProductTumbnailAsync(int productId)
         {
-            return this.imageRepository.AllAsNoTracking()
+            return await this.imageRepository.AllAsNoTracking()
                 .Where(i => i.ProductId == productId)
                 .Select(i => i.Url)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
 
         public string TransformUrlToCropImage(string url)

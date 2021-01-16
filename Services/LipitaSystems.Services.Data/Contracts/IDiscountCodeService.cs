@@ -1,5 +1,6 @@
 ﻿namespace LipitaSystems.Services.Data.Contracts
 {
+    using System.Threading.Tasks;
 
     using LipitaSystems.Web.ViewModels.ViewModels.Discount_Codes;
 
@@ -7,6 +8,6 @@
     {
         decimal ApplyDiscount(DiscountCodeWithCategoryIds code, bool isDiscounted, int categoryId, decimal summedPrice);
 
-        DiscountCodeWithCategoryIds GetDiscountCode(string code);
+        Task<DiscountCodeWithCategoryIds> GetDiscountCodeAsync(string code);
     }
 }

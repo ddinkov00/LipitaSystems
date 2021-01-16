@@ -9,6 +9,7 @@
     using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Web.ViewModels.InputModels;
     using LipitaSystems.Web.ViewModels.ViewModels.Categories;
+    using Microsoft.EntityFrameworkCore;
 
     public class CategoryService : ICategoryService
     {
@@ -26,7 +27,7 @@
             this.imageService = imageService;
         }
 
-        public async Task AddMainCategory(AddMainCategoryInputModel inputModel)
+        public async Task AddMainCategoryAsync(AddMainCategoryInputModel inputModel)
         {
             var category = new MainCategory
             {
@@ -38,7 +39,7 @@
             await this.mainCategoryRepository.SaveChangesAsync();
         }
 
-        public async Task<int> AddSecondaryCategory(AddSecondaryCategoryInputModel inputModel)
+        public async Task<int> AddSecondaryCategoryAsync(AddSecondaryCategoryInputModel inputModel)
         {
             var category = new SecondaryCategory
             {
@@ -53,9 +54,9 @@
             return inputModel.MainCategoryId;
         }
 
-        public IEnumerable<MainCategoriesSelectListViewModel> GetAllForSelectList()
+        public async Task<IEnumerable<MainCategoriesSelectListViewModel>> GetAllForSelectListAsync()
         {
-            return this.mainCategoryRepository.AllAsNoTracking()
+            return await this.mainCategoryRepository.AllAsNoTracking()
                 .Select(mc => new MainCategoriesSelectListViewModel
                 {
                     Id = mc.Id,
@@ -67,14 +68,13 @@
                             Id = sc.Id,
                             Name = sc.Name,
                         }),
-                })
-                .ToList();
+                }).ToListAsync();
         }
 
-        public SubCategoriesViewModel GetAllSubCategoriesForSelectList(int id)
+        public async Task<SubCategoriesViewModel> GetAllSubCategoriesForSelectListAsync(int id)
         {
             var model = new SubCategoriesViewModel();
-            model.SubCategories = this.secondaryCategoryRepository.AllAsNoTracking()
+            model.SubCategories = await this.secondaryCategoryRepository.AllAsNoTracking()
                 .Where(sc => sc.MainCategoryId == id)
                 .Select(sc => new SecondaryCategorySelectListViewModel
                 {
@@ -83,30 +83,34 @@
                     Count = sc.Products.Count(),
                     Url = sc.ImageUrl,
                 })
-                .ToList();
-            model.Category = this.GetCategoryNameById(id);
+                .ToListAsync();
+
+            model.Category = await this.GetCategoryNameByIdAsync(id);
             return model;
         }
 
-        public string GetCategoryNameById(int id)
+        public async Task<string> GetCategoryNameByIdAsync(int id)
         {
-            var category = this.mainCategoryRepository.AllAsNoTracking().FirstOrDefault(x => x.Id == id);
+            var category = await this.mainCategoryRepository.AllAsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
             return category.Name;
         }
 
-        public ICollection<MainCategoryForSelectListViewModel> GetMainCategoriesForSelectList()
+        public async Task<ICollection<MainCategoryForSelectListViewModel>> GetMainCategoriesForSelectListAsync()
         {
-            return this.mainCategoryRepository.AllAsNoTracking()
+            return await this.mainCategoryRepository.AllAsNoTracking()
                 .Select(mc => new MainCategoryForSelectListViewModel
                 {
                     Id = mc.Id,
                     Name = mc.Name,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public SecondaryCategory GetSubCategoryNameById(int id)
+        public async Task<SecondaryCategory> GetSubCategoryNameByIdAsync(int id)
         {
-            return this.secondaryCategoryRepository.AllAsNoTracking().FirstOrDefault(x => x.Id == id);
+            return await this.secondaryCategoryRepository.AllAsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

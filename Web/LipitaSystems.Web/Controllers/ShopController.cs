@@ -14,6 +14,7 @@
     using LipitaSystems.Web.ViewModels.ViewModels.Products;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
 
     public class ShopController : BaseController
     {
@@ -46,19 +47,19 @@
             this.deliveryOfficeService = deliveryOfficeService;
         }
 
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            var categories = this.categoryService.GetAllForSelectList();
+            var categories = await this.categoryService.GetAllForSelectListAsync();
             return this.View(categories);
         }
 
-        public IActionResult AllSubCategories(int id)
+        public async Task<IActionResult> AllSubCategories(int id)
         {
-            var subCategories = this.categoryService.GetAllSubCategoriesForSelectList(id);
+            var subCategories = await this.categoryService.GetAllSubCategoriesForSelectListAsync(id);
             return this.View(subCategories);
         }
 
-        public IActionResult Products(int id, string order, int page = 1)
+        public async Task<IActionResult> Products(int id, string order, int page = 1)
         {
             if (page <= 0)
             {
@@ -66,8 +67,8 @@
             }
 
             const int itemsPerPage = 3;
-            var subCategory = this.categoryService.GetSubCategoryNameById(id);
-            var category = this.categoryService.GetCategoryNameById(subCategory.MainCategoryId);
+            var subCategory = await this.categoryService.GetSubCategoryNameByIdAsync(id);
+            var category = await this.categoryService.GetCategoryNameByIdAsync(subCategory.MainCategoryId);
             var viewModel = new ProductListViewModel
             {
                 Category = category,
@@ -76,39 +77,39 @@
                 SubCategoryId = id,
                 ItemsPerPage = itemsPerPage,
                 PageNumber = page,
-                ItemsCount = this.productService.GetAllCountByCategory(id),
+                ItemsCount = await this.productService.GetAllCountByCategoryAsync(id),
             };
 
             switch (order)
             {
                 case "PriceAscending":
-                    viewModel.Products = this.productService.GetAllByCategoryPriceAscendingForPaging(id, page, itemsPerPage);
+                    viewModel.Products = await this.productService.GetAllByCategoryPriceAscendingForPagingAsync(id, page, itemsPerPage);
                     break;
                 case "PriceDescending":
-                    viewModel.Products = this.productService.GetAllByCategoryPriceDescendingForPaging(id, page, itemsPerPage);
+                    viewModel.Products = await this.productService.GetAllByCategoryPriceDescendingForPagingAsync(id, page, itemsPerPage);
                     break;
                 case "QuantityAscending":
-                    viewModel.Products = this.productService.GetAllByCategoryQuantityAscendingForPaging(id, page, itemsPerPage);
+                    viewModel.Products = await this.productService.GetAllByCategoryQuantityAscendingForPagingAsync(id, page, itemsPerPage);
                     break;
                 case "QuantityDescending":
-                    viewModel.Products = this.productService.GetAllByCategoryQuantityDescendingForPaging(id, page, itemsPerPage);
+                    viewModel.Products = await this.productService.GetAllByCategoryQuantityDescendingForPagingAsync(id, page, itemsPerPage);
                     break;
                 default:
-                    viewModel.Products = this.productService.GetAllByCategoryForPaging(id, page, itemsPerPage);
+                    viewModel.Products = await this.productService.GetAllByCategoryForPagingAsync(id, page, itemsPerPage);
                     break;
             }
 
             foreach (var product in viewModel.Products)
             {
-                product.ImageUrl = this.imageService.GetProductTumbnail(product.Id);
+                product.ImageUrl = await this.imageService.GetProductTumbnailAsync(product.Id);
             }
 
             return this.View(viewModel);
         }
 
-        public IActionResult Product(int id)
+        public async Task<IActionResult> Product(int id)
         {
-            var viewModel = this.productService.GetById(id);
+            var viewModel = await this.productService.GetByIdAsync(id);
 
             if (viewModel == null)
             {
@@ -119,10 +120,10 @@
         }
 
         [HttpGet]
-        public IActionResult AddProduct()
+        public async Task<IActionResult> AddProduct()
         {
             var inputModel = new ProductInputModel();
-            inputModel.CategoryItems = this.categoryService.GetAllForSelectList();
+            inputModel.CategoryItems = await this.categoryService.GetAllForSelectListAsync();
             return this.View(inputModel);
         }
 
@@ -145,7 +146,8 @@
             return this.Redirect("/");
         }
 
-        public IActionResult Cart()
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        public async Task<IActionResult> Cart()
         {
             var viewModel = new List<CartViewModel>();
 
@@ -165,12 +167,12 @@
                         products[int.Parse(cookies[i])] += int.Parse(cookies[i + 1]);
                     }
 
-                    viewModel = this.productService.GetProductsForCart(products).ToList();
+                    viewModel = await this.productService.GetProductsForCart(products);
                 }
             }
 
             return this.View(viewModel);
-        }
+        } // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         [HttpPost]
         public IActionResult Cart(string discountCode)
@@ -178,14 +180,14 @@
             return this.RedirectToAction(nameof(this.Checkout), new { discountCode = discountCode });
         }
 
-        public IActionResult Checkout(string discountCode)
+        public async Task<IActionResult> Checkout(string discountCode)
         {
             var cookies = this.HttpContext.Request.Cookies["cartProducts"].Split('_');
             var viewModel = new ProductListForCashOutInputModel();
 
             if (cookies.Any())
             {
-                var code = this.discountCodeService.GetDiscountCode(discountCode);
+                var code = await this.discountCodeService.GetDiscountCodeAsync(discountCode);
                 viewModel.DiscountCode = code;
 
                 for (int i = 0; i < cookies.Length; i += 2)
@@ -193,12 +195,12 @@
                     var productId = int.Parse(cookies[i]);
                     var productQuantity = int.Parse(cookies[i + 1]);
 
-                    viewModel.Products.Add(this.productService
-                        .GetProductForCheckoutById(productId, productQuantity, code));
+                    viewModel.Products.Add(await this.productService
+                        .GetProductForCheckoutByIdAsync(productId, productQuantity, code));
                 }
             }
 
-            viewModel.DeliveryOfficeItems = this.deliveryOfficeService.GetAllForSelectList();
+            viewModel.DeliveryOfficeItems = await this.deliveryOfficeService.GetAllForSelectListAsync();
 
             return this.View(viewModel);
         }
@@ -221,10 +223,10 @@
                     var productId = int.Parse(cookies[i]);
                     var productQuantity = int.Parse(cookies[i + 1]);
 
-                    await this.productService.ReduceQuantityInStock(productId, productQuantity);
+                    await this.productService.ReduceQuantityInStockAsync(productId, productQuantity);
 
-                    input.Products.Add(this.productService
-                        .GetProductForCheckoutById(productId, productQuantity, null));
+                    input.Products.Add(await this.productService
+                        .GetProductForCheckoutByIdAsync(productId, productQuantity, null));
                 }
             }
 
@@ -237,7 +239,7 @@
             return this.Redirect("/");
         }
 
-        public IActionResult Discount(string order, int page = 1)
+        public async Task<IActionResult> Discount(string order, int page = 1)
         {
             if (page <= 0)
             {
@@ -250,37 +252,37 @@
                 Search = "Намалени продукти",
                 ItemsPerPage = itemsPerPage,
                 PageNumber = page,
-                ItemsCount = this.productService.GetCountByDiscount(),
+                ItemsCount = await this.productService.GetCountByDiscountAsync(),
             };
 
             switch (order)
             {
                 case "PriceAscending":
-                    viewModel.Products = this.productService.DiscountProductsPriceAscendingForPaging(page, itemsPerPage);
+                    viewModel.Products = await this.productService.DiscountProductsPriceAscendingForPagingAsync(page, itemsPerPage);
                     break;
                 case "PriceDescending":
-                    viewModel.Products = this.productService.DiscountProductsPriceDescendingForPaging(page, itemsPerPage);
+                    viewModel.Products = await this.productService.DiscountProductsPriceDescendingForPagingAsync(page, itemsPerPage);
                     break;
                 case "QuantityAscending":
-                    viewModel.Products = this.productService.DiscountProductsQuantityAscendingForPaging(page, itemsPerPage);
+                    viewModel.Products = await this.productService.DiscountProductsQuantityAscendingForPagingAsync(page, itemsPerPage);
                     break;
                 case "QuantityDescending":
-                    viewModel.Products = this.productService.DiscountProductsQuantityDescendingForPaging(page, itemsPerPage);
+                    viewModel.Products = await this.productService.DiscountProductsQuantityDescendingForPagingAsync(page, itemsPerPage);
                     break;
                 default:
-                    viewModel.Products = this.productService.DiscountProductsForPaging(page, itemsPerPage);
+                    viewModel.Products = await this.productService.DiscountProductsForPagingAsync(page, itemsPerPage);
                     break;
             }
 
             foreach (var product in viewModel.Products)
             {
-                product.ImageUrl = this.imageService.GetProductTumbnail(product.Id);
+                product.ImageUrl = await this.imageService.GetProductTumbnailAsync(product.Id);
             }
 
             return this.View(viewModel);
         }
 
-        public IActionResult Search(string search, string order, int page = 1)
+        public async Task<IActionResult> Search(string search, string order, int page = 1)
         {
             if (page <= 0)
             {
@@ -293,31 +295,31 @@
                 Search = search,
                 ItemsPerPage = itemsPerPage,
                 PageNumber = page,
-                ItemsCount = this.productService.GetCountBySearch(search),
+                ItemsCount = await this.productService.GetCountBySearchAsync(search),
             };
 
             switch (order)
             {
                 case "PriceAscending":
-                    viewModel.Products = this.productService.SearchProductsPriceAscendingForPaging(page, itemsPerPage, search);
+                    viewModel.Products = await this.productService.SearchProductsPriceAscendingForPagingAsync(page, itemsPerPage, search);
                     break;
                 case "PriceDescending":
-                    viewModel.Products = this.productService.SearchProductsPriceDescendingForPaging(page, itemsPerPage, search);
+                    viewModel.Products = await this.productService.SearchProductsPriceDescendingForPagingAsync(page, itemsPerPage, search);
                     break;
                 case "QuantityAscending":
-                    viewModel.Products = this.productService.SearchProductsQuantityAscendingForPaging(page, itemsPerPage, search);
+                    viewModel.Products = await this.productService.SearchProductsQuantityAscendingForPagingAsync(page, itemsPerPage, search);
                     break;
                 case "QuantityDescending":
-                    viewModel.Products = this.productService.SearchProductsQuantityDescendingForPaging(page, itemsPerPage, search);
+                    viewModel.Products = await this.productService.SearchProductsQuantityDescendingForPagingAsync(page, itemsPerPage, search);
                     break;
                 default:
-                    viewModel.Products = this.productService.SearchProductsForPaging(page, itemsPerPage, search);
+                    viewModel.Products = await this.productService.SearchProductsForPagingAsync(page, itemsPerPage, search);
                     break;
             }
 
             foreach (var product in viewModel.Products)
             {
-                product.ImageUrl = this.imageService.GetProductTumbnail(product.Id);
+                product.ImageUrl = await this.imageService.GetProductTumbnailAsync(product.Id);
             }
 
             return this.View(viewModel);

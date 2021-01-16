@@ -12,6 +12,7 @@
     using LipitaSystems.Web.ViewModels.ViewModels.Cart;
     using LipitaSystems.Web.ViewModels.ViewModels.Discount_Codes;
     using LipitaSystems.Web.ViewModels.ViewModels.Products;
+    using Microsoft.EntityFrameworkCore;
 
     public class ProductService : IProductService
     {
@@ -22,8 +23,7 @@
         public ProductService(
             IDiscountCodeService discountCodeService,
             IDeletableEntityRepository<Product> productRepository,
-            IImageService imageService
-            )
+            IImageService imageService)
         {
             this.discountCodeService = discountCodeService;
             this.productRepository = productRepository;
@@ -47,9 +47,9 @@
             return product.Id;
         }
 
-        public IEnumerable<ProductInListViewModel> DiscountProductsForPaging(int page, int itemsPerPage)
+        public async Task<IEnumerable<ProductInListViewModel>> DiscountProductsForPagingAsync(int page, int itemsPerPage)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.DiscountPercentage != null)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
@@ -60,12 +60,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> DiscountProductsPriceAscendingForPaging(int page, int itemsPerPage)
+        public async Task<IEnumerable<ProductInListViewModel>> DiscountProductsPriceAscendingForPagingAsync(int page, int itemsPerPage)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.DiscountPercentage != null)
                 .OrderBy(p => p.OriginalPrice - (((decimal)p.DiscountPercentage / 100) * p.OriginalPrice))
                 .Skip((page - 1) * itemsPerPage)
@@ -77,12 +77,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> DiscountProductsPriceDescendingForPaging(int page, int itemsPerPage)
+        public async Task<IEnumerable<ProductInListViewModel>> DiscountProductsPriceDescendingForPagingAsync(int page, int itemsPerPage)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.DiscountPercentage != null)
                 .OrderByDescending(p => p.OriginalPrice - (((decimal)p.DiscountPercentage / 100) * p.OriginalPrice))
                 .Skip((page - 1) * itemsPerPage)
@@ -94,12 +94,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> DiscountProductsQuantityAscendingForPaging(int page, int itemsPerPage)
+        public async Task<IEnumerable<ProductInListViewModel>> DiscountProductsQuantityAscendingForPagingAsync(int page, int itemsPerPage)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.DiscountPercentage != null)
                 .OrderBy(p => p.QuantityInStock)
                 .Skip((page - 1) * itemsPerPage)
@@ -111,12 +111,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> DiscountProductsQuantityDescendingForPaging(int page, int itemsPerPage)
+        public async Task<IEnumerable<ProductInListViewModel>> DiscountProductsQuantityDescendingForPagingAsync(int page, int itemsPerPage)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.DiscountPercentage != null)
                 .OrderByDescending(p => p.QuantityInStock)
                 .Skip((page - 1) * itemsPerPage)
@@ -128,12 +128,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> GetAllByCategoryForPaging(int secondaryCategoryId, int page, int itemsPerPage)
+        public async Task<IEnumerable<ProductInListViewModel>> GetAllByCategoryForPagingAsync(int secondaryCategoryId, int page, int itemsPerPage)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.CategoryId == secondaryCategoryId)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
@@ -144,12 +144,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> GetAllByCategoryPriceAscendingForPaging(int secondaryCategoryId, int page, int itemsPerPage)
+        public async Task<IEnumerable<ProductInListViewModel>> GetAllByCategoryPriceAscendingForPagingAsync(int secondaryCategoryId, int page, int itemsPerPage)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.CategoryId == secondaryCategoryId)
                 .OrderBy(p => p.OriginalPrice)
                 .Skip((page - 1) * itemsPerPage)
@@ -161,12 +161,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> GetAllByCategoryPriceDescendingForPaging(int secondaryCategoryId, int page, int itemsPerPage)
+        public async Task<IEnumerable<ProductInListViewModel>> GetAllByCategoryPriceDescendingForPagingAsync(int secondaryCategoryId, int page, int itemsPerPage)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.CategoryId == secondaryCategoryId)
                 .OrderByDescending(p => p.OriginalPrice)
                 .Skip((page - 1) * itemsPerPage)
@@ -178,12 +178,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> GetAllByCategoryQuantityAscendingForPaging(int secondaryCategoryId, int page, int itemsPerPage)
+        public async Task<IEnumerable<ProductInListViewModel>> GetAllByCategoryQuantityAscendingForPagingAsync(int secondaryCategoryId, int page, int itemsPerPage)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.CategoryId == secondaryCategoryId)
                 .OrderBy(p => p.QuantityInStock)
                 .Skip((page - 1) * itemsPerPage)
@@ -195,12 +195,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> GetAllByCategoryQuantityDescendingForPaging(int secondaryCategoryId, int page, int itemsPerPage)
+        public async Task<IEnumerable<ProductInListViewModel>> GetAllByCategoryQuantityDescendingForPagingAsync(int secondaryCategoryId, int page, int itemsPerPage)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.CategoryId == secondaryCategoryId)
                 .OrderByDescending(p => p.QuantityInStock)
                 .Skip((page - 1) * itemsPerPage)
@@ -212,19 +212,19 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public int GetAllCountByCategory(int categoryid)
+        public async Task<int> GetAllCountByCategoryAsync(int categoryid)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.CategoryId == categoryid)
-                .Count();
+                .CountAsync();
         }
 
-        public ProductByIdViewModel GetById(int productId)
+        public async Task<ProductByIdViewModel> GetByIdAsync(int productId)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.Id == productId)
                 .Select(p => new ProductByIdViewModel
                 {
@@ -240,26 +240,26 @@
                     ImagesUlr = p.Images
                         .Select(i => i.Url),
                     QuantityInStock = p.QuantityInStock,
-                }).FirstOrDefault();
+                }).FirstOrDefaultAsync();
         }
 
-        public int GetCountByDiscount()
+        public async Task<int> GetCountByDiscountAsync()
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.DiscountPercentage != null)
-                .Count();
+                .CountAsync();
         }
 
-        public int GetCountBySearch(string search)
+        public async Task<int> GetCountBySearchAsync(string search)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.Name.Contains(search))
-                .Count();
+                .CountAsync();
         }
 
-        public ProductForCheckoutViewModel GetProductForCheckoutById(int id, int quantity, DiscountCodeWithCategoryIds code)
+        public async Task<ProductForCheckoutViewModel> GetProductForCheckoutByIdAsync(int id, int quantity, DiscountCodeWithCategoryIds code)
         {
-            var product = this.productRepository.AllAsNoTracking()
+            var product = await this.productRepository.AllAsNoTracking()
                 .Where(p => p.Id == id)
                 .Select(p => new ProductForCheckoutViewModel
                 {
@@ -273,7 +273,7 @@
                     SecondaryCategoryId = p.CategoryId,
                     SecondaryCategoryName = p.Category.Name,
                     DiscountPercentage = p.DiscountPercentage,
-                }).FirstOrDefault();
+                }).FirstOrDefaultAsync();
 
             if (code != null)
             {
@@ -292,12 +292,12 @@
             return product;
         }
 
-        public IEnumerable<CartViewModel> GetProductsForCart(Dictionary<int, int> products)
+        public async Task<List<CartViewModel>> GetProductsForCart(Dictionary<int, int> products)
         {
             var viewModel = new List<CartViewModel>();
             foreach (var key in products.Keys)
             {
-                var product = this.GetById(key);
+                var product = await this.GetByIdAsync(key);
                 viewModel.Add(new CartViewModel
                 {
                     Id = product.Id,
@@ -314,18 +314,18 @@
             return viewModel;
         }
 
-        public async Task ReduceQuantityInStock(int id, int boughtQuantity)
+        public async Task ReduceQuantityInStockAsync(int id, int boughtQuantity)
         {
-            var product = this.productRepository.All()
-                .FirstOrDefault(p => p.Id == id);
+            var product = await this.productRepository.All()
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             product.QuantityInStock -= boughtQuantity;
             await this.productRepository.SaveChangesAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> SearchProductsForPaging(int page, int itemsPerPage, string search)
+        public async Task<IEnumerable<ProductInListViewModel>> SearchProductsForPagingAsync(int page, int itemsPerPage, string search)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.Name.Contains(search))
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
@@ -336,12 +336,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> SearchProductsPriceAscendingForPaging(int page, int itemsPerPage, string search)
+        public async Task<IEnumerable<ProductInListViewModel>> SearchProductsPriceAscendingForPagingAsync(int page, int itemsPerPage, string search)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.Name.Contains(search))
                 .OrderBy(p => p.OriginalPrice)
                 .Skip((page - 1) * itemsPerPage)
@@ -353,12 +353,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> SearchProductsPriceDescendingForPaging(int page, int itemsPerPage, string search)
+        public async Task<IEnumerable<ProductInListViewModel>> SearchProductsPriceDescendingForPagingAsync(int page, int itemsPerPage, string search)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.Name.Contains(search))
                 .OrderByDescending(p => p.OriginalPrice)
                 .Skip((page - 1) * itemsPerPage)
@@ -370,12 +370,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> SearchProductsQuantityAscendingForPaging(int page, int itemsPerPage, string search)
+        public async Task<IEnumerable<ProductInListViewModel>> SearchProductsQuantityAscendingForPagingAsync(int page, int itemsPerPage, string search)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.Name.Contains(search))
                 .OrderBy(p => p.QuantityInStock)
                 .Skip((page - 1) * itemsPerPage)
@@ -387,12 +387,12 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
 
-        public IEnumerable<ProductInListViewModel> SearchProductsQuantityDescendingForPaging(int page, int itemsPerPage, string search)
+        public async Task<IEnumerable<ProductInListViewModel>> SearchProductsQuantityDescendingForPagingAsync(int page, int itemsPerPage, string search)
         {
-            return this.productRepository.AllAsNoTracking()
+            return await this.productRepository.AllAsNoTracking()
                 .Where(p => p.Name.Contains(search))
                 .OrderByDescending(p => p.QuantityInStock)
                 .Skip((page - 1) * itemsPerPage)
@@ -404,7 +404,7 @@
                     SecondaryCategoryName = p.Category.Name,
                     OriginalPrice = p.OriginalPrice,
                     DiscountPercentage = p.DiscountPercentage,
-                }).ToList();
+                }).ToListAsync();
         }
     }
 }

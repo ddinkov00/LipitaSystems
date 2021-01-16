@@ -12,49 +12,48 @@
     {
         Task<int> CreateAsync(ProductInputModel inputModel);
 
-        IEnumerable<ProductInListViewModel> GetAllByCategoryForPaging(int secondaryCategoryId, int page, int itemsPerPage);
+        Task<IEnumerable<ProductInListViewModel>> GetAllByCategoryForPagingAsync(int secondaryCategoryId, int page, int itemsPerPage);
 
-        IEnumerable<ProductInListViewModel> GetAllByCategoryPriceDescendingForPaging(int secondaryCategoryId, int page, int itemsPerPage);
+        Task<IEnumerable<ProductInListViewModel>> GetAllByCategoryPriceDescendingForPagingAsync(int secondaryCategoryId, int page, int itemsPerPage);
 
-        IEnumerable<ProductInListViewModel> GetAllByCategoryPriceAscendingForPaging(int secondaryCategoryId, int page, int itemsPerPage);
+        Task<IEnumerable<ProductInListViewModel>> GetAllByCategoryPriceAscendingForPagingAsync(int secondaryCategoryId, int page, int itemsPerPage);
 
-        IEnumerable<ProductInListViewModel> GetAllByCategoryQuantityAscendingForPaging(int secondaryCategoryId, int page, int itemsPerPage);
+        Task<IEnumerable<ProductInListViewModel>> GetAllByCategoryQuantityAscendingForPagingAsync(int secondaryCategoryId, int page, int itemsPerPage);
 
-        IEnumerable<ProductInListViewModel> GetAllByCategoryQuantityDescendingForPaging(int secondaryCategoryId, int page, int itemsPerPage);
+        Task<IEnumerable<ProductInListViewModel>> GetAllByCategoryQuantityDescendingForPagingAsync(int secondaryCategoryId, int page, int itemsPerPage);
 
-        ProductByIdViewModel GetById(int productId);
+        Task<ProductByIdViewModel> GetByIdAsync(int productId);
 
-        ProductForCheckoutViewModel GetProductForCheckoutById(int id, int quantity, DiscountCodeWithCategoryIds code);
+        Task<ProductForCheckoutViewModel> GetProductForCheckoutByIdAsync(int id, int quantity, DiscountCodeWithCategoryIds code);
 
-        int GetAllCountByCategory(int categoryid);
+        Task<int> GetAllCountByCategoryAsync(int categoryid);
 
-        int GetCountBySearch(string search);
+        Task<int> GetCountBySearchAsync(string search);
 
-        int GetCountByDiscount();
+        Task<int> GetCountByDiscountAsync();
 
-        Task ReduceQuantityInStock(int id, int boughtQuantity);
+        Task ReduceQuantityInStockAsync(int id, int boughtQuantity);
 
-        IEnumerable<ProductInListViewModel> DiscountProductsForPaging(int page, int itemsPerPage);
+        Task<IEnumerable<ProductInListViewModel>> DiscountProductsForPagingAsync(int page, int itemsPerPage);
 
-        IEnumerable<ProductInListViewModel> DiscountProductsPriceAscendingForPaging(int page, int itemsPerPage);
+        Task<IEnumerable<ProductInListViewModel>> DiscountProductsPriceAscendingForPagingAsync(int page, int itemsPerPage);
 
-        IEnumerable<ProductInListViewModel> DiscountProductsPriceDescendingForPaging(int page, int itemsPerPage);
+        Task<IEnumerable<ProductInListViewModel>> DiscountProductsPriceDescendingForPagingAsync(int page, int itemsPerPage);
 
-        IEnumerable<ProductInListViewModel> DiscountProductsQuantityAscendingForPaging(int page, int itemsPerPage);
+        Task<IEnumerable<ProductInListViewModel>> DiscountProductsQuantityAscendingForPagingAsync(int page, int itemsPerPage);
 
-        IEnumerable<ProductInListViewModel> DiscountProductsQuantityDescendingForPaging(int page, int itemsPerPage);
+        Task<IEnumerable<ProductInListViewModel>> DiscountProductsQuantityDescendingForPagingAsync(int page, int itemsPerPage);
 
-        IEnumerable<CartViewModel> GetProductsForCart(Dictionary<int, int> products);
+        Task<List<CartViewModel>> GetProductsForCart(Dictionary<int, int> products);
 
-        IEnumerable<ProductInListViewModel> SearchProductsForPaging(int page, int itemsPerPage, string search);
+        Task<IEnumerable<ProductInListViewModel>> SearchProductsForPagingAsync(int page, int itemsPerPage, string search);
 
-        IEnumerable<ProductInListViewModel> SearchProductsPriceDescendingForPaging(int page, int itemsPerPage, string search);
+        Task<IEnumerable<ProductInListViewModel>> SearchProductsPriceDescendingForPagingAsync(int page, int itemsPerPage, string search);
 
-        IEnumerable<ProductInListViewModel> SearchProductsPriceAscendingForPaging(int page, int itemsPerPage, string search);
+        Task<IEnumerable<ProductInListViewModel>> SearchProductsPriceAscendingForPagingAsync(int page, int itemsPerPage, string search);
 
-        IEnumerable<ProductInListViewModel> SearchProductsQuantityDescendingForPaging(int page, int itemsPerPage, string search);
+        Task<IEnumerable<ProductInListViewModel>> SearchProductsQuantityDescendingForPagingAsync(int page, int itemsPerPage, string search);
 
-        IEnumerable<ProductInListViewModel> SearchProductsQuantityAscendingForPaging(int page, int itemsPerPage, string search);
-
+        Task<IEnumerable<ProductInListViewModel>> SearchProductsQuantityAscendingForPagingAsync(int page, int itemsPerPage, string search);
     }
 }

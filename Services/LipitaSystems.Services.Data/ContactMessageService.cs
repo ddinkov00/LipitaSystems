@@ -16,7 +16,7 @@
             this.contactMessageRepository = contactMessageRepository;
         }
 
-        public async Task Send(ContactFormInputModel input)
+        public async Task SendAsync(ContactFormInputModel input)
         {
             var contactMessage = new ContactMessage
             {

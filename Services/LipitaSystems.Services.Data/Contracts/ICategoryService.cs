@@ -9,18 +9,18 @@
 
     public interface ICategoryService
     {
-        IEnumerable<MainCategoriesSelectListViewModel> GetAllForSelectList();
+        Task<IEnumerable<MainCategoriesSelectListViewModel>> GetAllForSelectListAsync();
 
-        SubCategoriesViewModel GetAllSubCategoriesForSelectList(int id);
+        Task<SubCategoriesViewModel> GetAllSubCategoriesForSelectListAsync(int id);
 
-        string GetCategoryNameById(int id);
+        Task<string> GetCategoryNameByIdAsync(int id);
 
-        SecondaryCategory GetSubCategoryNameById(int id);
+        Task<SecondaryCategory> GetSubCategoryNameByIdAsync(int id);
 
-        Task AddMainCategory(AddMainCategoryInputModel inputModel);
+        Task AddMainCategoryAsync(AddMainCategoryInputModel inputModel);
 
-        Task<int> AddSecondaryCategory(AddSecondaryCategoryInputModel inputModel);
+        Task<int> AddSecondaryCategoryAsync(AddSecondaryCategoryInputModel inputModel);
 
-        ICollection<MainCategoryForSelectListViewModel> GetMainCategoriesForSelectList();
+        Task<ICollection<MainCategoryForSelectListViewModel>> GetMainCategoriesForSelectListAsync();
     }
 }

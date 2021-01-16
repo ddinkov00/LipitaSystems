@@ -1,11 +1,12 @@
 ﻿namespace LipitaSystems.Services.Data
 {
     using System.Linq;
-
+    using System.Threading.Tasks;
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
     using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Web.ViewModels.ViewModels.Discount_Codes;
+    using Microsoft.EntityFrameworkCore;
 
     public class DiscountCodeService : IDiscountCodeService
     {
@@ -16,9 +17,9 @@
             this.discountCodeRepository = discountCodeRepository;
         }
 
-        public DiscountCodeWithCategoryIds GetDiscountCode(string code)
+        public async Task<DiscountCodeWithCategoryIds> GetDiscountCodeAsync(string code)
         {
-            return this.discountCodeRepository.AllAsNoTracking()
+            return await this.discountCodeRepository.AllAsNoTracking()
                .Where(dc => dc.Code == code)
                .Select(dc => new DiscountCodeWithCategoryIds
                {
@@ -29,7 +30,7 @@
                        .Select(sc => sc.Id)
                        .ToList(),
                })
-               .FirstOrDefault();
+               .FirstOrDefaultAsync();
         }
 
         public decimal ApplyDiscount(DiscountCodeWithCategoryIds discountCode, bool isDiscounted, int categoryId, decimal summedPrice)
