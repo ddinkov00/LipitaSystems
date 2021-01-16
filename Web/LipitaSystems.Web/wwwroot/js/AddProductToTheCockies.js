@@ -1,7 +1,8 @@
 ﻿(function ($) {
     "use strict";
 
-    document.querySelector('#shoppingCartBtn').addEventListener('click', addToCookie)
+    document.querySelector('#shoppingCartBtn').addEventListener('click', addToCookie);
+    document.querySelector('#BuyTheProduct').addEventListener('click', addToCookie);
 
     function addToCookie() {
         const productId = document.querySelector('#productId').textContent;
@@ -35,6 +36,6 @@
         var d = new Date();
         d.setTime(d.getTime() + (exhours * 60 * 60 * 1000));
         var expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/Shop";
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
 })(jQuery);

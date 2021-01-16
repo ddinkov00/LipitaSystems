@@ -1,8 +1,10 @@
 ﻿namespace LipitaSystems.Web.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Web;
 
     using CloudinaryDotNet;
     using LipitaSystems.Services;
@@ -10,6 +12,7 @@
     using LipitaSystems.Web.ViewModels.InputModels;
     using LipitaSystems.Web.ViewModels.ViewModels.Cart;
     using LipitaSystems.Web.ViewModels.ViewModels.Products;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     public class ShopController : BaseController
@@ -226,6 +229,10 @@
             }
 
             await this.orderService.MakeOrder(input);
+            this.Response.Cookies.Append("cartProducts", string.Empty, new CookieOptions()
+            {
+                Expires = DateTime.Now.AddDays(-1),
+            });
             return this.Redirect("/");
         }
 

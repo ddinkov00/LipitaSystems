@@ -316,9 +316,8 @@
 
         public async Task ReduceQuantityInStock(int id, int boughtQuantity)
         {
-            var product = this.productRepository.AllAsNoTracking()
-                .Where(p => p.Id == id)
-                .FirstOrDefault();
+            var product = this.productRepository.All()
+                .FirstOrDefault(p => p.Id == id);
 
             product.QuantityInStock -= boughtQuantity;
             await this.productRepository.SaveChangesAsync();

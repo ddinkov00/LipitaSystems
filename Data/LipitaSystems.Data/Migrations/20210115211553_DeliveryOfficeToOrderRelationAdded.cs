@@ -10,7 +10,7 @@ namespace LipitaSystems.Data.Migrations
                 name: "DeliveryOfficeId",
                 table: "Orders",
                 type: "int",
-                nullable: false,
+                nullable: true,
                 defaultValue: 0);
 
             migrationBuilder.CreateIndex(
