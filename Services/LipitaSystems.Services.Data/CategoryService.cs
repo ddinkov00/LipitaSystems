@@ -2,10 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
     using LipitaSystems.Services.Data.Contracts;
+    using LipitaSystems.Web.ViewModels.InputModels;
     using LipitaSystems.Web.ViewModels.ViewModels.Categories;
 
     public class CategoryService : ICategoryService
@@ -22,6 +24,26 @@
             this.mainCategoryRepository = mainCategoryRepository;
             this.secondaryCategoryRepository = secondaryCategoryRepository;
             this.imageService = imageService;
+        }
+
+        public async Task AddMainCategory()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<int> AddSecondaryCategory(AddSecondaryCategoryInputModel inputModel)
+        {
+            var category = new SecondaryCategory
+            {
+                Name = inputModel.Name,
+                ImageUrl = inputModel.ImageUrl,
+                MainCategoryId = inputModel.MainCategoryId,
+            };
+
+            await this.secondaryCategoryRepository.AddAsync(category);
+            await this.secondaryCategoryRepository.SaveChangesAsync();
+
+            return inputModel.MainCategoryId;
         }
 
         public IEnumerable<MainCategoriesSelectListViewModel> GetAllForSelectList()
@@ -63,6 +85,16 @@
         {
             var category = this.mainCategoryRepository.AllAsNoTracking().FirstOrDefault(x => x.Id == id);
             return category.Name;
+        }
+
+        public ICollection<MainCategoryForSelectListViewModel> GetMainCategoriesForSelectList()
+        {
+            return this.mainCategoryRepository.AllAsNoTracking()
+                .Select(mc => new MainCategoryForSelectListViewModel
+                {
+                    Id = mc.Id,
+                    Name = mc.Name,
+                }).ToList();
         }
 
         public SecondaryCategory GetSubCategoryNameById(int id)
