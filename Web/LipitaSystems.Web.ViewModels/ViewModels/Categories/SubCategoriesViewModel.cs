@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace LipitaSystems.Web.ViewModels.ViewModels.Categories
+﻿namespace LipitaSystems.Web.ViewModels.ViewModels.Categories
 {
+    using System.Collections.Generic;
+
     public class SubCategoriesViewModel
     {
         public SubCategoriesViewModel()
@@ -11,6 +10,6 @@ namespace LipitaSystems.Web.ViewModels.ViewModels.Categories
 
         public string Category { get; set; }
 
-        public List<SecondaryCategorySelectListViewModel> subCategories { get; set; }
+        public List<SecondaryCategorySelectListViewModel> SubCategories { get; set; }
     }
 }

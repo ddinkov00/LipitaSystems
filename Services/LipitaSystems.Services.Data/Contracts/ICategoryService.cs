@@ -17,7 +17,7 @@
 
         SecondaryCategory GetSubCategoryNameById(int id);
 
-        Task AddMainCategory();
+        Task AddMainCategory(AddMainCategoryInputModel inputModel);
 
         Task<int> AddSecondaryCategory(AddSecondaryCategoryInputModel inputModel);
 
