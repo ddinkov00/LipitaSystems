@@ -26,9 +26,16 @@
             this.imageService = imageService;
         }
 
-        public async Task AddMainCategory()
+        public async Task AddMainCategory(AddMainCategoryInputModel inputModel)
         {
-            throw new System.NotImplementedException();
+            var category = new MainCategory
+            {
+                Name = inputModel.Name,
+                ImageUrl = inputModel.Url,
+            };
+
+            await this.mainCategoryRepository.AddAsync(category);
+            await this.mainCategoryRepository.SaveChangesAsync();
         }
 
         public async Task<int> AddSecondaryCategory(AddSecondaryCategoryInputModel inputModel)
@@ -67,7 +74,7 @@
         public SubCategoriesViewModel GetAllSubCategoriesForSelectList(int id)
         {
             var model = new SubCategoriesViewModel();
-            model.subCategories = this.secondaryCategoryRepository.AllAsNoTracking()
+            model.SubCategories = this.secondaryCategoryRepository.AllAsNoTracking()
                 .Where(sc => sc.MainCategoryId == id)
                 .Select(sc => new SecondaryCategorySelectListViewModel
                 {

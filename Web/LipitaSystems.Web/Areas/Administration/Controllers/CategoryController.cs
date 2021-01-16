@@ -1,4 +1,5 @@
-﻿using LipitaSystems.Services.Data.Contracts;
+﻿using LipitaSystems.Data.Models;
+using LipitaSystems.Services.Data.Contracts;
 using LipitaSystems.Web.Controllers;
 using LipitaSystems.Web.ViewModels.InputModels;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +21,9 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
 
         public IActionResult AddSecondaryCategory()
         {
-            var viewModel = new AddSecondaryCategoryInputModel();
-            viewModel.MainCategoryItems = this.categoryService.GetMainCategoriesForSelectList();
-            return this.View(viewModel);
+            var inputModel = new AddSecondaryCategoryInputModel();
+            inputModel.MainCategoryItems = this.categoryService.GetMainCategoriesForSelectList();
+            return this.View(inputModel);
         }
 
         [HttpPost]
@@ -37,8 +38,29 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
 
             return this.RedirectToAction(
                 nameof(ShopController.AllSubCategories),
-                nameof(ShopController).Replace("Controller", string.Empty),
+                nameof(ShopController)
+                    .Replace("Controller", string.Empty),
                 new { id = mainCategoryId });
+        }
+
+        public IActionResult AddMainCategory()
+        {
+            var inputModel = new AddMainCategoryInputModel();
+            return this.View(inputModel);
+        }
+
+        public async Task<IActionResult> AddMainCategory(AddMainCategoryInputModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
+            await this.categoryService.AddMainCategory(inputModel);
+            return this.RedirectToAction(
+                nameof(ShopController.All),
+                nameof(ShopController)
+                    .Replace("Controller", string.Empty));
         }
     }
 }
