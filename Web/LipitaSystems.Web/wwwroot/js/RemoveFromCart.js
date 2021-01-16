@@ -15,7 +15,12 @@
             }
         }
 
-        setCookie("cartProducts", newCookie, 3);
+        if (newCookie.length > 0) {
+            setCookie("cartProducts", newCookie, 3);
+        }
+        else {
+            setCookie("cartProducts", "", -1);
+        }
 
     });
 
