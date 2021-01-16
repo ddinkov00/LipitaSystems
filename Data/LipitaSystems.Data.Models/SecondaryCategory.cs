@@ -1,6 +1,7 @@
 ﻿namespace LipitaSystems.Data.Models
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using LipitaSystems.Data.Common.Models;
 
@@ -11,8 +12,11 @@
             this.Products = new HashSet<Product>();
         }
 
+        [Required]
         public string Name { get; set; }
 
+        [Url]
+        [Required]
         public string ImageUrl { get; set; }
 
         public int MainCategoryId { get; set; }

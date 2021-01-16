@@ -16,7 +16,7 @@
         public string Subject { get; set; }
 
         [Required(ErrorMessage = " е задължително!")]
-        [MinLength(10)]
+        [MinLength(10, ErrorMessage = "минимална дължина - 10 символа")]
         [Display(Name = "Съобщение")]
         public string Message { get; set; }
     }

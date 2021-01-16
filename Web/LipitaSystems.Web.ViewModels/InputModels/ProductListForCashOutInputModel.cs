@@ -17,7 +17,6 @@
         }
 
         [Required(ErrorMessage = "са задължителни")]
-        //[RegularExpression(GlobalConstants.AtLeastTwoNamesRegex, ErrorMessage = "Имената трябва да са поне две")]
         public string FullName { get; set; }
 
         [Phone(ErrorMessage = "Невалиден телефон")]

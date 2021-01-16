@@ -1,5 +1,7 @@
 ﻿namespace LipitaSystems.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     using LipitaSystems.Data.Common.Models;
 
     public class ProductOrder : BaseDeletableModel<int>
@@ -12,6 +14,7 @@
 
         public virtual Order Order { get; set; }
 
+        [Range(0, 10000)]
         public int Quantity { get; set; }
     }
 }
