@@ -36,8 +36,6 @@
 
         public DbSet<ProductOrder> ProductsOrders { get; set; }
 
-        public DbSet<HostingSubscription> HostingSubscriptions { get; set; }
-
         public DbSet<Setting> Settings { get; set; }
 
         public DbSet<ContactMessage> ContactMessages { get; set; }
@@ -45,6 +43,8 @@
         public DbSet<DiscountCode> DiscountCodes { get; set; }
 
         public DbSet<DeliveryOffice> DeliveryOffices { get; set; }
+
+        public DbSet<News> News { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -92,6 +92,10 @@
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            builder.Entity<DiscountCode>()
+                .HasIndex(dc => dc.Code)
+                .IsUnique();
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
