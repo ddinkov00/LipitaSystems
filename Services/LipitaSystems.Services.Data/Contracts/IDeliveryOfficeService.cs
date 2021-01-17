@@ -7,6 +7,5 @@
 
     public interface IDeliveryOfficeService
     {
-        Task<ICollection<DeliveryOfficeSelectListViewModel>> GetAllForSelectListAsync();
-    }
+        Task<ICollection<DeliveryOfficeSelectListViewModel>> GetAllForSelectListAsync();    }
 }

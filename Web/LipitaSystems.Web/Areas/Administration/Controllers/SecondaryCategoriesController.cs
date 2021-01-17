@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using LipitaSystems.Data;
-using LipitaSystems.Data.Models;
-using LipitaSystems.Data.Common.Repositories;
-
-namespace LipitaSystems.Web.Areas.Administration.Controllers
+﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
+    using System.Threading.Tasks;
+
+    using LipitaSystems.Data.Common.Repositories;
+    using LipitaSystems.Data.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+
     [Area("Administration")]
-    public class SecondaryCategoriesController : Controller
+    public class SecondaryCategoriesController : AdministrationController
     {
         private readonly IDeletableEntityRepository<SecondaryCategory> secondaryCategoryRepository;
 

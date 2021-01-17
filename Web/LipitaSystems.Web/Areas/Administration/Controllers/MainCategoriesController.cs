@@ -10,7 +10,7 @@
     using Microsoft.EntityFrameworkCore;
 
     [Area("Administration")]
-    public class MainCategoriesController : Controller
+    public class MainCategoriesController : AdministrationController
     {
         private readonly IDeletableEntityRepository<MainCategory> mainCategoryRepository;
 

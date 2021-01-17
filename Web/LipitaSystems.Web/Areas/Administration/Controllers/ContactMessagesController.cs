@@ -8,7 +8,7 @@
     using Microsoft.EntityFrameworkCore;
 
     [Area("Administration")]
-    public class ContactMessagesController : Controller
+    public class ContactMessagesController : AdministrationController
     {
         private readonly IDeletableEntityRepository<ContactMessage> contactMessageRepository;
 

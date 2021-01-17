@@ -1,6 +1,6 @@
-﻿@model List<LipitaSystems.Web.ViewModels.ViewModels.Cart.CartViewModel>
+﻿@model LipitaSystems.Web.ViewModels.ViewModels.Cart.CartListViewModel;
 @{
-    var totalSum = Model.Sum(x => x.Price * x.Quantity);
+    var totalSum = Model.Products.Sum(x => x.Price * x.Quantity);
 }
 <br>
 <br>
@@ -21,9 +21,9 @@
             <div class="mb-3">
                 <div class="pt-4 wish-list">
 
-                    <h5 class="mb-4">Количка (<span>@Model.Count</span> продукта)</h5>
+                    <h5 class="mb-4">Количка (<span>@Model.Products.Count</span> продукта)</h5>
                     <hr>
-                    @foreach (var product in Model)
+                    @foreach (var product in Model.Products)
                     {
                         <div class="row mb-4">
                             <div class="col-md-5 col-lg-3 col-xl-3">
@@ -94,7 +94,7 @@
                     <h5 class="mb-3">Крайна сума на поръчката</h5>
 
                     <ul class="list-group list-group-flush">
-                        @foreach (var product in Model)
+                        @foreach (var product in Model.Products)
                         {
                             <li id="@product.Id" class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                                 @product.Product
@@ -112,7 +112,7 @@
                         </li>
                     </ul>
 
-                    @if (Model.Any())
+                    @if (Model.Products.Any())
                     {
                         <form method="post">
                             <input name="discountCode" type="text" value="" hidden />
@@ -129,6 +129,14 @@
             <!-- Card -->
             <div class="mb-3">
                 <div class="pt-4">
+
+                    @if (Model.IsCodeValid != null)
+                    {
+                        if ((bool)!Model.IsCodeValid)
+                        {
+                            <span class="text-danger">* Кодът за отстъпка е невалиден</span>
+                        }
+                    }
 
                     <a class="dark-grey-text d-flex justify-content-between h4 text-primary" data-toggle="collapse" href="#collapseExample"
                        aria-expanded="false" aria-controls="collapseExample">

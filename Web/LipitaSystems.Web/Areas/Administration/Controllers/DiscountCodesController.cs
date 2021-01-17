@@ -8,7 +8,7 @@
     using Microsoft.EntityFrameworkCore;
 
     [Area("Administration")]
-    public class DiscountCodesController : Controller
+    public class DiscountCodesController : AdministrationController
     {
         private readonly IDeletableEntityRepository<DiscountCode> discountCoderRepository;
 

@@ -146,10 +146,18 @@
             return this.Redirect("/");
         }
 
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        public async Task<IActionResult> Cart()
+        public async Task<IActionResult> Cart(bool? isCodeValid)
         {
-            var viewModel = new List<CartViewModel>();
+            var viewModel = new CartListViewModel();
+            viewModel.Products = new List<CartViewModel>();
+
+            if (isCodeValid != null)
+            {
+                if ((bool)!isCodeValid)
+                {
+                    viewModel.IsCodeValid = isCodeValid;
+                }
+            }
 
             if (this.HttpContext.Request.Cookies.ContainsKey("cartProducts"))
             {
@@ -167,16 +175,26 @@
                         products[int.Parse(cookies[i])] += int.Parse(cookies[i + 1]);
                     }
 
-                    viewModel = await this.productService.GetProductsForCart(products);
+                    viewModel.Products = await this.productService.GetProductsForCart(products);
                 }
             }
 
             return this.View(viewModel);
-        } // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }
 
         [HttpPost]
-        public IActionResult Cart(string discountCode)
+        public async Task<IActionResult> Cart(string discountCode)
         {
+            if (discountCode != null)
+            {
+                var isCodeValid = await this.discountCodeService.IsDiscountCodeValid(discountCode);
+
+                if (!isCodeValid)
+                {
+                    return this.RedirectToAction(nameof(this.Cart), new { isCodeValid = isCodeValid });
+                }
+            }
+
             return this.RedirectToAction(nameof(this.Checkout), new { discountCode = discountCode });
         }
 
@@ -210,7 +228,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                // selectList items ad products !!!!!
+                input.DeliveryOfficeItems = await this.deliveryOfficeService.GetAllForSelectListAsync();
                 return this.View(input);
             }
 

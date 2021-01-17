@@ -9,5 +9,7 @@
         decimal ApplyDiscount(DiscountCodeWithCategoryIds code, bool isDiscounted, int categoryId, decimal summedPrice);
 
         Task<DiscountCodeWithCategoryIds> GetDiscountCodeAsync(string code);
+
+        Task<bool> IsDiscountCodeValid(string code);
     }
 }
