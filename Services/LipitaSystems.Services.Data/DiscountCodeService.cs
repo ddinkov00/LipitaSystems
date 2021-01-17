@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
+
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
     using LipitaSystems.Services.Data.Contracts;
@@ -46,6 +47,14 @@
             }
 
             return summedPrice - ((discountCode.DiscountPercentage / 100) * summedPrice);
+        }
+
+        public async Task<bool> IsDiscountCodeValid(string code)
+        {
+            var isValid = await this.discountCodeRepository.AllAsNoTracking()
+                .AnyAsync(dc => dc.Code == code);
+
+            return isValid;
         }
     }
 }
