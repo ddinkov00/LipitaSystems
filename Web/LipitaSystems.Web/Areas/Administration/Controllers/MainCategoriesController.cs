@@ -1,29 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using LipitaSystems.Data;
-using LipitaSystems.Data.Models;
-
-namespace LipitaSystems.Web.Areas.Administration.Controllers
+﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using LipitaSystems.Data;
+    using LipitaSystems.Data.Common.Repositories;
+    using LipitaSystems.Data.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+
     [Area("Administration")]
     public class MainCategoriesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDeletableEntityRepository<MainCategory> mainCategoryRepository;
 
-        public MainCategoriesController(ApplicationDbContext context)
+        public MainCategoriesController(IDeletableEntityRepository<MainCategory> mainCategoryRepository)
         {
-            _context = context;
+            this.mainCategoryRepository = mainCategoryRepository;
         }
 
         // GET: Administration/MainCategories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MainCategories.ToListAsync());
+            return this.View(await this.mainCategoryRepository.All().ToListAsync());
         }
 
         // GET: Administration/MainCategories/Details/5
@@ -31,23 +30,23 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var mainCategory = await _context.MainCategories
+            var mainCategory = await this.mainCategoryRepository.All()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mainCategory == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(mainCategory);
+            return this.View(mainCategory);
         }
 
         // GET: Administration/MainCategories/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Administration/MainCategories/Create
@@ -57,13 +56,14 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,ImageUrl,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] MainCategory mainCategory)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(mainCategory);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await this.mainCategoryRepository.AddAsync(mainCategory);
+                await this.mainCategoryRepository.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(mainCategory);
+
+            return this.View(mainCategory);
         }
 
         // GET: Administration/MainCategories/Edit/5
@@ -71,15 +71,18 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var mainCategory = await _context.MainCategories.FindAsync(id);
+            var mainCategory = await this.mainCategoryRepository.All()
+                .FirstOrDefaultAsync(mc => mc.Id == id);
+
             if (mainCategory == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(mainCategory);
+
+            return this.View(mainCategory);
         }
 
         // POST: Administration/MainCategories/Edit/5
@@ -91,30 +94,32 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id != mainCategory.Id)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(mainCategory);
-                    await _context.SaveChangesAsync();
+                    this.mainCategoryRepository.Update(mainCategory);
+                    await this.mainCategoryRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MainCategoryExists(mainCategory.Id))
+                    if (!await this.MainCategoryExists(mainCategory.Id))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(mainCategory);
+
+            return this.View(mainCategory);
         }
 
         // GET: Administration/MainCategories/Delete/5
@@ -122,33 +127,36 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var mainCategory = await _context.MainCategories
+            var mainCategory = await this.mainCategoryRepository.All()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mainCategory == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(mainCategory);
+            return this.View(mainCategory);
         }
 
         // POST: Administration/MainCategories/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var mainCategory = await _context.MainCategories.FindAsync(id);
-            _context.MainCategories.Remove(mainCategory);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var mainCategory = await this.mainCategoryRepository.All()
+                .FirstOrDefaultAsync(mc => mc.Id == id);
+
+            this.mainCategoryRepository.Delete(mainCategory);
+            await this.mainCategoryRepository.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
-        private bool MainCategoryExists(int id)
+        private async Task<bool> MainCategoryExists(int id)
         {
-            return _context.MainCategories.Any(e => e.Id == id);
+            return await this.mainCategoryRepository.All().AnyAsync(e => e.Id == id);
         }
     }
 }

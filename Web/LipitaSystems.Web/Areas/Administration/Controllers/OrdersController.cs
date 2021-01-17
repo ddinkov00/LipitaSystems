@@ -13,17 +13,17 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
     [Area("Administration")]
     public class OrdersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext orderRepository;
 
         public OrdersController(ApplicationDbContext context)
         {
-            _context = context;
+            orderRepository = context;
         }
 
         // GET: Administration/Orders
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Orders.Include(o => o.DeliveryOffice);
+            var applicationDbContext = orderRepository.Orders.Include(o => o.DeliveryOffice);
             return this.View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 return this.NotFound();
             }
 
-            var order = await _context.Orders
+            var order = await orderRepository.Orders
                 .Include(o => o.DeliveryOffice)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
@@ -49,7 +49,7 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         // GET: Administration/Orders/Create
         public IActionResult Create()
         {
-            this.ViewData["DeliveryOfficeId"] = new SelectList(_context.DeliveryOffices, "Id", "Address");
+            this.ViewData["DeliveryOfficeId"] = new SelectList(orderRepository.DeliveryOffices, "Id", "Address");
             return this.View();
         }
 
@@ -62,11 +62,11 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
+                orderRepository.Add(order);
+                await orderRepository.SaveChangesAsync();
                 return this.RedirectToAction(nameof(Index));
             }
-            this.ViewData["DeliveryOfficeId"] = new SelectList(_context.DeliveryOffices, "Id", "Address", order.DeliveryOfficeId);
+            this.ViewData["DeliveryOfficeId"] = new SelectList(orderRepository.DeliveryOffices, "Id", "Address", order.DeliveryOfficeId);
             return this.View(order);
         }
 
@@ -78,12 +78,12 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 return this.NotFound();
             }
 
-            var order = await _context.Orders.FindAsync(id);
+            var order = await orderRepository.Orders.FindAsync(id);
             if (order == null)
             {
                 return this.NotFound();
             }
-            this.ViewData["DeliveryOfficeId"] = new SelectList(_context.DeliveryOffices, "Id", "Address", order.DeliveryOfficeId);
+            this.ViewData["DeliveryOfficeId"] = new SelectList(orderRepository.DeliveryOffices, "Id", "Address", order.DeliveryOfficeId);
             return this.View(order);
         }
 
@@ -103,8 +103,8 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
             {
                 try
                 {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
+                    orderRepository.Update(order);
+                    await orderRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +119,7 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 }
                 return this.RedirectToAction(nameof(this.Index));
             }
-            this.ViewData["DeliveryOfficeId"] = new SelectList(_context.DeliveryOffices, "Id", "Address", order.DeliveryOfficeId);
+            this.ViewData["DeliveryOfficeId"] = new SelectList(orderRepository.DeliveryOffices, "Id", "Address", order.DeliveryOfficeId);
             return this.View(order);
         }
 
@@ -131,7 +131,7 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 return this.NotFound();
             }
 
-            var order = await _context.Orders
+            var order = await orderRepository.Orders
                 .Include(o => o.DeliveryOffice)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
@@ -148,15 +148,15 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
+            var order = await orderRepository.Orders.FindAsync(id);
+            orderRepository.Orders.Remove(order);
+            await orderRepository.SaveChangesAsync();
             return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool OrderExists(int id)
         {
-            return _context.Orders.Any(e => e.Id == id);
+            return orderRepository.Orders.Any(e => e.Id == id);
         }
     }
 }

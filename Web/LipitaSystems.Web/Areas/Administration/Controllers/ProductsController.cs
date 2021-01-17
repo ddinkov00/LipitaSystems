@@ -13,17 +13,17 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
     [Area("Administration")]
     public class ProductsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext productRepository;
 
         public ProductsController(ApplicationDbContext context)
         {
-            _context = context;
+            productRepository = context;
         }
 
         // GET: Administration/Products
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.Category);
+            var applicationDbContext = productRepository.Products.Include(p => p.Category);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
+            var product = await productRepository.Products
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
@@ -49,7 +49,7 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         // GET: Administration/Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.SecondaryCategories, "Id", "ImageUrl");
+            ViewData["CategoryId"] = new SelectList(productRepository.SecondaryCategories, "Id", "ImageUrl");
             return View();
         }
 
@@ -62,11 +62,11 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                productRepository.Add(product);
+                await productRepository.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.SecondaryCategories, "Id", "ImageUrl", product.CategoryId);
+            ViewData["CategoryId"] = new SelectList(productRepository.SecondaryCategories, "Id", "ImageUrl", product.CategoryId);
             return View(product);
         }
 
@@ -78,12 +78,12 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await productRepository.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.SecondaryCategories, "Id", "ImageUrl", product.CategoryId);
+            ViewData["CategoryId"] = new SelectList(productRepository.SecondaryCategories, "Id", "ImageUrl", product.CategoryId);
             return View(product);
         }
 
@@ -103,8 +103,8 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    productRepository.Update(product);
+                    await productRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -119,7 +119,7 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.SecondaryCategories, "Id", "ImageUrl", product.CategoryId);
+            ViewData["CategoryId"] = new SelectList(productRepository.SecondaryCategories, "Id", "ImageUrl", product.CategoryId);
             return View(product);
         }
 
@@ -131,7 +131,7 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
+            var product = await productRepository.Products
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
@@ -147,15 +147,15 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            var product = await productRepository.Products.FindAsync(id);
+            productRepository.Products.Remove(product);
+            await productRepository.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return productRepository.Products.Any(e => e.Id == id);
         }
     }
 }
