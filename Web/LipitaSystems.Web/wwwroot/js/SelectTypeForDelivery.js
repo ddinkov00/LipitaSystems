@@ -1,6 +1,16 @@
 ﻿(function ($) {
     "use strict";
 
+    document.querySelector('#PrivacyCheck').addEventListener('change', function () {
+        const btn = document.querySelector('#FinishBuying');
+        if (document.querySelector('#PrivacyCheck').checked) {
+            btn.removeAttribute('disabled');
+        }
+        else {
+            btn.setAttribute('disabled', 'true');
+        }
+    });
+
     $("#deliveryType").on("change", function (e) {
         const type = e.target.value;
         const speedyAddress = document.querySelector('#officeSpeedy');
