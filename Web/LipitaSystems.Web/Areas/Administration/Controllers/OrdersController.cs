@@ -7,23 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LipitaSystems.Data;
 using LipitaSystems.Data.Models;
+using LipitaSystems.Data.Common.Repositories;
 
 namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
     [Area("Administration")]
     public class OrdersController : Controller
     {
-        private readonly ApplicationDbContext orderRepository;
+        private readonly IDeletableEntityRepository<Order> orderRepository;
 
-        public OrdersController(ApplicationDbContext context)
+        public OrdersController(IDeletableEntityRepository<Order> orderRepository)
         {
-            orderRepository = context;
+            this.orderRepository = orderRepository;
         }
 
         // GET: Administration/Orders
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = orderRepository.Orders.Include(o => o.DeliveryOffice);
+            var applicationDbContext = this.orderRepository.All().Include(o => o.DeliveryOffice);
             return this.View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,9 +36,10 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 return this.NotFound();
             }
 
-            var order = await orderRepository.Orders
+            var order = await this.orderRepository.All()
                 .Include(o => o.DeliveryOffice)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (order == null)
             {
                 return this.NotFound();
@@ -49,7 +51,7 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         // GET: Administration/Orders/Create
         public IActionResult Create()
         {
-            this.ViewData["DeliveryOfficeId"] = new SelectList(orderRepository.DeliveryOffices, "Id", "Address");
+            this.ViewData["DeliveryOfficeId"] = new SelectList(this.orderRepository.All(), "Id", "Address");
             return this.View();
         }
 
@@ -60,13 +62,14 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FullName,PhoneNumber,TotalPrice,Address,DeliveryType,DeliveryNotes,DeliveryOfficeId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Order order)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                orderRepository.Add(order);
-                await orderRepository.SaveChangesAsync();
-                return this.RedirectToAction(nameof(Index));
+                await this.orderRepository.AddAsync(order);
+                await this.orderRepository.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            this.ViewData["DeliveryOfficeId"] = new SelectList(orderRepository.DeliveryOffices, "Id", "Address", order.DeliveryOfficeId);
+
+            this.ViewData["DeliveryOfficeId"] = new SelectList(this.orderRepository.All(), "Id", "Address", order.DeliveryOfficeId);
             return this.View(order);
         }
 
@@ -78,12 +81,15 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 return this.NotFound();
             }
 
-            var order = await orderRepository.Orders.FindAsync(id);
+            var order = await this.orderRepository.All()
+                .FirstOrDefaultAsync(o => o.Id == id);
+
             if (order == null)
             {
                 return this.NotFound();
             }
-            this.ViewData["DeliveryOfficeId"] = new SelectList(orderRepository.DeliveryOffices, "Id", "Address", order.DeliveryOfficeId);
+
+            this.ViewData["DeliveryOfficeId"] = new SelectList(this.orderRepository.All(), "Id", "Address", order.DeliveryOfficeId);
             return this.View(order);
         }
 
@@ -99,16 +105,16 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    orderRepository.Update(order);
-                    await orderRepository.SaveChangesAsync();
+                    this.orderRepository.Update(order);
+                    await this.orderRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.Id))
+                    if (!await this.OrderExists(order.Id))
                     {
                         return this.NotFound();
                     }
@@ -117,9 +123,11 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                         throw;
                     }
                 }
+
                 return this.RedirectToAction(nameof(this.Index));
             }
-            this.ViewData["DeliveryOfficeId"] = new SelectList(orderRepository.DeliveryOffices, "Id", "Address", order.DeliveryOfficeId);
+
+            this.ViewData["DeliveryOfficeId"] = new SelectList(this.orderRepository.All(), "Id", "Address", order.DeliveryOfficeId);
             return this.View(order);
         }
 
@@ -131,9 +139,10 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
                 return this.NotFound();
             }
 
-            var order = await orderRepository.Orders
+            var order = await this.orderRepository.All()
                 .Include(o => o.DeliveryOffice)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (order == null)
             {
                 return this.NotFound();
@@ -148,15 +157,18 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var order = await orderRepository.Orders.FindAsync(id);
-            orderRepository.Orders.Remove(order);
-            await orderRepository.SaveChangesAsync();
+            var order = await this.orderRepository.All()
+                .FirstOrDefaultAsync(o => o.Id == id);
+
+            this.orderRepository.Delete(order);
+            await this.orderRepository.SaveChangesAsync();
+
             return this.RedirectToAction(nameof(this.Index));
         }
 
-        private bool OrderExists(int id)
+        private async Task<bool> OrderExists(int id)
         {
-            return orderRepository.Orders.Any(e => e.Id == id);
+            return await this.orderRepository.AllAsNoTracking().AnyAsync(e => e.Id == id);
         }
     }
 }

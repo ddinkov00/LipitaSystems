@@ -7,24 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LipitaSystems.Data;
 using LipitaSystems.Data.Models;
+using LipitaSystems.Data.Common.Repositories;
 
 namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
     [Area("Administration")]
     public class SecondaryCategoriesController : Controller
     {
-        private readonly ApplicationDbContext secondaryCategoryRepository;
+        private readonly IDeletableEntityRepository<SecondaryCategory> secondaryCategoryRepository;
 
-        public SecondaryCategoriesController(ApplicationDbContext context)
+        public SecondaryCategoriesController(IDeletableEntityRepository<SecondaryCategory> secondaryCategoryRepository)
         {
-            secondaryCategoryRepository = context;
+            this.secondaryCategoryRepository = secondaryCategoryRepository;
         }
 
         // GET: Administration/SecondaryCategories
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = secondaryCategoryRepository.SecondaryCategories.Include(s => s.MainCategory);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = this.secondaryCategoryRepository.All().Include(s => s.MainCategory);
+            return this.View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Administration/SecondaryCategories/Details/5
@@ -32,25 +33,26 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var secondaryCategory = await secondaryCategoryRepository.SecondaryCategories
+            var secondaryCategory = await this.secondaryCategoryRepository.All()
                 .Include(s => s.MainCategory)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (secondaryCategory == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(secondaryCategory);
+            return this.View(secondaryCategory);
         }
 
         // GET: Administration/SecondaryCategories/Create
         public IActionResult Create()
         {
-            ViewData["MainCategoryId"] = new SelectList(secondaryCategoryRepository.MainCategories, "Id", "ImageUrl");
-            return View();
+            this.ViewData["MainCategoryId"] = new SelectList(this.secondaryCategoryRepository.All(), "Id", "ImageUrl");
+            return this.View();
         }
 
         // POST: Administration/SecondaryCategories/Create
@@ -60,14 +62,16 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,ImageUrl,MainCategoryId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] SecondaryCategory secondaryCategory)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                secondaryCategoryRepository.Add(secondaryCategory);
-                await secondaryCategoryRepository.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await this.secondaryCategoryRepository.AddAsync(secondaryCategory);
+                await this.secondaryCategoryRepository.SaveChangesAsync();
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            ViewData["MainCategoryId"] = new SelectList(secondaryCategoryRepository.MainCategories, "Id", "ImageUrl", secondaryCategory.MainCategoryId);
-            return View(secondaryCategory);
+
+            this.ViewData["MainCategoryId"] = new SelectList(this.secondaryCategoryRepository.All(), "Id", "ImageUrl", secondaryCategory.MainCategoryId);
+            return this.View(secondaryCategory);
         }
 
         // GET: Administration/SecondaryCategories/Edit/5
@@ -75,16 +79,19 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var secondaryCategory = await secondaryCategoryRepository.SecondaryCategories.FindAsync(id);
+            var secondaryCategory = await this.secondaryCategoryRepository.All()
+                .FirstOrDefaultAsync(sc => sc.Id == id);
+
             if (secondaryCategory == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            ViewData["MainCategoryId"] = new SelectList(secondaryCategoryRepository.MainCategories, "Id", "ImageUrl", secondaryCategory.MainCategoryId);
-            return View(secondaryCategory);
+
+            this.ViewData["MainCategoryId"] = new SelectList(this.secondaryCategoryRepository.All(), "Id", "ImageUrl", secondaryCategory.MainCategoryId);
+            return this.View(secondaryCategory);
         }
 
         // POST: Administration/SecondaryCategories/Edit/5
@@ -96,31 +103,33 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id != secondaryCategory.Id)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    secondaryCategoryRepository.Update(secondaryCategory);
-                    await secondaryCategoryRepository.SaveChangesAsync();
+                    this.secondaryCategoryRepository.Update(secondaryCategory);
+                    await this.secondaryCategoryRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SecondaryCategoryExists(secondaryCategory.Id))
+                    if (!await this.SecondaryCategoryExists(secondaryCategory.Id))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            ViewData["MainCategoryId"] = new SelectList(secondaryCategoryRepository.MainCategories, "Id", "ImageUrl", secondaryCategory.MainCategoryId);
-            return View(secondaryCategory);
+
+            this.ViewData["MainCategoryId"] = new SelectList(this.secondaryCategoryRepository.All(), "Id", "ImageUrl", secondaryCategory.MainCategoryId);
+            return this.View(secondaryCategory);
         }
 
         // GET: Administration/SecondaryCategories/Delete/5
@@ -128,34 +137,39 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var secondaryCategory = await secondaryCategoryRepository.SecondaryCategories
+            var secondaryCategory = await this.secondaryCategoryRepository.All()
                 .Include(s => s.MainCategory)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (secondaryCategory == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(secondaryCategory);
+            return this.View(secondaryCategory);
         }
 
         // POST: Administration/SecondaryCategories/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var secondaryCategory = await secondaryCategoryRepository.SecondaryCategories.FindAsync(id);
-            secondaryCategoryRepository.SecondaryCategories.Remove(secondaryCategory);
-            await secondaryCategoryRepository.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var secondaryCategory = await this.secondaryCategoryRepository.All()
+                .FirstOrDefaultAsync(sc => sc.Id == id);
+            this.secondaryCategoryRepository.Delete(secondaryCategory);
+            await this.secondaryCategoryRepository.SaveChangesAsync();
+
+            return this.RedirectToAction(nameof(this.Index));
         }
 
-        private bool SecondaryCategoryExists(int id)
+        private async Task<bool> SecondaryCategoryExists(int id)
         {
-            return secondaryCategoryRepository.SecondaryCategories.Any(e => e.Id == id);
+            return await this.secondaryCategoryRepository.All()
+                .AnyAsync(e => e.Id == id);
         }
     }
 }

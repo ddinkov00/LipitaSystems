@@ -7,24 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LipitaSystems.Data;
 using LipitaSystems.Data.Models;
+using LipitaSystems.Data.Common.Repositories;
 
 namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
     [Area("Administration")]
     public class ProductsController : Controller
     {
-        private readonly ApplicationDbContext productRepository;
+        private readonly IDeletableEntityRepository<Product> productRepository;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(IDeletableEntityRepository<Product> productRepository)
         {
-            productRepository = context;
+            this.productRepository = productRepository;
         }
 
         // GET: Administration/Products
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = productRepository.Products.Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = this.productRepository.All()
+                .Include(p => p.Category);
+
+            return this.View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Administration/Products/Details/5
@@ -32,25 +35,26 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var product = await productRepository.Products
+            var product = await this.productRepository.All()
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (product == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(product);
+            return this.View(product);
         }
 
         // GET: Administration/Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(productRepository.SecondaryCategories, "Id", "ImageUrl");
-            return View();
+            this.ViewData["CategoryId"] = new SelectList(this.productRepository.All(), "Id", "ImageUrl");
+            return this.View();
         }
 
         // POST: Administration/Products/Create
@@ -60,14 +64,15 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Description,OriginalPrice,DiscountPercentage,QuantityInStock,CategoryId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Product product)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                productRepository.Add(product);
-                await productRepository.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await this.productRepository.AddAsync(product);
+                await this.productRepository.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            ViewData["CategoryId"] = new SelectList(productRepository.SecondaryCategories, "Id", "ImageUrl", product.CategoryId);
-            return View(product);
+
+            this.ViewData["CategoryId"] = new SelectList(this.productRepository.All(), "Id", "ImageUrl", product.CategoryId);
+            return this.View(product);
         }
 
         // GET: Administration/Products/Edit/5
@@ -75,16 +80,19 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var product = await productRepository.Products.FindAsync(id);
+            var product = await this.productRepository.All().
+                FirstOrDefaultAsync(p => p.Id == id);
+
             if (product == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(productRepository.SecondaryCategories, "Id", "ImageUrl", product.CategoryId);
-            return View(product);
+
+            this.ViewData["CategoryId"] = new SelectList(this.productRepository.All(), "Id", "ImageUrl", product.CategoryId);
+            return this.View(product);
         }
 
         // POST: Administration/Products/Edit/5
@@ -96,31 +104,33 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id != product.Id)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    productRepository.Update(product);
-                    await productRepository.SaveChangesAsync();
+                    this.productRepository.Update(product);
+                    await this.productRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!await this.ProductExists(product.Id))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            ViewData["CategoryId"] = new SelectList(productRepository.SecondaryCategories, "Id", "ImageUrl", product.CategoryId);
-            return View(product);
+
+            this.ViewData["CategoryId"] = new SelectList(this.productRepository.All(), "Id", "ImageUrl", product.CategoryId);
+            return this.View(product);
         }
 
         // GET: Administration/Products/Delete/5
@@ -128,34 +138,39 @@ namespace LipitaSystems.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var product = await productRepository.Products
+            var product = await this.productRepository.All()
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (product == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(product);
+            return this.View(product);
         }
 
         // POST: Administration/Products/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await productRepository.Products.FindAsync(id);
-            productRepository.Products.Remove(product);
-            await productRepository.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var product = await this.productRepository.All()
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            this.productRepository.Delete(product);
+            await this.productRepository.SaveChangesAsync();
+
+            return this.RedirectToAction(nameof(this.Index));
         }
 
-        private bool ProductExists(int id)
+        private async Task<bool> ProductExists(int id)
         {
-            return productRepository.Products.Any(e => e.Id == id);
+            return await this.productRepository.All().AnyAsync(e => e.Id == id);
         }
     }
 }
