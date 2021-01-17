@@ -175,14 +175,15 @@
                         </ul>
                     </li>
                     @*<li><a asp-area="" asp-controller="Home" asp-action="About">За нас</a></li>*@
+                    <li><a asp-area="" asp-controller="Home" asp-action="News">Новини</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контакти</a></li>
                     @if (this.Context.Request.Cookies["cartProducts"] != null)
                     {
-                        <li><a asp-area="" asp-controller="Shop" asp-action="Cart"><i class="icofont-shopping-cart h4 text-primary"></i><i class="icofont-plus-circle text-danger h4"></i></a></li>
+                        <li><a id="cartIconShop" asp-area="" asp-controller="Shop" asp-action="Cart"><i class="icofont-shopping-cart h4 text-primary"></i><i class="icofont-plus-circle text-danger h4"></i></a></li>
                     }
                     else
                     {
-                        <li><a asp-area="" asp-controller="Shop" asp-action="Cart"><i class="icofont-shopping-cart h4 text-primary"></i></a></li>
+                        <li><a id="cartIconShop" asp-area="" asp-controller="Shop" asp-action="Cart"><i class="icofont-shopping-cart h4 text-primary"></i></a></li>
 
                     }
                 </ul>
@@ -219,6 +220,7 @@
                             <li><i class="bx bx-chevron-right"></i> <a asp-area="" asp-controller="Home" asp-action="Contact">Контакти</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a asp-area="" asp-controller="Home" asp-action="News">Новини</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a asp-area="" asp-controller="Home" asp-action="Privacy">Общи условия</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a asp-area="" asp-controller="Home" asp-action="Privacy">Вход</a></li>
                         </ul>
                     </div>
 

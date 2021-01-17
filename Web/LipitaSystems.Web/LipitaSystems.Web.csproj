@@ -445,6 +445,9 @@
     <Content Update="wwwroot\img\solulan-avantages-maintenance-preventive-informatique-1080x675.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\img\othersServices.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\vendors\" />

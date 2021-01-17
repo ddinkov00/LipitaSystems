@@ -110,7 +110,17 @@
         </div>
         <hr>
         <p class="mb-4 text-danger h5">Крайна сума (без доставка): <strong>@Model.TotalPrice лв.</strong></p>
-        <button id="FinishBuying" type="submit" class="btn btn-primary">Поръчай</button>
+        <div class="input-group col-md-6 mb-3">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <input id="PrivacyCheck" type="checkbox" aria-label="Checkbox for following text input">
+                </div>
+            </div>
+            <input type="text" class="form-control" aria-label="Text input with checkbox" value="Съгласявам се с Общите условия на сайта." disabled>
+
+        </div>
+        <a class="d-block mb-3" asp-area="" asp-controller="Home" asp-action="Privacy"><small>Натиснете за общите условия.</small></a>
+        <button id="FinishBuying" type="submit" class="btn btn-primary" disabled>Поръчай</button>
     </form>
 </section>
 

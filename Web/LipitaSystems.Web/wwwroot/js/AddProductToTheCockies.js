@@ -4,7 +4,9 @@
     document.querySelector('#shoppingCartBtn').addEventListener('click', addToCookie);
     document.querySelector('#BuyTheProduct').addEventListener('click', addToCookie);
 
+
     function addToCookie() {
+        document.querySelector('#cartIconShop').innerHTML = '<i class="icofont-shopping-cart h4 text-primary"></i><i class="icofont-plus-circle text-danger h4"></i>';
         const productId = document.querySelector('#productId').textContent;
         const prodructQuantity = document.querySelector('#productQuantity').value;
         if (getCookie("cartProducts") != "") {
