@@ -88,8 +88,8 @@
         </div>
         <div id="officeSpeedy" class="form-group" hidden>
             <label><strong>Изберете офис на Speedy за доставка.</strong></label>
-            <span class="text-danger" asp-validation-for="Address"></span>
-            <select asp-for="DeliveryOfficeId" id="speedyOfficeDropdown" class="selectpicker d-block border border-primary rounded" data-width="100%" data-live-search="true" asp-items="@this.Model.DeliveryOfficeItems.Select(x => new SelectListItem(x.NameAddress, x.Id))">
+            <span class="text-danger"></span>
+            <select id="speedyOfficeDropdown" class="selectpicker d-block border border-primary rounded" data-width="100%" data-live-search="true" asp-items="@this.Model.DeliveryOfficeItems.Select(x => new SelectListItem(x.NameAddress, x.Id))">
                 <option>Изберете офис на Speedy</option>
             </select>
             <small class="form-text text-muted">Изберете офис до който да ви доставим поръчката. Ако желаете друг начин на доставка, моля посочете го в полето Допълнителни към доставката.</small>
