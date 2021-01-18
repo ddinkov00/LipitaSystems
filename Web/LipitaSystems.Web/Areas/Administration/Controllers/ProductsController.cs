@@ -12,10 +12,12 @@
     public class ProductsController : AdministrationController
     {
         private readonly IDeletableEntityRepository<Product> productRepository;
+        private readonly IDeletableEntityRepository<SecondaryCategory> secondaryRepository;
 
-        public ProductsController(IDeletableEntityRepository<Product> productRepository)
+        public ProductsController(IDeletableEntityRepository<Product> productRepository, IDeletableEntityRepository<SecondaryCategory> secondaryRepository)
         {
             this.productRepository = productRepository;
+            this.secondaryRepository = secondaryRepository;
         }
 
         // GET: Administration/Products
@@ -50,7 +52,7 @@
         // GET: Administration/Products/Create
         public IActionResult Create()
         {
-            this.ViewData["CategoryId"] = new SelectList(this.productRepository.All(), "Id", "ImageUrl");
+            this.ViewData["CategoryId"] = new SelectList(this.secondaryRepository.All(), "Id", "Name");
             return this.View();
         }
 
@@ -68,7 +70,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["CategoryId"] = new SelectList(this.productRepository.All(), "Id", "ImageUrl", product.CategoryId);
+            this.ViewData["CategoryId"] = new SelectList(this.secondaryRepository.All(), "Id", "Name", product.CategoryId);
             return this.View(product);
         }
 
@@ -88,7 +90,7 @@
                 return this.NotFound();
             }
 
-            this.ViewData["CategoryId"] = new SelectList(this.productRepository.All(), "Id", "ImageUrl", product.CategoryId);
+            this.ViewData["CategoryId"] = new SelectList(this.secondaryRepository.All(), "Id", "Name", product.CategoryId);
             return this.View(product);
         }
 
@@ -97,7 +99,7 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Description,OriginalPrice,DiscountPercentage,QuantityInStock,CategoryId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Description,OriginalPrice,DiscountPercentage,QuantityInStock,CategoryId,Id")] Product product)
         {
             if (id != product.Id)
             {
@@ -126,7 +128,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["CategoryId"] = new SelectList(this.productRepository.All(), "Id", "ImageUrl", product.CategoryId);
+            this.ViewData["CategoryId"] = new SelectList(this.secondaryRepository.All(), "Id", "Name", product.CategoryId);
             return this.View(product);
         }
 
