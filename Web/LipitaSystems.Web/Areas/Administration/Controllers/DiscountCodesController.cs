@@ -5,16 +5,19 @@
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
 
     [Area("Administration")]
     public class DiscountCodesController : AdministrationController
     {
         private readonly IDeletableEntityRepository<DiscountCode> discountCoderRepository;
+        private readonly IDeletableEntityRepository<SecondaryCategory> categoryRepository;
 
-        public DiscountCodesController(IDeletableEntityRepository<DiscountCode> discountCoderRepository)
+        public DiscountCodesController(IDeletableEntityRepository<DiscountCode> discountCoderRepository, IDeletableEntityRepository<SecondaryCategory> categoryRepository)
         {
             this.discountCoderRepository = discountCoderRepository;
+            this.categoryRepository = categoryRepository;
         }
 
         // GET: Administration/DiscountCodes
@@ -44,6 +47,7 @@
         // GET: Administration/DiscountCodes/Create
         public IActionResult Create()
         {
+            this.ViewData["CategoriesId"] = new SelectList(this.categoryRepository.All(), "Id", "Name");
             return this.View();
         }
 
@@ -61,6 +65,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
+            this.ViewData["CategoriesId"] = new SelectList(this.categoryRepository.All(), "Id", "Name");
             return this.View(discountCode);
         }
 

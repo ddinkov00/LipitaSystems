@@ -12,10 +12,12 @@
     public class SecondaryCategoriesController : AdministrationController
     {
         private readonly IDeletableEntityRepository<SecondaryCategory> secondaryCategoryRepository;
+        private readonly IDeletableEntityRepository<MainCategory> mainCategoryRepository;
 
-        public SecondaryCategoriesController(IDeletableEntityRepository<SecondaryCategory> secondaryCategoryRepository)
+        public SecondaryCategoriesController(IDeletableEntityRepository<SecondaryCategory> secondaryCategoryRepository, IDeletableEntityRepository<MainCategory> mainCategoryRepository)
         {
             this.secondaryCategoryRepository = secondaryCategoryRepository;
+            this.mainCategoryRepository = mainCategoryRepository;
         }
 
         // GET: Administration/SecondaryCategories
@@ -48,7 +50,7 @@
         // GET: Administration/SecondaryCategories/Create
         public IActionResult Create()
         {
-            this.ViewData["MainCategoryId"] = new SelectList(this.secondaryCategoryRepository.All(), "Id", "ImageUrl");
+            this.ViewData["MainCategoryId"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name");
             return this.View();
         }
 
@@ -67,7 +69,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["MainCategoryId"] = new SelectList(this.secondaryCategoryRepository.All(), "Id", "ImageUrl", secondaryCategory.MainCategoryId);
+            this.ViewData["MainCategoryId"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name", secondaryCategory.MainCategoryId);
             return this.View(secondaryCategory);
         }
 
@@ -87,7 +89,7 @@
                 return this.NotFound();
             }
 
-            this.ViewData["MainCategoryId"] = new SelectList(this.secondaryCategoryRepository.All(), "Id", "ImageUrl", secondaryCategory.MainCategoryId);
+            this.ViewData["MainCategoryId"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name", secondaryCategory.MainCategoryId);
             return this.View(secondaryCategory);
         }
 
@@ -125,7 +127,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["MainCategoryId"] = new SelectList(this.secondaryCategoryRepository.All(), "Id", "ImageUrl", secondaryCategory.MainCategoryId);
+            this.ViewData["MainCategoryId"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name", secondaryCategory.MainCategoryId);
             return this.View(secondaryCategory);
         }
 
