@@ -2,73 +2,60 @@
 
 @{
     ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<br>
-<br>
-<br>
-<section class="mt-5 container">
-    <h1>Детайли</h1>
+<h1>Details</h1>
 
-    <div>
-        <h4>Код за отстъпка</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                Име
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Code)
-            </dd>
-            <dt class="col-sm-2">
-                Процент на отстъпка
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.DiscountPercentage)
-            </dd>
-            <dt class="col-sm-2">
-                Работи ли на вече намелени продукти
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.DoesWorkOnDiscountedProducts)
-            </dd>
-            <dt class="col-sm-2">
-                За кои категории работи
-            </dt>
-            <dd class="col-sm-11">
-                @{
-                    var categories = string.Join(", ", Model.SecondaryCategories.Select(x => x.Name));
-                    @Html.DisplayFor(m => categories)
-                }
-            </dd>
-            <dt class="col-sm-2">
-                Изтрито ли е
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.IsDeleted)
-            </dd>
-            <dt class="col-sm-2">
-                Кога е изтрито
-            </dt>
-            <dd class="col-sm-11">
-                @Html.DisplayFor(model => model.DeletedOn)
-            </dd>
-            <dt class="col-sm-2">
-                Кога е създадено
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CreatedOn)
-            </dd>
-            <dt class="col-sm-2">
-                Кога е променено
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.ModifiedOn)
-            </dd>
-        </dl>
-    </div>
-    <div>
-        <a asp-action="Запази" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="Index">Назад</a>
-    </div>
-</section>
+<div>
+    <h4>DiscountCode</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Code)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DiscountPercentage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DiscountPercentage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DoesWorkOnDiscountedProducts)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DoesWorkOnDiscountedProducts)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsDeleted)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DeletedOn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DeletedOn)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ModifiedOn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ModifiedOn)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

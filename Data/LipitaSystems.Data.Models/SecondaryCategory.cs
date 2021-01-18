@@ -24,5 +24,7 @@
         public virtual MainCategory MainCategory { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
+
+        public virtual ICollection<DiscountCode> DiscountCodes { get; set; }
     }
 }
