@@ -1,9 +1,11 @@
 ﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
     using System.Threading.Tasks;
-
+    using CloudinaryDotNet;
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
+    using LipitaSystems.Services;
+    using LipitaSystems.Web.ViewModels.InputModels;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
@@ -13,11 +15,19 @@
     {
         private readonly IDeletableEntityRepository<SecondaryCategory> secondaryCategoryRepository;
         private readonly IDeletableEntityRepository<MainCategory> mainCategoryRepository;
+        private readonly ICloudinaryService cloudinaryService;
+        private readonly Cloudinary cloudinary;
 
-        public SecondaryCategoriesController(IDeletableEntityRepository<SecondaryCategory> secondaryCategoryRepository, IDeletableEntityRepository<MainCategory> mainCategoryRepository)
+        public SecondaryCategoriesController(
+            IDeletableEntityRepository<SecondaryCategory> secondaryCategoryRepository,
+            IDeletableEntityRepository<MainCategory> mainCategoryRepository,
+            ICloudinaryService cloudinaryService,
+            Cloudinary cloudinary)
         {
             this.secondaryCategoryRepository = secondaryCategoryRepository;
             this.mainCategoryRepository = mainCategoryRepository;
+            this.cloudinaryService = cloudinaryService;
+            this.cloudinary = cloudinary;
         }
 
         // GET: Administration/SecondaryCategories
@@ -50,7 +60,7 @@
         // GET: Administration/SecondaryCategories/Create
         public IActionResult Create()
         {
-            this.ViewData["MainCategoryId"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name");
+            this.ViewData["MainCategories"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name");
             return this.View();
         }
 
@@ -59,18 +69,27 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,ImageUrl,MainCategoryId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] SecondaryCategory secondaryCategory)
+        public async Task<IActionResult> Create([Bind("Name,Image,MainCategoryId")] CreateSecondaryCategoryInputModel input)
         {
             if (this.ModelState.IsValid)
             {
-                await this.secondaryCategoryRepository.AddAsync(secondaryCategory);
+                var imageUrl = await this.cloudinaryService.UploadAsyncSingle(this.cloudinary, input.Image);
+
+                var category = new SecondaryCategory
+                {
+                    Name = input.Name,
+                    MainCategoryId = input.MainCategoryId,
+                    ImageUrl = imageUrl,
+                };
+
+                await this.secondaryCategoryRepository.AddAsync(category);
                 await this.secondaryCategoryRepository.SaveChangesAsync();
 
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["MainCategoryId"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name", secondaryCategory.MainCategoryId);
-            return this.View(secondaryCategory);
+            this.ViewData["MainCategoryId"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name");
+            return this.View();
         }
 
         // GET: Administration/SecondaryCategories/Edit/5

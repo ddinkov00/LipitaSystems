@@ -1,11 +1,15 @@
 ﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using CloudinaryDotNet;
     using LipitaSystems.Data;
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
+    using LipitaSystems.Services;
+    using LipitaSystems.Web.ViewModels.InputModels;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +17,17 @@
     public class MainCategoriesController : AdministrationController
     {
         private readonly IDeletableEntityRepository<MainCategory> mainCategoryRepository;
+        private readonly ICloudinaryService cloudinaryService;
+        private readonly Cloudinary cloudinary;
 
-        public MainCategoriesController(IDeletableEntityRepository<MainCategory> mainCategoryRepository)
+        public MainCategoriesController(
+            IDeletableEntityRepository<MainCategory> mainCategoryRepository,
+            ICloudinaryService cloudinaryService,
+            Cloudinary cloudinary)
         {
             this.mainCategoryRepository = mainCategoryRepository;
+            this.cloudinaryService = cloudinaryService;
+            this.cloudinary = cloudinary;
         }
 
         // GET: Administration/MainCategories
@@ -54,16 +65,24 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,ImageUrl,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] MainCategory mainCategory)
+        public async Task<IActionResult> Create([Bind("Name,Image")] CreateCategoryInputModel input)
         {
             if (this.ModelState.IsValid)
             {
-                await this.mainCategoryRepository.AddAsync(mainCategory);
+                var imageUrl = await this.cloudinaryService.UploadAsyncSingle(this.cloudinary, input.Image);
+
+                var category = new MainCategory
+                {
+                    Name = input.Name,
+                    ImageUrl = imageUrl,
+                };
+
+                await this.mainCategoryRepository.AddAsync(category);
                 await this.mainCategoryRepository.SaveChangesAsync();
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            return this.View(mainCategory);
+            return this.View();
         }
 
         // GET: Administration/MainCategories/Edit/5

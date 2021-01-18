@@ -9,5 +9,7 @@
     public interface ICloudinaryService
     {
         Task<List<string>> UploadAsync(Cloudinary cloudinary, ICollection<IFormFile> files);
+
+        Task<string> UploadAsyncSingle(Cloudinary cloudinary, IFormFile file);
     }
 }
