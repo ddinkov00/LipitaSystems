@@ -80,9 +80,9 @@ body {
 }
 
 .cropped2 {
-    object-fit: contain;
-    width: 400px;
-    height: 250px;
+    height: 35vh;
+    width: 100%;
+    object-fit: cover
 }
 
 .zoom-img {

@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using LipitaSystems.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using LipitaSystems.Common;
-
-namespace LipitaSystems.Web.Areas.Identity.Pages.Account
+﻿namespace LipitaSystems.Web.Areas.Identity.Pages.Account
 {
-    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Text;
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
+
+    using LipitaSystems.Data.Models;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.AspNetCore.WebUtilities;
+    using Microsoft.Extensions.Logging;
+
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -78,7 +77,6 @@ namespace LipitaSystems.Web.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                await _userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
