@@ -1,29 +1,27 @@
-﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
+﻿namespace LipitaSystems.Web.Areas.Administration
 {
     using System.Threading.Tasks;
 
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
 
     [Area("Administration")]
-    public class DiscountCodesController : AdministrationController
+    public class DiscountCodesController : Controller
     {
-        private readonly IDeletableEntityRepository<DiscountCode> discountCoderRepository;
-        private readonly IDeletableEntityRepository<SecondaryCategory> categoryRepository;
+        private readonly IDeletableEntityRepository<DiscountCode> discountCodeRepository;
 
-        public DiscountCodesController(IDeletableEntityRepository<DiscountCode> discountCoderRepository, IDeletableEntityRepository<SecondaryCategory> categoryRepository)
+        public DiscountCodesController(IDeletableEntityRepository<DiscountCode> discountCodeRepository)
         {
-            this.discountCoderRepository = discountCoderRepository;
-            this.categoryRepository = categoryRepository;
+            this.discountCodeRepository = discountCodeRepository;
         }
 
         // GET: Administration/DiscountCodes
         public async Task<IActionResult> Index()
         {
-            return this.View(await this.discountCoderRepository.All().ToListAsync());
+            return this.View(await this.discountCodeRepository.All()
+                .ToListAsync());
         }
 
         // GET: Administration/DiscountCodes/Details/5
@@ -34,8 +32,9 @@
                 return this.NotFound();
             }
 
-            var discountCode = await this.discountCoderRepository.All()
+            var discountCode = await this.discountCodeRepository.All()
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (discountCode == null)
             {
                 return this.NotFound();
@@ -47,7 +46,6 @@
         // GET: Administration/DiscountCodes/Create
         public IActionResult Create()
         {
-            this.ViewData["CategoriesId"] = new SelectList(this.categoryRepository.All(), "Id", "Name");
             return this.View();
         }
 
@@ -60,12 +58,11 @@
         {
             if (this.ModelState.IsValid)
             {
-                await this.discountCoderRepository.AddAsync(discountCode);
-                await this.discountCoderRepository.SaveChangesAsync();
+                await this.discountCodeRepository.AddAsync(discountCode);
+                await this.discountCodeRepository.SaveChangesAsync();
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["CategoriesId"] = new SelectList(this.categoryRepository.All(), "Id", "Name");
             return this.View(discountCode);
         }
 
@@ -77,8 +74,9 @@
                 return this.NotFound();
             }
 
-            var discountCode = await this.discountCoderRepository.All()
+            var discountCode = await this.discountCodeRepository.All()
                 .FirstOrDefaultAsync(dc => dc.Id == id);
+
             if (discountCode == null)
             {
                 return this.NotFound();
@@ -103,8 +101,8 @@
             {
                 try
                 {
-                    this.discountCoderRepository.Update(discountCode);
-                    await this.discountCoderRepository.SaveChangesAsync();
+                    this.discountCodeRepository.Update(discountCode);
+                    await this.discountCodeRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -132,8 +130,9 @@
                 return this.NotFound();
             }
 
-            var discountCode = await this.discountCoderRepository.All()
+            var discountCode = await this.discountCodeRepository.All()
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (discountCode == null)
             {
                 return this.NotFound();
@@ -148,15 +147,17 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var discountCode = await this.discountCoderRepository.All().FirstOrDefaultAsync(dc => dc.Id == id);
-            this.discountCoderRepository.Delete(discountCode);
-            await this.discountCoderRepository.SaveChangesAsync();
+            var discountCode = await this.discountCodeRepository.All()
+                .FirstOrDefaultAsync(dc => dc.Id == id);
+
+            this.discountCodeRepository.Delete(discountCode);
+            await this.discountCodeRepository.SaveChangesAsync();
             return this.RedirectToAction(nameof(this.Index));
         }
 
         private async Task<bool> DiscountCodeExists(int id)
         {
-            return await this.discountCoderRepository.AllAsNoTracking().AnyAsync(e => e.Id == id);
+            return await this.discountCodeRepository.All().AnyAsync(e => e.Id == id);
         }
     }
 }

@@ -228,6 +228,23 @@
         {
             if (!this.ModelState.IsValid)
             {
+                var cookiees = this.HttpContext.Request.Cookies["cartProducts"].Split('_');
+
+                if (cookiees.Any())
+                {
+                    var code = input.DiscountCodeName == null ? null : await this.discountCodeService.GetDiscountCodeAsync(input.DiscountCode.DiscountName);
+                    input.DiscountCode = code;
+
+                    for (int i = 0; i < cookiees.Length; i += 2)
+                    {
+                        var productId = int.Parse(cookiees[i]);
+                        var productQuantity = int.Parse(cookiees[i + 1]);
+
+                        input.Products.Add(await this.productService
+                            .GetProductForCheckoutByIdAsync(productId, productQuantity, code));
+                    }
+                }
+
                 input.DeliveryOfficeItems = await this.deliveryOfficeService.GetAllForSelectListAsync();
                 return this.View(input);
             }
