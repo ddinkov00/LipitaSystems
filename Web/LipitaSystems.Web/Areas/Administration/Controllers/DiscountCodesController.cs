@@ -1,20 +1,24 @@
-﻿namespace LipitaSystems.Web.Areas.Administration
+﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
 
     [Area("Administration")]
-    public class DiscountCodesController : Controller
+    public class DiscountCodesController : AdministrationController
     {
         private readonly IDeletableEntityRepository<DiscountCode> discountCodeRepository;
+        private readonly IDeletableEntityRepository<SecondaryCategory> secondaryCodeRepository;
 
-        public DiscountCodesController(IDeletableEntityRepository<DiscountCode> discountCodeRepository)
+        public DiscountCodesController(IDeletableEntityRepository<DiscountCode> discountCodeRepository, IDeletableEntityRepository<SecondaryCategory> secondaryCodeRepository)
         {
             this.discountCodeRepository = discountCodeRepository;
+            this.secondaryCodeRepository = secondaryCodeRepository;
         }
 
         // GET: Administration/DiscountCodes
@@ -46,6 +50,7 @@
         // GET: Administration/DiscountCodes/Create
         public IActionResult Create()
         {
+            this.ViewData["SecondaryCategories"] = new SelectList(this.secondaryCodeRepository.All(), "Id", "Name");
             return this.View();
         }
 
@@ -62,6 +67,7 @@
                 await this.discountCodeRepository.SaveChangesAsync();
                 return this.RedirectToAction(nameof(this.Index));
             }
+
 
             return this.View(discountCode);
         }
@@ -82,6 +88,7 @@
                 return this.NotFound();
             }
 
+            this.ViewData["SecondaryCategories"] = new SelectList(this.secondaryCodeRepository.All(), "Id", "Name", discountCode.SecondaryCategories.Select(x => x.Id));
             return this.View(discountCode);
         }
 

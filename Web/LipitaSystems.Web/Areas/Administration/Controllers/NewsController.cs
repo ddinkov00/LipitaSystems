@@ -1,10 +1,9 @@
-﻿namespace LipitaSystems.Web.Areas.Administration
+﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
     using System.Threading.Tasks;
 
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
-    using LipitaSystems.Web.Areas.Administration.Controllers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
