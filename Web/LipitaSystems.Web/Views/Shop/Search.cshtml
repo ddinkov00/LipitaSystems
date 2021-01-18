@@ -14,88 +14,105 @@
             </ol>
         </nav>
         <div class="section-title">
-            <h2>@Model.Search</h2>
-            <h3>Избери от нашите <span>Продукти</span></h3>
-
-        </div>
-        <div class="d-flex flex-row-reverse">
-            <div class="dropdown mb-4 float-right">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Сортирай
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="PriceAscending">Цена <i class="icofont-arrow-down h5"></i></a>
-                    <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="PriceDescending">Цена <i class="icofont-arrow-up h5"></i></a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="QuantityAscending">Количество <i class="icofont-arrow-down h5"></i></a>
-                    <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="QuantityDescending">Количество <i class="icofont-arrow-up h5"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            @foreach (var produt in Model.Products)
+            @if (Model.ItemsCount == 1)
             {
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
-                    <div class="member">
-                        <div class="member-img portfolio-item">
-                            <a asp-area="" asp-controller="Shop" asp-action="Product" asp-route-id="@produt.Id"><img src=@produt.ImageUrl class="img-fluid cropped2" alt=""></a>
-                            <div class="portfolio-info">
-                                <h4>@produt.Name</h4>
-                                <p>@produt.SecondaryCategoryName</p>
-                                <a href=@produt.ImageUrl data-gall="portfolioGallery" class="venobox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-                                <a asp-area="" asp-controller="Shop" asp-action="Product" asp-route-id="@produt.Id" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-                            </div>
-                        </div>
-                        <div class="member-info">
-                            <h4 class="mb-3">@produt.Name</h4>
-                            <p>@produt.SecondaryCategoryName</p>
-                            @if (produt.DiscountPercentage == null)
-                            {
-                                <h3 class="text-dark">@produt.OriginalPrice лв</h3>
-                            }
-                            else
-                            {
-                                <h3 class="text-danger"><del class="text-dark h5">@produt.OriginalPrice лв</del> | @produt.PriceAfterDiscout лв</h3>
-                            }
-                        </div>
-                    </div>
-                </div>
+                <h2>Намерен e @Model.ItemsCount продукт отговарящи на "<strong>@Model.Search</strong>"</h2>
+            }
+            else
+            {
+                <h2>Намерени са @Model.ItemsCount продукта отговарящи на "<strong>@Model.Search</strong>"</h2>
+            }
+            @if (Model.ItemsCount == 0)
+            {
+                <p class="h3 text-danger mt-5 text-uppercase">Няма намерени продукти</p>
+            }
+            else
+            {
+                <h3>Избери от нашите <span>Продукти</span></h3>
             }
         </div>
 
-        @if (Model.ItemsCount > Model.ItemsPerPage)
+        @if (Model.ItemsCount > 0)
         {
-            <nav aria-label="..." class="mb-5">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item @if (!Model.HasPreviousPage) { <text>disabled</text>} ">
-                        <a class="page-link" asp-action="Search" asp-route-order="@Context.Request.Query["order"]" asp-route-search="@Model.Search" asp-route-page="@Model.PreviousPageNumber">&#60;</a>
-                    </li>
-                    @for (int i = Model.PageNumber - 4; i < Model.PageNumber; i++)
-                    {
-                        if (i > 0)
+            <div class="d-flex flex-row-reverse">
+                <div class="dropdown mb-4 float-right">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Сортирай
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="PriceAscending">Цена <i class="icofont-arrow-down h5"></i></a>
+                        <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="PriceDescending">Цена <i class="icofont-arrow-up h5"></i></a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="QuantityAscending">Количество <i class="icofont-arrow-down h5"></i></a>
+                        <a class="dropdown-item" asp-area="" asp-controller="Shop" asp-action="Search" asp-route-search="@Model.Search" asp-route-page="1" asp-route-order="QuantityDescending">Количество <i class="icofont-arrow-up h5"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                @foreach (var produt in Model.Products)
+                {
+                    <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member">
+                            <div class="member-img portfolio-item">
+                                <a asp-area="" asp-controller="Shop" asp-action="Product" asp-route-id="@produt.Id"><img src=@produt.ImageUrl class="img-fluid cropped2" alt=""></a>
+                                <div class="portfolio-info">
+                                    <h4>@produt.Name</h4>
+                                    <p>@produt.SecondaryCategoryName</p>
+                                    <a href=@produt.ImageUrl data-gall="portfolioGallery" class="venobox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
+                                    <a asp-area="" asp-controller="Shop" asp-action="Product" asp-route-id="@produt.Id" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h4 class="mb-3">@produt.Name</h4>
+                                <p>@produt.SecondaryCategoryName</p>
+                                @if (produt.DiscountPercentage == null)
+                                {
+                                    <h3 class="text-dark">@produt.OriginalPrice лв</h3>
+                                }
+                                else
+                                {
+                                    <h3 class="text-danger"><del class="text-dark h5">@produt.OriginalPrice лв</del> | @produt.PriceAfterDiscout лв</h3>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @if (Model.ItemsCount > Model.ItemsPerPage)
+            {
+                <nav aria-label="..." class="mb-5">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item @if (!Model.HasPreviousPage) { <text>disabled</text>} ">
+                            <a class="page-link" asp-action="Search" asp-route-order="@Context.Request.Query["order"]" asp-route-search="@Model.Search" asp-route-page="@Model.PreviousPageNumber">&#60;</a>
+                        </li>
+                        @for (int i = Model.PageNumber - 4; i < Model.PageNumber; i++)
                         {
-                            <li class="page-item"><a class="page-link" asp-action="Search" asp-route-order="@Context.Request.Query["order"]" asp-route-search="@Model.Search" asp-route-page="@i">@i</a></li>
+                            if (i > 0)
+                            {
+                                <li class="page-item"><a class="page-link" asp-action="Search" asp-route-order="@Context.Request.Query["order"]" asp-route-search="@Model.Search" asp-route-page="@i">@i</a></li>
+                            }
                         }
-                    }
-                    <li class="page-item active" aria-current="page">
-                        <span class="page-link">
-                            @Model.PageNumber
-                            <span class="sr-only">(current)</span>
-                        </span>
-                    </li>
-                    @for (int i = Model.PageNumber + 1; i <= Model.PageNumber + 4; i++)
-                    {
-                        if (i <= Model.PagesCount)
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">
+                                @Model.PageNumber
+                                <span class="sr-only">(current)</span>
+                            </span>
+                        </li>
+                        @for (int i = Model.PageNumber + 1; i <= Model.PageNumber + 4; i++)
                         {
-                            <li class="page-item"><a class="page-link" asp-action="Search" asp-route-order="@Context.Request.Query["order"]" asp-route-search="@Model.Search" asp-route-page="@i">@i</a></li>
+                            if (i <= Model.PagesCount)
+                            {
+                                <li class="page-item"><a class="page-link" asp-action="Search" asp-route-order="@Context.Request.Query["order"]" asp-route-search="@Model.Search" asp-route-page="@i">@i</a></li>
+                            }
                         }
-                    }
-                    <li class="page-item @if (!Model.HasNextPage) { <text>disabled</text> }">
-                        <a class="page-link" asp-action="Search" asp-route-order="@Context.Request.Query["order"]" asp-route-search="@Model.Search" asp-route-page="@Model.NextPageNumber">&#62;</a>
-                    </li>
-                </ul>
-            </nav>
+                        <li class="page-item @if (!Model.HasNextPage) { <text>disabled</text> }">
+                            <a class="page-link" asp-action="Search" asp-route-order="@Context.Request.Query["order"]" asp-route-search="@Model.Search" asp-route-page="@Model.NextPageNumber">&#62;</a>
+                        </li>
+                    </ul>
+                </nav>
+            }
         }
     </div>
 </section><!-- End Team Section -->

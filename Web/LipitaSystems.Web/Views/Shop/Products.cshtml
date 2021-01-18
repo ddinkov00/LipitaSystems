@@ -17,10 +17,13 @@
 
         <div class="section-title">
             <h2>@Model.SubCategory</h2>
-            <h3>Избери от нашите продукти за<span> @Model.SubCategory</span></h3>
             @if (!Model.Products.Any())
             {
-                <p class="h4 text-danger mt-5">Все още няма продукти от тази категория!</p>
+                <p class="h3 text-danger mt-5 text-uppercase">Все още няма продукти в категория <strong>@Model.SubCategory</strong></p>
+            }
+            else
+            {
+                <h3>Избери от нашите продукти за<span> @Model.SubCategory</span></h3>
             }
         </div>
 
@@ -47,7 +50,9 @@
                     <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                         <div class="member">
                             <div class="member-img portfolio-item">
-                                <a asp-area="" asp-controller="Shop" asp-action="Product" asp-route-id="@produt.Id"><img src=@produt.ImageUrl class="img-fluid cropped2" alt=""></a>
+                                <a asp-area="" asp-controller="Shop" asp-action="Product" asp-route-id="@produt.Id">
+                                    <img src=@produt.ImageUrl class="img-fluid" style="height: 35vh; width: 100%; object-fit: cover" alt="Product image">
+                                </a>
                                 <div class="portfolio-info">
                                     <h4>@produt.Name</h4>
                                     <p>@produt.SecondaryCategoryName</p>

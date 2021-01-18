@@ -14,10 +14,13 @@
         </nav>
         <div class="section-title">
             <h2>@Model.Category</h2>
-            <h3>Избери от нашите продукти за<span> @Model.Category</span></h3>
             @if (!Model.SubCategories.Any())
             {
-                <p class="h4 text-danger mt-5">Все още няма подкатегории от тази категория!</p>
+                <p class="h3 text-danger mt-5 text-uppercase">Все още няма подкатегории в <strong>@Model.Category</strong></p>
+            }
+            else
+            {
+                <h3>Избери от нашите продукти за<span> @Model.Category</span></h3>
             }
         </div>
         
@@ -29,7 +32,9 @@
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                     <div class="member">
                         <div class="member-img">
-                            <a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-page="1" asp-route-id="@subCategory.Id"><img src="@subCategory.Url" class="img-fluid cropped2 zoom-img" alt=""></a>
+                            <a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-page="1" asp-route-id="@subCategory.Id">
+                                <img src="@subCategory.Url" class="img-fluid cropped2 zoom-img" alt="">
+                            </a>
                         </div>
                         <div class="member-info">
                             <h4><a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-page="1" asp-route-id="@subCategory.Id">@subCategory.Name</a></h4>
