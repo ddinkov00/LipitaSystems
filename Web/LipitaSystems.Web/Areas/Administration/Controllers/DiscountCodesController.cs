@@ -41,7 +41,7 @@
             {
                 return this.NotFound();
             }
-
+            // работи ли брат?
             var discountCode = await this.discountCodeRepository.All()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
