@@ -10,6 +10,7 @@
         public SecondaryCategory()
         {
             this.Products = new HashSet<Product>();
+            this.DiscountCodes = new HashSet<DiscountCode>();
         }
 
         [Required]

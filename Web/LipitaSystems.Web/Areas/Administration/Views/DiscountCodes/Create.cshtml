@@ -1,4 +1,4 @@
-﻿@model LipitaSystems.Data.Models.DiscountCode
+﻿@model LipitaSystems.Web.ViewModels.InputModels.DiscountCodeInputModel;
 
 @{
     ViewData["Title"] = "Create";
@@ -8,9 +8,9 @@
 <br>
 <br>
 <section class="mt-5 container">
-    <h1>Create</h1>
+    <h1>Съзадй</h1>
 
-    <h4>DiscountCode</h4>
+    <h4>Код за намаление</h4>
     <hr />
     <div class="row">
         <div class="col-md-4">
@@ -32,8 +32,8 @@
                     </label>
                 </div>
                 <div class="form-group">
-                    <label asp-for="SecondaryCategories" class="control-label"></label>
-                    <select class="form-control selectpicker" asp-items="ViewBag.SecondaryCategories"></select>
+                    <label asp-for="MainCategoryId" class="control-label"></label>
+                    <select class="form-control selectpicker" asp-for="MainCategoryId" asp-items="ViewBag.MainCategories"></select>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />

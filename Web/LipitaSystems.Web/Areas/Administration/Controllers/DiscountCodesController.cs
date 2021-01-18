@@ -5,6 +5,7 @@
 
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
+    using LipitaSystems.Web.ViewModels.InputModels;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,16 @@
     {
         private readonly IDeletableEntityRepository<DiscountCode> discountCodeRepository;
         private readonly IDeletableEntityRepository<SecondaryCategory> secondaryCodeRepository;
+        private readonly IDeletableEntityRepository<MainCategory> mainCategoryRepository;
 
-        public DiscountCodesController(IDeletableEntityRepository<DiscountCode> discountCodeRepository, IDeletableEntityRepository<SecondaryCategory> secondaryCodeRepository)
+        public DiscountCodesController(
+            IDeletableEntityRepository<DiscountCode> discountCodeRepository,
+            IDeletableEntityRepository<SecondaryCategory> secondaryCodeRepository,
+            IDeletableEntityRepository<MainCategory> mainCategoryRepository)
         {
             this.discountCodeRepository = discountCodeRepository;
             this.secondaryCodeRepository = secondaryCodeRepository;
+            this.mainCategoryRepository = mainCategoryRepository;
         }
 
         // GET: Administration/DiscountCodes
@@ -50,7 +56,7 @@
         // GET: Administration/DiscountCodes/Create
         public IActionResult Create()
         {
-            this.ViewData["SecondaryCategories"] = new SelectList(this.secondaryCodeRepository.All(), "Id", "Name");
+            this.ViewData["MainCategories"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name");
             return this.View();
         }
 
@@ -59,15 +65,31 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Code,DiscountPercentage,DoesWorkOnDiscountedProducts,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] DiscountCode discountCode)
+        public async Task<IActionResult> Create([Bind("Code,DiscountPercentage,DoesWorkOnDiscountedProducts,MainCategoryId")] DiscountCodeInputModel discountCode)
         {
             if (this.ModelState.IsValid)
             {
-                await this.discountCodeRepository.AddAsync(discountCode);
+                var discountCodeToAdd = new DiscountCode
+                {
+                    Code = discountCode.Code,
+                    DiscountPercentage = discountCode.DiscountPercentage,
+                    DoesWorkOnDiscountedProducts = discountCode.DoesWorkOnDiscountedProducts,
+                };
+
+                await this.discountCodeRepository.AddAsync(discountCodeToAdd);
                 await this.discountCodeRepository.SaveChangesAsync();
+
+                var secondaryCategories = this.secondaryCodeRepository.All()
+                    .Where(sc => sc.MainCategoryId == discountCode.MainCategoryId);
+
+                foreach (var secondaryCategory in secondaryCategories)
+                {
+                    secondaryCategory.DiscountCodes.Add(discountCodeToAdd);
+                }
+
+                await this.secondaryCodeRepository.SaveChangesAsync();
                 return this.RedirectToAction(nameof(this.Index));
             }
-
 
             return this.View(discountCode);
         }

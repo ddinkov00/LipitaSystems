@@ -44,6 +44,9 @@
     <ProjectReference Include="..\LipitaSystems.Web.ViewModels\LipitaSystems.Web.ViewModels.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Areas\Administration\Views\DiscountCodes\Edit.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Views\Home\Index.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -51,6 +54,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\css\template.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\img\.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\vendors\aos\aos.css">
@@ -410,9 +416,6 @@
     <Content Update="wwwroot\favicons\ms-icon-70x70.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\img\logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="wwwroot\img\smartHome\smart-home-automation-2-1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -737,7 +740,6 @@
     <Folder Include="wwwroot\vendors\boxicons\fonts\" />
     <Folder Include="wwwroot\vendors\icofont\fonts\" />
     <Folder Include="wwwroot\vendors\owl.carousel\assets\" />
-    <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\img\clients\" />
     <Folder Include="wwwroot\img\portfolio\" />
     <Folder Include="wwwroot\img\team\" />
