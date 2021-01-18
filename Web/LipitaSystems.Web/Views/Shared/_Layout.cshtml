@@ -186,6 +186,10 @@
                         <li><a id="cartIconShop" asp-area="" asp-controller="Shop" asp-action="Cart"><i class="icofont-shopping-cart h4 text-primary"></i></a></li>
 
                     }
+                    @if (this.User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="Administration" asp-controller="Dashboard" asp-action="Index">ADMIN</a></li>
+                    }
                 </ul>
             </nav><!-- .nav-menu -->
 
@@ -220,7 +224,7 @@
                             <li><i class="bx bx-chevron-right"></i> <a asp-area="" asp-controller="Home" asp-action="Contact">Контакти</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a asp-area="" asp-controller="Home" asp-action="News">Новини</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a asp-area="" asp-controller="Home" asp-action="Privacy">Общи условия</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a asp-area="" asp-controller="Home" asp-action="Privacy">Вход</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a asp-area="Identity" asp-page="/Account/Login">Вход</a></li>
                         </ul>
                     </div>
 

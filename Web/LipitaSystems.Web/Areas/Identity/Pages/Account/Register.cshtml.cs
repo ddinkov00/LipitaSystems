@@ -14,10 +14,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using LipitaSystems.Common;
 
 namespace LipitaSystems.Web.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -77,6 +78,7 @@ namespace LipitaSystems.Web.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                await _userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
