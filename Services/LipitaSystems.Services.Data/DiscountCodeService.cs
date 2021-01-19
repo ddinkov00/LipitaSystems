@@ -46,7 +46,7 @@
                 return summedPrice;
             }
 
-            return summedPrice - ((discountCode.DiscountPercentage / 100) * summedPrice);
+            return summedPrice - (((decimal)discountCode.DiscountPercentage / 100) * summedPrice);
         }
 
         public async Task<bool> IsDiscountCodeValid(string code)

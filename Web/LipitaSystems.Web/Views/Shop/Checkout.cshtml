@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
-                                <p class="mb-0"><span><strong class="text-danger" id="summary">Цена: @product.FinalPrice лв.</strong></span></p>
+                                <p class="mb-0"><span><strong class="text-danger" id="summary">Цена: @product.FinalPrice.ToString("F2") лв.</strong></span></p>
                             </div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
             </div>
         </div>
         <hr>
-        <p class="mb-4 text-danger h5">Крайна сума (без доставка): <strong>@Model.TotalPrice лв.</strong></p>
+        <p class="mb-4 text-danger h5">Крайна сума (без доставка): <strong>@Model.TotalPrice.ToString("F2") лв.</strong></p>
         <div class="input-group col-md-6 mb-3">
             <div class="input-group-prepend">
                 <div class="input-group-text">
