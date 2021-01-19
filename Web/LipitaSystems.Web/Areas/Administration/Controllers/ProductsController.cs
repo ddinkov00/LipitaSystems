@@ -55,6 +55,7 @@
 
             var product = await this.productRepository.AllWithDeleted()
                 .Include(p => p.Category)
+                .Include(p => p.Images)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (product == null)

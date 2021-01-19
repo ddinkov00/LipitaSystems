@@ -24,19 +24,18 @@
                .Where(dc => dc.Code == code)
                .Select(dc => new DiscountCodeWithCategoryIds
                {
+                   Id = dc.Id,
                    DiscountPercentage = dc.DiscountPercentage,
                    DoesWorkOnDiscountedProducts = dc.DoesWorkOnDiscountedProducts,
                    DiscountName = dc.Code,
-                   CategoryIds = dc.SecondaryCategories
-                       .Select(sc => sc.Id)
-                       .ToList(),
+                   MainCategoryId = dc.MainCategoryId,
                })
                .FirstOrDefaultAsync();
         }
 
         public decimal ApplyDiscount(DiscountCodeWithCategoryIds discountCode, bool isDiscounted, int categoryId, decimal summedPrice)
         {
-            if (!discountCode.CategoryIds.Contains(categoryId))
+            if (discountCode.MainCategoryId != categoryId)
             {
                 return summedPrice;
             }

@@ -4,14 +4,16 @@ using LipitaSystems.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LipitaSystems.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210119144309_DiscountCodeRelationsChanged")]
+    partial class DiscountCodeRelationsChanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -387,8 +389,8 @@ namespace LipitaSystems.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DiscountCodeId")
-                        .HasColumnType("int");
+                    b.Property<string>("DiscountCodeName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -410,8 +412,6 @@ namespace LipitaSystems.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DeliveryOfficeId");
-
-                    b.HasIndex("DiscountCodeId");
 
                     b.HasIndex("IsDeleted");
 
@@ -708,13 +708,7 @@ namespace LipitaSystems.Data.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("DeliveryOfficeId");
 
-                    b.HasOne("LipitaSystems.Data.Models.DiscountCode", "DiscountCode")
-                        .WithMany("Orders")
-                        .HasForeignKey("DiscountCodeId");
-
                     b.Navigation("DeliveryOffice");
-
-                    b.Navigation("DiscountCode");
                 });
 
             modelBuilder.Entity("LipitaSystems.Data.Models.Product", b =>
@@ -819,11 +813,6 @@ namespace LipitaSystems.Data.Migrations
                 });
 
             modelBuilder.Entity("LipitaSystems.Data.Models.DeliveryOffice", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("LipitaSystems.Data.Models.DiscountCode", b =>
                 {
                     b.Navigation("Orders");
                 });

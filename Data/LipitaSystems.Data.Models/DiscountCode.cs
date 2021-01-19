@@ -9,7 +9,7 @@
     {
         public DiscountCode()
         {
-            this.SecondaryCategories = new HashSet<SecondaryCategory>();
+            this.Orders = new HashSet<Order>();
         }
 
         [Required]
@@ -22,6 +22,10 @@
         [Required]
         public bool DoesWorkOnDiscountedProducts { get; set; }
 
-        public virtual ICollection<SecondaryCategory> SecondaryCategories { get; set; }
+        public int MainCategoryId { get; set; }
+
+        public virtual MainCategory MainCategory { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
     }
 }

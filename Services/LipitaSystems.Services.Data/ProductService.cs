@@ -272,6 +272,7 @@
                     OriginalPrice = p.OriginalPrice,
                     SecondaryCategoryId = p.CategoryId,
                     SecondaryCategoryName = p.Category.Name,
+                    MainCategoryId = p.Category.MainCategoryId,
                     DiscountPercentage = p.DiscountPercentage,
                 }).FirstOrDefaultAsync();
 
@@ -281,7 +282,7 @@
                 .ApplyDiscount(
                     code,
                     product.IsDiscounted,
-                    product.SecondaryCategoryId,
+                    product.MainCategoryId,
                     (decimal)product.SummedPrice);
             }
             else

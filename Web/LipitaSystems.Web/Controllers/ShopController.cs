@@ -173,7 +173,7 @@
 
         public async Task<IActionResult> Checkout(string discountCode)
         {
-            var cookies = this.HttpContext.Request.Cookies["cartProducts"] != null 
+            var cookies = this.HttpContext.Request.Cookies["cartProducts"] != null
                 ? this.HttpContext.Request.Cookies["cartProducts"].Split('_')
                 : null;
 
@@ -208,7 +208,7 @@
 
                 if (cookiees.Any())
                 {
-                    var code = input.DiscountCodeName == null ? null : await this.discountCodeService.GetDiscountCodeAsync(input.DiscountCode.DiscountName);
+                    var code = input.DiscountCodeName == null ? null : await this.discountCodeService.GetDiscountCodeAsync(input.DiscountCodeName);
                     input.DiscountCode = code;
 
                     for (int i = 0; i < cookiees.Length; i += 2)
@@ -237,6 +237,7 @@
                     await this.productService.ReduceQuantityInStockAsync(productId, productQuantity);
 
                     var code = input.DiscountCodeName == null ? null : await this.discountCodeService.GetDiscountCodeAsync(input.DiscountCodeName);
+                    input.DiscountCode = code;
 
                     input.Products.Add(await this.productService
                         .GetProductForCheckoutByIdAsync(productId, productQuantity, code));

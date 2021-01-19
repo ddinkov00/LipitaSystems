@@ -23,6 +23,8 @@
 
         public string SecondaryCategoryName { get; set; }
 
+        public int MainCategoryId { get; set; }
+
         public int? DiscountPercentage { get; set; }
 
         public bool IsDiscounted => this.DiscountPercentage != null;

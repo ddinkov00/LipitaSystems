@@ -10,6 +10,7 @@
         public MainCategory()
         {
             this.SecondaryCategories = new HashSet<SecondaryCategory>();
+            this.DiscountCodes = new HashSet<DiscountCode>();
         }
 
         [Required]
@@ -20,5 +21,7 @@
         public string ImageUrl { get; set; }
 
         public virtual ICollection<SecondaryCategory> SecondaryCategories { get; set; }
+
+        public virtual ICollection<DiscountCode> DiscountCodes { get; set; }
     }
 }

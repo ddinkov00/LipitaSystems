@@ -26,6 +26,7 @@
                 FullName = input.FullName,
                 DeliveryType = input.DeliveryType,
                 PhoneNumber = input.PhoneNumber,
+                DiscountCodeId = input.DiscountCode == null ? null : input.DiscountCode.Id,
                 TotalPrice = (decimal)input.TotalPrice,
                 Products = input.Products.Select(x => new ProductOrder
                 {

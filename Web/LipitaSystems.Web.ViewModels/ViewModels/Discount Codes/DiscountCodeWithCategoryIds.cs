@@ -4,12 +4,14 @@
 
     public class DiscountCodeWithCategoryIds
     {
+        public int Id { get; set; }
+
         public int DiscountPercentage { get; set; }
 
         public string DiscountName { get; set; }
 
         public bool DoesWorkOnDiscountedProducts { get; set; }
 
-        public List<int> CategoryIds { get; set; }
+        public int MainCategoryId { get; set; }
     }
 }

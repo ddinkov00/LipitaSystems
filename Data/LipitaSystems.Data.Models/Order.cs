@@ -34,6 +34,10 @@
 
         public virtual DeliveryOffice DeliveryOffice { get; set; }
 
+        public int? DiscountCodeId { get; set; }
+
+        public DiscountCode DiscountCode { get; set; }
+
         public virtual ICollection<ProductOrder> Products { get; set; }
     }
 }

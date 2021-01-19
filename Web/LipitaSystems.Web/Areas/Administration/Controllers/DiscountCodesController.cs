@@ -94,20 +94,12 @@
                     Code = discountCode.Code,
                     DiscountPercentage = discountCode.DiscountPercentage,
                     DoesWorkOnDiscountedProducts = discountCode.DoesWorkOnDiscountedProducts,
+                    MainCategoryId = discountCode.MainCategoryId,
                 };
 
                 await this.discountCodeRepository.AddAsync(discountCodeToAdd);
                 await this.discountCodeRepository.SaveChangesAsync();
 
-                var secondaryCategories = this.secondaryCodeRepository.All()
-                    .Where(sc => sc.MainCategoryId == discountCode.MainCategoryId);
-
-                foreach (var secondaryCategory in secondaryCategories)
-                {
-                    secondaryCategory.DiscountCodes.Add(discountCodeToAdd);
-                }
-
-                await this.secondaryCodeRepository.SaveChangesAsync();
                 return this.RedirectToAction(nameof(this.Index));
             }
 
@@ -131,7 +123,7 @@
                 return this.NotFound();
             }
 
-            this.ViewData["SecondaryCategories"] = new SelectList(this.secondaryCodeRepository.All(), "Id", "Name", discountCode.SecondaryCategories.Select(x => x.Id));
+            this.ViewData["SecondaryCategories"] = new SelectList(this.secondaryCodeRepository.All(), "Id", "Name", discountCode.MainCategoryId);
             return this.View(discountCode);
         }
 

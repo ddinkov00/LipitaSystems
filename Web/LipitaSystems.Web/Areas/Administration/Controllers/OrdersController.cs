@@ -5,6 +5,7 @@
 
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
+    using LipitaSystems.Web.ViewModels.ViewModels.Orders;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
@@ -54,9 +55,8 @@
                 return this.NotFound();
             }
 
-            var order = await this.orderRepository.AllWithDeleted()
-                .Include(o => o.DeliveryOffice)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var order = this.orderRepository.AllWithDeleted()
+                .Where(o => o.Id == id);
 
             if (order == null)
             {
