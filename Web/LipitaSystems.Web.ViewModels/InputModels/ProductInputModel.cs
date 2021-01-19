@@ -16,7 +16,7 @@
         public string Description { get; set; }
 
         [Display(Name = "Цена")]
-        [Range(0, 10000, ErrorMessage = "не трябва да е м-у 0 и 10000")]
+        [Range(0, 100000, ErrorMessage = "не трябва да е м-у 0 и 100000")]
         public decimal Price { get; set; }
 
         [Display(Name = "Количество на склад")]
