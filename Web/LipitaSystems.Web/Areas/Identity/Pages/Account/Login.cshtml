@@ -1,6 +1,7 @@
 ﻿@page
 @model LoginModel
-
+@using Microsoft.Extensions.Options
+@inject IOptions<LipitaSystems.Web.ViewModels.RecapchaSettings> recapcha
 @{
     ViewData["Title"] = "Вход";
 }
@@ -35,6 +36,7 @@
                             </label>
                         </div>
                     </div>
+                    <input asp-for="Input.Token" hidden />
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Log in</button>
                     </div>
@@ -45,4 +47,12 @@
 </section>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="https://www.google.com/recaptcha/api.js?render=6LfNGDIaAAAAAMSxBqNMSomn6ce9OXpVS8fRydAy"></script>
+    <script>grecaptcha.ready(function () {
+
+            grecaptcha.execute('6LfNGDIaAAAAAMSxBqNMSomn6ce9OXpVS8fRydAy', { action: 'homepage' }).then(function (token) {
+                console.log(token);
+                $('#Input_Token').val(token);
+            });
+        });</script>
 }

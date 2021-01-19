@@ -54,7 +54,7 @@
                         options.CheckConsentNeeded = context => true;
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
-
+            services.Configure<RecapchaSettings>(this.configuration.GetSection("SiteKey"));
             services.AddControllersWithViews(
                 options =>
                     {
@@ -85,6 +85,7 @@
             services.AddTransient<IDiscountCodeService, DiscountCodeService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IDeliveryOfficeService, DeliveryOfficeService>();
+            services.AddTransient<RecapchaService>();
 
             Account account = new Account(
                this.configuration["Cloudinary:AppName"],
