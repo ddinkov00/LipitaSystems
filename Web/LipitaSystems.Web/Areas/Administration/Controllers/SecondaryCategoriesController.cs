@@ -88,8 +88,8 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["MainCategoryId"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name");
-            return this.View();
+            this.ViewData["MainCategoryId"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name", input.MainCategoryId);
+            return this.View(input);
         }
 
         // GET: Administration/SecondaryCategories/Edit/5

@@ -1,9 +1,14 @@
 ﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using CloudinaryDotNet;
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
+    using LipitaSystems.Services;
+    using LipitaSystems.Services.Data.Contracts;
+    using LipitaSystems.Web.ViewModels.InputModels;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
@@ -13,11 +18,22 @@
     {
         private readonly IDeletableEntityRepository<Product> productRepository;
         private readonly IDeletableEntityRepository<SecondaryCategory> secondaryRepository;
+        private readonly IImageService imageService;
+        private readonly ICloudinaryService cloudinaryService;
+        private readonly Cloudinary cloudinary;
 
-        public ProductsController(IDeletableEntityRepository<Product> productRepository, IDeletableEntityRepository<SecondaryCategory> secondaryRepository)
+        public ProductsController(
+            IDeletableEntityRepository<Product> productRepository,
+            IDeletableEntityRepository<SecondaryCategory> secondaryRepository,
+            IImageService imageService,
+            ICloudinaryService cloudinaryService,
+            Cloudinary cloudinary)
         {
             this.productRepository = productRepository;
             this.secondaryRepository = secondaryRepository;
+            this.imageService = imageService;
+            this.cloudinaryService = cloudinaryService;
+            this.cloudinary = cloudinary;
         }
 
         // GET: Administration/Products
@@ -52,7 +68,12 @@
         // GET: Administration/Products/Create
         public IActionResult Create()
         {
-            this.ViewData["CategoryId"] = new SelectList(this.secondaryRepository.All(), "Id", "Name");
+            this.ViewData["CategoryId"] = new SelectList(
+                this.secondaryRepository.All()
+                    .OrderBy(p => p.Name),
+                "Id",
+                "Name");
+
             return this.View();
         }
 
@@ -61,17 +82,36 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,OriginalPrice,DiscountPercentage,QuantityInStock,CategoryId,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Product product)
+        public async Task<IActionResult> Create([Bind("Name,Description,Price,Images,QuantityInstock,SecondaryCategoryId")] ProductInputModel input)
         {
             if (this.ModelState.IsValid)
             {
+                var imageUrls = await this.cloudinaryService.UploadAsync(this.cloudinary, input.Images);
+
+                var product = new Product
+                {
+                    Name = input.Name,
+                    Description = input.Description,
+                    OriginalPrice = input.Price,
+                    QuantityInStock = input.QuantityInstock,
+                    CategoryId = input.SecondaryCategoryId,
+                };
+
                 await this.productRepository.AddAsync(product);
                 await this.productRepository.SaveChangesAsync();
+
+                var productId = product.Id;
+
+                foreach (var imageUrl in imageUrls)
+                {
+                    await this.imageService.CreateAsync(imageUrl, productId);
+                }
+
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["CategoryId"] = new SelectList(this.secondaryRepository.All(), "Id", "Name", product.CategoryId);
-            return this.View(product);
+            this.ViewData["CategoryId"] = new SelectList(this.secondaryRepository.All(), "Id", "Name", input.SecondaryCategoryId);
+            return this.View(input);
         }
 
         // GET: Administration/Products/Edit/5
