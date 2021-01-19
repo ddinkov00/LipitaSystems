@@ -6,6 +6,7 @@
     using LipitaSystems.Data.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using System.Linq;
 
     [Area("Administration")]
     public class NewsController : AdministrationController
@@ -23,7 +24,26 @@
             return this.View(await this.newsRepository.All().ToListAsync());
         }
 
-        // GET: Administration/News/Details/5
+        public async Task<IActionResult> Restore()
+        {
+            return this.View(await this.newsRepository.AllWithDeleted().Where(x => x.IsDeleted == true).ToListAsync());
+        }
+
+        [HttpPost]
+        [ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restore(int id)
+        {
+            var news = await this.newsRepository.AllWithDeleted()
+                .FirstOrDefaultAsync(n => n.Id == id);
+
+            news.IsDeleted = false;
+            news.DeletedOn = null;
+            await this.newsRepository.SaveChangesAsync();
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -31,7 +51,7 @@
                 return this.NotFound();
             }
 
-            var news = await this.newsRepository.All()
+            var news = await this.newsRepository.AllWithDeleted()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (news == null)
