@@ -1,0 +1,71 @@
+﻿@model IEnumerable<LipitaSystems.Data.Models.Product>
+
+@{
+    ViewData["Title"] = "Продукти";
+}
+
+<br>
+<br>
+<br>
+<section class="container mt-5">
+    <h1>Изтрити Продукти</h1>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Име
+                </th>
+                <th>
+                    Описание
+                </th>
+                <th>
+                    Оригинална цена
+                </th>
+                <th>
+                    Процент намален
+                </th>
+                <th>
+                    В наличност
+                </th>
+                <th>
+                    Категория
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OriginalPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DiscountPercentage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QuantityInStock)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.Name)
+                    </td>
+                    <td>
+                        <form asp-action="Restore" asp-route-id="@item.Id">
+                            <input type="hidden" asp-for="@item.Id" />
+                            <input type="submit" value="Restore" class="btn btn-danger" /> |
+                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>

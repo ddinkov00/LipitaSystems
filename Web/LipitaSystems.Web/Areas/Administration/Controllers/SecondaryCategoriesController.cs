@@ -38,6 +38,26 @@
             return this.View(await applicationDbContext.ToListAsync());
         }
 
+        public async Task<IActionResult> Restore()
+        {
+            return this.View(await this.secondaryCategoryRepository.AllWithDeleted().Where(x => x.IsDeleted == true).ToListAsync());
+        }
+
+        [HttpPost]
+        [ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restore(int id)
+        {
+            var news = await this.secondaryCategoryRepository.AllWithDeleted()
+                .FirstOrDefaultAsync(n => n.Id == id);
+
+            news.IsDeleted = false;
+            news.DeletedOn = null;
+            await this.secondaryCategoryRepository.SaveChangesAsync();
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
         // GET: Administration/SecondaryCategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -46,7 +66,7 @@
                 return this.NotFound();
             }
 
-            var secondaryCategory = await this.secondaryCategoryRepository.All()
+            var secondaryCategory = await this.secondaryCategoryRepository.AllWithDeleted()
                 .Include(s => s.MainCategory)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -90,8 +110,6 @@
 
                 await this.secondaryCategoryRepository.AddAsync(category);
                 await this.secondaryCategoryRepository.SaveChangesAsync();
-
-
 
                 return this.RedirectToAction(nameof(this.Index));
             }

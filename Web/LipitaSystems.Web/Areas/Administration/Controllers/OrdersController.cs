@@ -1,5 +1,6 @@
 ﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using LipitaSystems.Data.Common.Repositories;
@@ -25,6 +26,26 @@
             return this.View(await applicationDbContext.ToListAsync());
         }
 
+        public async Task<IActionResult> Restore()
+        {
+            return this.View(await this.orderRepository.AllWithDeleted().Where(x => x.IsDeleted == true).ToListAsync());
+        }
+
+        [HttpPost]
+        [ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restore(int id)
+        {
+            var news = await this.orderRepository.AllWithDeleted()
+                .FirstOrDefaultAsync(n => n.Id == id);
+
+            news.IsDeleted = false;
+            news.DeletedOn = null;
+            await this.orderRepository.SaveChangesAsync();
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
         // GET: Administration/Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -33,7 +54,7 @@
                 return this.NotFound();
             }
 
-            var order = await this.orderRepository.All()
+            var order = await this.orderRepository.AllWithDeleted()
                 .Include(o => o.DeliveryOffice)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
