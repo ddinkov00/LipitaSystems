@@ -91,6 +91,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
+            this.ViewData["MainCategories"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name", discountCode.MainCategoryId);
             return this.View(discountCode);
         }
 

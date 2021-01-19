@@ -1,5 +1,6 @@
 ﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
     using CloudinaryDotNet;
     using LipitaSystems.Data.Common.Repositories;
@@ -60,7 +61,12 @@
         // GET: Administration/SecondaryCategories/Create
         public IActionResult Create()
         {
-            this.ViewData["MainCategories"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name");
+            this.ViewData["MainCategories"] = new SelectList(
+                this.mainCategoryRepository.All()
+                    .OrderBy(mc => mc.Name),
+                "Id",
+                "Name");
+
             return this.View();
         }
 
@@ -85,10 +91,12 @@
                 await this.secondaryCategoryRepository.AddAsync(category);
                 await this.secondaryCategoryRepository.SaveChangesAsync();
 
+
+
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["MainCategoryId"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name", input.MainCategoryId);
+            this.ViewData["MainCategories"] = new SelectList(this.mainCategoryRepository.All(), "Id", "Name", input.MainCategoryId);
             return this.View(input);
         }
 
