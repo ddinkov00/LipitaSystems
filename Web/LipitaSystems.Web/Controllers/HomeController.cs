@@ -10,10 +10,12 @@
     public class HomeController : BaseController
     {
         private readonly IContactMessageService contactMessageService;
+        private readonly INewsService newsService;
 
-        public HomeController(IContactMessageService contactMessageService)
+        public HomeController(IContactMessageService contactMessageService, INewsService newsService)
         {
             this.contactMessageService = contactMessageService;
+            this.newsService = newsService;
         }
 
         public IActionResult Index()
@@ -23,7 +25,8 @@
 
         public IActionResult News()
         {
-            return this.View();
+            var model = this.newsService.GetLastNews(10);
+            return this.View(model);
         }
 
         public IActionResult About()

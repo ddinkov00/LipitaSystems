@@ -86,6 +86,7 @@
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IDeliveryOfficeService, DeliveryOfficeService>();
             services.AddTransient<RecapchaService>();
+            services.AddTransient<INewsService, NewsService>();
 
             Account account = new Account(
                this.configuration["Cloudinary:AppName"],

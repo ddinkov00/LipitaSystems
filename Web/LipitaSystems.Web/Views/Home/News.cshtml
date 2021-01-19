@@ -1,1 +1,23 @@
-﻿<h1>hello</h1>
+﻿@model List<LipitaSystems.Data.Models.News>
+
+<br>
+<br>
+<br>
+<section class="mt-5 container">
+    <div class="section-title">
+        <div class="section-title">
+            <h2>Новини</h2>
+            <h3><span>Последните новини</span></h3>
+        </div>
+    </div>
+    <hr class="mb-5" />
+    @foreach (var news in Model)
+    {
+        <blockquote class="blockquote">
+            <h3 class="mb-0 text-primary">@news.Title</h3>
+            <footer class="blockquote-footer mb-3">@news.CreatedOn.ToString("HH:mm часа dd.MM")</footer>
+            <p>@news.Content</p>
+        </blockquote>
+        <hr class="mb-5" />
+    }
+</section>
