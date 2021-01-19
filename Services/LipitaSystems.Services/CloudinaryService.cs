@@ -11,7 +11,7 @@
 
     public class CloudinaryService : ICloudinaryService
     {
-        public async Task<List<string>> UploadAsync(Cloudinary cloudinary, ICollection<IFormFile> files)
+        public async Task<List<string>> UploadAsync(Cloudinary cloudinary, IEnumerable<IFormFile> files)
         {
             var filesNames = new List<string>();
 

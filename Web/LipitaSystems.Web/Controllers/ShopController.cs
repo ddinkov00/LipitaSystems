@@ -119,33 +119,6 @@
             return this.View(viewModel);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> AddProduct()
-        {
-            var inputModel = new ProductInputModel();
-            inputModel.CategoryItems = await this.categoryService.GetAllForSelectListAsync();
-            return this.View(inputModel);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddProduct(ProductInputModel inputModel)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View();
-            }
-
-            var productId = await this.productService.CreateAsync(inputModel);
-            var imageUrls = await this.cloudinaryService.UploadAsync(this.cloudinary, inputModel.Images.ToList());
-
-            foreach (var imageUrl in imageUrls)
-            {
-                await this.imageService.CreateAsync(imageUrl, productId);
-            }
-
-            return this.Redirect("/");
-        }
-
         public async Task<IActionResult> Cart(bool? isCodeValid)
         {
             var viewModel = new CartListViewModel();
