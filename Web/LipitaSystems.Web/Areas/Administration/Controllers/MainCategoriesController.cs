@@ -36,6 +36,26 @@
             return this.View(await this.mainCategoryRepository.All().ToListAsync());
         }
 
+        public async Task<IActionResult> Restore()
+        {
+            return this.View(await this.mainCategoryRepository.AllWithDeleted().Where(x => x.IsDeleted == true).ToListAsync());
+        }
+
+        [HttpPost]
+        [ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restore(int id)
+        {
+            var mainCat = await this.mainCategoryRepository.AllWithDeleted()
+                .FirstOrDefaultAsync(n => n.Id == id);
+
+            mainCat.IsDeleted = false;
+            mainCat.DeletedOn = null;
+            await this.mainCategoryRepository.SaveChangesAsync();
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
         // GET: Administration/MainCategories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -44,7 +64,7 @@
                 return this.NotFound();
             }
 
-            var mainCategory = await this.mainCategoryRepository.All()
+            var mainCategory = await this.mainCategoryRepository.AllWithDeleted()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (mainCategory == null)
             {
