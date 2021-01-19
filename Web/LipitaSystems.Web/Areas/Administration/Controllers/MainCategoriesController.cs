@@ -1,15 +1,13 @@
 ﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using CloudinaryDotNet;
-    using LipitaSystems.Data;
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
     using LipitaSystems.Services;
     using LipitaSystems.Web.ViewModels.InputModels;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 

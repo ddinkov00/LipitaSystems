@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LipitaSystems.Data.Models.Order>
+﻿@model List<LipitaSystems.Web.ViewModels.ViewModels.Orders.AdminAreaOrderViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,64 +9,54 @@
 <section class="container mt-5">
     <h1>Поръчки</h1>
 
-    <table class="table">
+    <table class="table table-responsive">
         <thead>
             <tr>
                 <th>
-                    Име
+                    Име на копувач
                 </th>
                 <th>
-                    Телефон
+                    Тефонен номерр
                 </th>
                 <th>
-                    Цена
+                    Обща цена
                 </th>
                 <th>
-                    Адрес
+                    Вид на доставка
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.DeliveryType)
+                    Дата на портката
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.DeliveryOffice)
+
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreatedOn)
-                </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TotalPrice)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DeliveryType)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DeliveryOffice.Address)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreatedOn)
-                    </td>
-                    <td>
-                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @item.FullName
+                </td>
+                <td>
+                    @item.PhoneNumber
+                </td>
+                <td>
+                    @item.TotalPrice
+                </td>
+                <td>
+                    @item.DeliveryType
+                </td>
+                <td>
+                    @item.CreatedOn
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

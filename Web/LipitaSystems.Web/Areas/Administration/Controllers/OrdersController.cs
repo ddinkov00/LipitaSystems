@@ -1,5 +1,6 @@
 ﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -23,8 +24,19 @@
         // GET: Administration/Orders
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = this.orderRepository.All().Include(o => o.DeliveryOffice);
-            return this.View(await applicationDbContext.ToListAsync());
+            var viewModel = await this.orderRepository.All()
+                .OrderByDescending(dc => dc.CreatedOn)
+                .Select(dc => new AdminAreaOrderViewModel
+                {
+                    Id = dc.Id,
+                    FullName = dc.FullName,
+                    PhoneNumber = dc.PhoneNumber,
+                    TotalPrice = dc.TotalPrice.ToString("F2"),
+                    DeliveryType = dc.DeliveryType,
+                    CreatedOn = dc.CreatedOn.AddHours(2).ToString(),
+                }).ToListAsync();
+
+            return this.View(viewModel);
         }
 
         public async Task<IActionResult> Restore()
@@ -55,8 +67,33 @@
                 return this.NotFound();
             }
 
-            var order = this.orderRepository.AllWithDeleted()
-                .Where(o => o.Id == id);
+            var order = await this.orderRepository.AllWithDeleted()
+                .Where(o => o.Id == id)
+                .Select(o => new AdminAreaOrderViewModel
+                {
+                    Id = o.Id,
+                    FullName = o.FullName,
+                    PhoneNumber = o.PhoneNumber,
+                    TotalPrice = o.TotalPrice.ToString("F2"),
+                    Address = o.Address,
+                    DeliveryType = o.DeliveryType,
+                    DeliveryNotes = o.DeliveryNotes != null
+                        ? o.DeliveryNotes
+                        : "-",
+                    DiscountCode = o.DiscountCode != null
+                        ? o.DiscountCode.Code
+                        : "-",
+                    IsDeleted = o.IsDeleted,
+                    DeletedOn = o.DeletedOn != null
+                        ? o.DeletedOn.ToString()
+                        : "-",
+                    ModifiedOn = o.ModifiedOn != null
+                        ? o.ModifiedOn.ToString()
+                        : "-",
+                    CreatedOn = o.CreatedOn
+                        .AddHours(2)
+                        .ToString(),
+                }).FirstOrDefaultAsync();
 
             if (order == null)
             {
