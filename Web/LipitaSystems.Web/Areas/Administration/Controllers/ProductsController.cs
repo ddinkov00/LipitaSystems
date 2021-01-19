@@ -53,7 +53,7 @@
                 return this.NotFound();
             }
 
-            var product = await this.productRepository.All()
+            var product = await this.productRepository.AllWithDeleted()
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -63,6 +63,26 @@
             }
 
             return this.View(product);
+        }
+
+        public async Task<IActionResult> Restore()
+        {
+            return this.View(await this.productRepository.AllWithDeleted().Where(x => x.IsDeleted == true).ToListAsync());
+        }
+
+        [HttpPost]
+        [ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restore(int id)
+        {
+            var news = await this.productRepository.AllWithDeleted()
+                .FirstOrDefaultAsync(n => n.Id == id);
+
+            news.IsDeleted = false;
+            news.DeletedOn = null;
+            await this.productRepository.SaveChangesAsync();
+
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         // GET: Administration/Products/Create

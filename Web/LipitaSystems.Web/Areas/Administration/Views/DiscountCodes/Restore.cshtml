@@ -1,0 +1,53 @@
+﻿@model IEnumerable<LipitaSystems.Data.Models.DiscountCode>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br>
+<br>
+<br>
+<section class="mt-5 container">
+    <h1>Изтрити Кодове</h1>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Code)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DiscountPercentage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DoesWorkOnDiscountedProducts)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DiscountPercentage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DoesWorkOnDiscountedProducts)
+                    </td>
+                    <td>
+                        <form asp-action="Restore" asp-route-id="@item.Id">
+                            <input type="hidden" asp-for="@item.Id" />
+                            <input type="submit" value="Restore" class="btn btn-danger" /> |
+                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>

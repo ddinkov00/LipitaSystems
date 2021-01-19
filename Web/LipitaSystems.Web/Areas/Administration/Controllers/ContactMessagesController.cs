@@ -1,5 +1,6 @@
 ﻿namespace LipitaSystems.Web.Areas.Administration.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using LipitaSystems.Data.Common.Repositories;
@@ -23,6 +24,26 @@
             return this.View(await this.contactMessageRepository.AllAsNoTracking().ToListAsync());
         }
 
+        public async Task<IActionResult> Restore()
+        {
+            return this.View(await this.contactMessageRepository.AllWithDeleted().Where(x => x.IsDeleted == true).ToListAsync());
+        }
+
+        [HttpPost]
+        [ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restore(int id)
+        {
+            var news = await this.contactMessageRepository.AllWithDeleted()
+                .FirstOrDefaultAsync(n => n.Id == id);
+
+            news.IsDeleted = false;
+            news.DeletedOn = null;
+            await this.contactMessageRepository.SaveChangesAsync();
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
         // GET: Administration/ContactMessages/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -31,7 +52,7 @@
                 return this.NotFound();
             }
 
-            var contactMessage = await this.contactMessageRepository.All()
+            var contactMessage = await this.contactMessageRepository.AllWithDeleted()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (contactMessage == null)
             {

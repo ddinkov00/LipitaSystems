@@ -1,0 +1,59 @@
+﻿@model IEnumerable<LipitaSystems.Data.Models.SecondaryCategory>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br>
+<br>
+<br>
+<section class="container mt-5">
+    <h1>Изтрити Съб Категории</h1>
+
+
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    Име
+                </th>
+                <th>
+                    Име на Главна Категория
+                </th>
+                <th>
+                    Създадено на:
+                </th>
+                <th>
+                    Променено на:
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MainCategory.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedOn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModifiedOn)
+                    </td>
+                    <td>
+                        <form asp-action="Restore" asp-route-id="@item.Id">
+                            <input type="hidden" asp-for="@item.Id" />
+                            <input type="submit" value="Restore" class="btn btn-danger" /> |
+                            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
