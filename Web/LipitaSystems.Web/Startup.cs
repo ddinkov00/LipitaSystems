@@ -67,6 +67,7 @@
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSession();
+            services.AddMemoryCache();
 
             services.AddSingleton(this.configuration);
 

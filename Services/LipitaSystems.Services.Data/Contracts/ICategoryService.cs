@@ -5,6 +5,7 @@
 
     using LipitaSystems.Data.Models;
     using LipitaSystems.Web.ViewModels.InputModels;
+    using LipitaSystems.Web.ViewModels.ViewModels;
     using LipitaSystems.Web.ViewModels.ViewModels.Categories;
 
     public interface ICategoryService
@@ -22,5 +23,7 @@
         Task<int> AddSecondaryCategoryAsync(AddSecondaryCategoryInputModel inputModel);
 
         Task<ICollection<MainCategoryForSelectListViewModel>> GetMainCategoriesForSelectListAsync();
+
+        Task<LayoutViewModel> GetCategorieseForLayout();
     }
 }

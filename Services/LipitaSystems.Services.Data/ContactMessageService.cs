@@ -6,6 +6,7 @@
     using LipitaSystems.Data.Models;
     using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Web.ViewModels.InputModels;
+    using Microsoft.EntityFrameworkCore;
 
     public class ContactMessageService : IContactMessageService
     {
@@ -14,6 +15,12 @@
         public ContactMessageService(IDeletableEntityRepository<ContactMessage> contactMessageRepository)
         {
             this.contactMessageRepository = contactMessageRepository;
+        }
+
+        public async Task<int> GetNotDeletedCunt()
+        {
+            return await this.contactMessageRepository.AllAsNoTracking()
+                .CountAsync();
         }
 
         public async Task SendAsync(ContactFormInputModel input)

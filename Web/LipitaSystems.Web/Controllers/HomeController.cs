@@ -1,21 +1,33 @@
 ﻿namespace LipitaSystems.Web.Controllers
 {
+    using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
+
     using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Web.ViewModels;
     using LipitaSystems.Web.ViewModels.InputModels;
+    using LipitaSystems.Web.ViewModels.ViewModels;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
 
     public class HomeController : BaseController
     {
         private readonly IContactMessageService contactMessageService;
+        private readonly ICategoryService categoryService;
         private readonly INewsService newsService;
+        private readonly IMemoryCache memoryCache;
 
-        public HomeController(IContactMessageService contactMessageService, INewsService newsService)
+        public HomeController(
+            IContactMessageService contactMessageService,
+            ICategoryService categoryService,
+            INewsService newsService,
+            IMemoryCache memoryCache)
         {
             this.contactMessageService = contactMessageService;
+            this.categoryService = categoryService;
             this.newsService = newsService;
+            this.memoryCache = memoryCache;
         }
 
         public IActionResult Index()

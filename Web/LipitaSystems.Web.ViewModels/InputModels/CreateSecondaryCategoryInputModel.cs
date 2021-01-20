@@ -7,7 +7,7 @@
     public class CreateSecondaryCategoryInputModel
     {
         [Required(ErrorMessage = "* задължително")]
-        [Display(Name = "Снимка")]
+        [Display(Name = "Име")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "* задължително")]

@@ -7,5 +7,7 @@
     public interface IContactMessageService
     {
         Task SendAsync(ContactFormInputModel input);
+
+        Task<int> GetNotDeletedCunt();
     }
 }

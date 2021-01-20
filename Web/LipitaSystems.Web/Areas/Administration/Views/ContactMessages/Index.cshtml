@@ -15,16 +15,16 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    Име
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Contact)
+                    Контакт
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Subject)
+                    Тема
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Message)
+                    Съобщение
                 </th>
                 <th></th>
             </tr>
@@ -46,8 +46,8 @@
                         @Html.DisplayFor(modelItem => item.Message)
                     </td>
                     <td>
-                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">Инфо</a> |
+                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
                     </td>
                 </tr>
             }

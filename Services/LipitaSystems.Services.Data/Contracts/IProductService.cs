@@ -10,6 +10,8 @@
 
     public interface IProductService
     {
+        Task<int> GetProductsInStockCount();
+
         Task<int> CreateAsync(ProductInputModel inputModel);
 
         Task<IEnumerable<ProductInListViewModel>> GetAllByCategoryForPagingAsync(int secondaryCategoryId, int page, int itemsPerPage);

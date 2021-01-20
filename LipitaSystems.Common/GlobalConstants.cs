@@ -6,6 +6,6 @@
 
         public const string AdministratorRoleName = "Administrator";
 
-        public const string AtLeastTwoNamesRegex = @"^(?:[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+\s[\p{L}\p{Mn}\p{Pd}\'\x{2019}]+\s?)+$";
+        public const string LayoutCategoriesKey = "CategoriesKey";
     }
 }

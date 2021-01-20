@@ -7,6 +7,7 @@
     using LipitaSystems.Data.Models;
     using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Web.ViewModels.InputModels;
+    using Microsoft.EntityFrameworkCore;
 
     public class OrderService : IOrderService
     {
@@ -15,6 +16,19 @@
         public OrderService(IDeletableEntityRepository<Order> orderRepository)
         {
             this.orderRepository = orderRepository;
+        }
+
+        public async Task<int> GetAllOrdersCount()
+        {
+            return await this.orderRepository.AllAsNoTracking()
+                .CountAsync();
+        }
+
+        public async Task<int> GetFinishedOrdersCount()
+        {
+            return await this.orderRepository.AllAsNoTracking()
+                .Where(o => o.IsDeleted)
+                .CountAsync();
         }
 
         public async Task MakeOrder(ProductListForCashOutInputModel input)

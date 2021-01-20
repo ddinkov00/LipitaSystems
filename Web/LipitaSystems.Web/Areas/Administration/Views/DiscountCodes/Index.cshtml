@@ -8,22 +8,22 @@
 <br>
 <br>
 <section class="mt-5 container">
-    <h1>Index</h1>
+    <h1>Кодове за отстъпка</h1>
 
     <p>
-        <a class="btn btn-primary" asp-action="Create">Create New</a>
+        <a class="btn btn-primary" asp-action="Create">Създай нов</a>
     </p>
-    <table class="table">
+    <table class="table table-responsive">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Code)
+                    Код
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.DiscountPercentage)
+                    Процент намаление
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.DoesWorkOnDiscountedProducts)
+                    Работи ли в-ъ вече намалени продукти
                 </th>
                 <th></th>
             </tr>
@@ -42,9 +42,9 @@
                         @Html.DisplayFor(modelItem => item.DoesWorkOnDiscountedProducts)
                     </td>
                     <td>
-                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Редактирай</a> |
+                        <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">Инфо</a> |
+                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
                     </td>
                 </tr>
             }

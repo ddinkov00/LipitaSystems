@@ -315,6 +315,13 @@
             return viewModel;
         }
 
+        public async Task<int> GetProductsInStockCount()
+        {
+            return await this.productRepository.AllAsNoTracking()
+                .Select(p => p.QuantityInStock)
+                .SumAsync();
+        }
+
         public async Task ReduceQuantityInStockAsync(int id, int boughtQuantity)
         {
             var product = await this.productRepository.All()

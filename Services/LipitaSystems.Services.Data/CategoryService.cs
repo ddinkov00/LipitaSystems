@@ -8,6 +8,7 @@
     using LipitaSystems.Data.Models;
     using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Web.ViewModels.InputModels;
+    using LipitaSystems.Web.ViewModels.ViewModels;
     using LipitaSystems.Web.ViewModels.ViewModels.Categories;
     using Microsoft.EntityFrameworkCore;
 
@@ -87,6 +88,27 @@
 
             model.Category = await this.GetCategoryNameByIdAsync(id);
             return model;
+        }
+
+        public async Task<LayoutViewModel> GetCategorieseForLayout()
+        {
+            var categoriesViewModel = new LayoutViewModel
+            {
+                MainCategories = await this.mainCategoryRepository.All()
+                    .Select(mc => new MainCategoryForLayoutViewModel
+                    {
+                        Id = mc.Id,
+                        Name = mc.Name,
+                        SecondaryCategories = mc.SecondaryCategories
+                            .Select(sc => new SecondaryCategoryForLayoutViewModel
+                            {
+                                Id = sc.Id,
+                                Name = sc.Name,
+                            }).ToList(),
+                    }).ToListAsync(),
+            };
+
+            return categoriesViewModel;
         }
 
         public async Task<string> GetCategoryNameByIdAsync(int id)

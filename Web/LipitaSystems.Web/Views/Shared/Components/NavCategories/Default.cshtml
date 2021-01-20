@@ -1,0 +1,36 @@
+﻿@model LipitaSystems.Web.ViewModels.ViewModels.LayoutViewModel
+
+<li class="drop-down">
+    <a asp-area="" asp-controller="Shop" asp-action="All">Магазин</a>
+    <ul>
+        <li>
+            <form method="get" class="form-inline" asp-area="" asp-controller="Shop" asp-action="Search">
+                <input name="search" class="form-control" type="text" placeholder="Потърси Продукт..." />
+            </form>
+        </li>
+        <li>
+            <a asp-area="" asp-controller="Shop" asp-action="Discount" asp-route-page="1"><strong class="text-danger">Продукти с намаление</strong></a>
+        </li>
+        @foreach (var mainCategory in Model.MainCategories)
+        {
+            if (mainCategory.SecondaryCategories.Count > 1)
+            {
+                <li class="drop-down dropleft">
+                    <a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@mainCategory.Id">@mainCategory.Name</a>
+                    <ul>
+                        @foreach (var secondaryCategory in mainCategory.SecondaryCategories)
+                        {
+                            <li><a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-id="1" asp-route-page="@secondaryCategory.Id">@secondaryCategory.Name</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@mainCategory.Id">@mainCategory.Name</a>
+                </li>
+            }
+        }
+    </ul>
+</li>
