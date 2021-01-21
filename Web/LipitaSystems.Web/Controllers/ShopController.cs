@@ -66,7 +66,7 @@
                 page = 1;
             }
 
-            const int itemsPerPage = 3;
+            const int itemsPerPage = 15;
             var subCategory = await this.categoryService.GetSubCategoryNameByIdAsync(id);
             var category = await this.categoryService.GetCategoryNameByIdAsync(subCategory.MainCategoryId);
             var viewModel = new ProductListViewModel
@@ -260,7 +260,7 @@
                 page = 1;
             }
 
-            const int itemsPerPage = 3;
+            const int itemsPerPage = 15;
             var viewModel = new ProductListViewModel
             {
                 Search = "Намалени продукти",
@@ -303,7 +303,7 @@
                 page = 1;
             }
 
-            const int itemsPerPage = 3;
+            const int itemsPerPage = 15;
             var viewModel = new ProductListViewModel
             {
                 Search = search,
