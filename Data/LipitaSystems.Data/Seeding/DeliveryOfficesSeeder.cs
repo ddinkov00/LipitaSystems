@@ -18,7 +18,7 @@
                 return;
             }
 
-            var officesJson = File.ReadAllText(Path.Combine("..", "..", "Data", "LipitaSystems.Data", "Seeding", "Data", "Offices.json"));
+            var officesJson = File.ReadAllText(Path.Combine("..", "..", "site", "wwwroot", "Seeding", "Data", "Offices.json"));
             var deserializedOffices = JsonConvert.DeserializeObject<List<DeliveryOffice>>(officesJson);
 
             await dbContext.AddRangeAsync(deserializedOffices);
