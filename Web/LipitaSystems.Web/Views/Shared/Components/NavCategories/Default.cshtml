@@ -15,12 +15,14 @@
         {
             if (mainCategory.SecondaryCategories.Count > 1)
             {
-                <li class="drop-down dropleft">
+                <li class="drop-down">
                     <a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@mainCategory.Id">@mainCategory.Name</a>
                     <ul>
                         @foreach (var secondaryCategory in mainCategory.SecondaryCategories)
                         {
-                            <li><a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-id="1" asp-route-page="@secondaryCategory.Id">@secondaryCategory.Name</a></li>
+                            <li style="width: 365px">
+                                <a style="white-space: initial;" asp-area="" asp-controller="Shop" asp-action="Products" asp-route-id="@secondaryCategory.Id" asp-route-page="1">@secondaryCategory.Name</a>
+                            </li>
                         }
                     </ul>
                 </li>
