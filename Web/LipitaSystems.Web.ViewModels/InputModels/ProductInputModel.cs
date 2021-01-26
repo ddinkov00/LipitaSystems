@@ -12,6 +12,10 @@
         public string Name { get; set; }
 
         [Required(ErrorMessage = "е задължително")]
+        [Display(Name = "Кратко описание")]
+        public string ShortDescription { get; set; }
+
+        [Required(ErrorMessage = "е задължително")]
         [Display(Name = "Описание")]
         public string Description { get; set; }
 
@@ -30,5 +34,7 @@
         [Required]
         [Display(Name = "Снимки")]
         public IEnumerable<IFormFile> Images { get; set; }
+
+        public IEnumerable<SpecificationInputModel> Specifications { get; set; }
     }
 }
