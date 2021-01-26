@@ -7,6 +7,7 @@
     using LipitaSystems.Data.Common.Repositories;
     using LipitaSystems.Data.Models;
     using LipitaSystems.Web.ViewModels.ViewModels.Orders;
+    using LipitaSystems.Web.ViewModels.ViewModels.Products;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
@@ -93,6 +94,13 @@
                     CreatedOn = o.CreatedOn
                         .AddHours(2)
                         .ToString(),
+                    Products = o.Products
+                        .Select(p => new ProductForOrderViewModel
+                        {
+                            Id = p.ProductId,
+                            Name = p.Product.Name,
+                            Quantity = p.Quantity,
+                        }).ToList(),
                 }).FirstOrDefaultAsync();
 
             if (order == null)

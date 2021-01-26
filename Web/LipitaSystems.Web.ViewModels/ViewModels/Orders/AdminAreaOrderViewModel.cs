@@ -1,4 +1,7 @@
-﻿namespace LipitaSystems.Web.ViewModels.ViewModels.Orders
+﻿using LipitaSystems.Web.ViewModels.ViewModels.Products;
+using System.Collections.Generic;
+
+namespace LipitaSystems.Web.ViewModels.ViewModels.Orders
 {
     public class AdminAreaOrderViewModel
     {
@@ -25,5 +28,7 @@
         public string CreatedOn { get; set; }
 
         public string ModifiedOn { get; set; }
+
+        public IEnumerable<ProductForOrderViewModel> Products { get; set; }
     }
 }

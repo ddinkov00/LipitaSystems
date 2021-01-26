@@ -75,6 +75,27 @@
                 @Html.DisplayFor(model => model.ModifiedOn)
             </dd>
         </dl>
+        <div class="row">
+            <table class="table col-md-6">
+                <thead>
+                    <tr>
+                        <th scope="col">Име на продукт</th>
+                        <th scope="col">Количестов</th>
+                        <th scope="col">Виж продукт</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.Products)
+                    {
+                    <tr>
+                        <td>@product.Name</td>
+                        <td>@product.Quantity</td>
+                        <td><a class="btn btn-sm btn-primary" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">Инфо</a></td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
     <div>
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
