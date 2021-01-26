@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using LipitaSystems.Data.Common.Models;
 
     public class Product : BaseDeletableModel<int>
@@ -10,10 +11,14 @@
         {
             this.Images = new HashSet<Image>();
             this.Orders = new HashSet<ProductOrder>();
+            this.Specifications = new HashSet<Specification>();
         }
 
         [Required]
         public string Name { get; set; }
+
+        [Required]
+        public string ShortDescription { get; set; }
 
         [Required]
         public string Description { get; set; }
@@ -33,5 +38,7 @@
         public virtual ICollection<Image> Images { get; set; }
 
         public virtual ICollection<ProductOrder> Orders { get; set; }
+
+        public virtual ICollection<Specification> Specifications { get; set; }
     }
 }
