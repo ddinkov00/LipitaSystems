@@ -103,7 +103,7 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,Price,Images,QuantityInstock,SecondaryCategoryId")] ProductInputModel input)
+        public async Task<IActionResult> Create([Bind("Name,ShortDescription,Description,Price,Images,QuantityInstock,SecondaryCategoryId,Specifications")] ProductInputModel input)
         {
             if (this.ModelState.IsValid)
             {
@@ -113,10 +113,20 @@
                 {
                     Name = input.Name,
                     Description = input.Description,
+                    ShortDescription = input.ShortDescription,
                     OriginalPrice = input.Price,
                     QuantityInStock = input.QuantityInstock,
                     CategoryId = input.SecondaryCategoryId,
                 };
+
+                foreach (var specification in input.Specifications)
+                {
+                    product.Specifications.Add(new Specification
+                    {
+                        Name = specification.Name,
+                        Value = specification.Value,
+                    });
+                }
 
                 await this.productRepository.AddAsync(product);
                 await this.productRepository.SaveChangesAsync();

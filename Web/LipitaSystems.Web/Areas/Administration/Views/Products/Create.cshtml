@@ -54,19 +54,9 @@
             </div>
             <div class="col-md-6">
                 @* Тук ще се добавят спецификациите за продукта *@
-                <div class="row">
-                    @* Име *@
-                    <div class="col-md-6">
-                        <label asp-for="QuantityInstock" class="control-label"></label>
-                        <span asp-validation-for="QuantityInstock" class="text-danger"></span>
-                        <input asp-for="QuantityInstock" class="form-control" />
-                    </div>
-                    @* Стойност *@
-                    <div class="col-md-6">
-                        <label asp-for="QuantityInstock" class="control-label"></label>
-                        <span asp-validation-for="QuantityInstock" class="text-danger"></span>
-                        <input asp-for="QuantityInstock" class="form-control" />
-                    </div>
+                <div id="SpecificationsContainer" class="row">
+                    <label asp-for="Specifications"></label>
+                    <a class="btn btn-success" onclick="AddMoreSpecifications()">+</a>
                 </div>
             </div>
             <div class="form-group row">
@@ -81,4 +71,13 @@
 </section>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    var specificationsIndex = 0;    
+    function AddMoreSpecifications() {
+        $("#SpecificationsContainer").
+            append("<div class='form-group'>Име: <input type='text' name='Specifications[" + specificationsIndex + "].Name' /> Стойност: <input type='text' name='Specifications[" + specificationsIndex + "].Value' /></div>");
+        specificationsIndex++;
+    }
+</script>
 }

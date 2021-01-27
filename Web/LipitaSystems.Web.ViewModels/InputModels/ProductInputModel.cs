@@ -35,6 +35,7 @@
         [Display(Name = "Снимки")]
         public IEnumerable<IFormFile> Images { get; set; }
 
+        [Display(Name = "Спецификации")]
         public IEnumerable<SpecificationInputModel> Specifications { get; set; }
     }
 }
