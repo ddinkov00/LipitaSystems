@@ -113,12 +113,64 @@
                         <button type="button" id="shoppingCartBtn" class="btn-outline-dark btn btn-md mr-1 mb-2"><i class="icofont-shopping-cart">Добави в количка</i></button>
                     }
                 </div>
-                <div class="row mr-3 ml-3 mt-4">
-                    <h4>Описание:</h4>
-                    <br>
-                    <p class="pt-1">@Model.Description</p>
+
+                <div id="accordion" class="col-12">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Описание
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                @Model.Description
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Пълна информация за продукта
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="card-body">
+                                @Model.FullInfo
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Спецификации
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var spec in Model.Specifications)
+                                        {
+                                            <tr class="">
+                                                <th>@spec.Name</th>
+                                                <td>@spec.Value</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
         </section>
         <div>
 

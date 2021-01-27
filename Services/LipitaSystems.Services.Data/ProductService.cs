@@ -230,7 +230,7 @@
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Description = p.Description,
+                    Description = p.ShortDescription,
                     OriginalPrice = decimal.Round(p.OriginalPrice, 2, MidpointRounding.AwayFromZero),
                     DiscountPercentage = p.DiscountPercentage,
                     MainCategoryName = p.Category.MainCategory.Name,
@@ -240,6 +240,12 @@
                     ImagesUlr = p.Images
                         .Select(i => i.Url),
                     QuantityInStock = p.QuantityInStock,
+                    FullInfo = p.Description,
+                    Specifications = p.Specifications.Select(x => new Specification
+                    {
+                        Name = x.Name,
+                        Value = x.Value,
+                    }),
                 }).FirstOrDefaultAsync();
         }
 

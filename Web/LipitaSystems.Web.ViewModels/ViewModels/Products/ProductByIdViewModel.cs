@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using LipitaSystems.Data.Models;
 
     public class ProductByIdViewModel
     {
@@ -31,6 +32,10 @@
         public int SecondaryCategoryId { get; set; }
 
         public int QuantityInStock { get; set; }
+
+        public string FullInfo { get; set; }
+
+        public IEnumerable<Specification> Specifications { get; set; }
 
         public IEnumerable<string> ImagesUlr { get; set; }
     }

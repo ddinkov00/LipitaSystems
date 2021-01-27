@@ -132,6 +132,10 @@
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseStatusCodePages(async context =>
+            {
+                context.HttpContext.Response.Redirect("Home/Error");
+            });
 
             app.UseEndpoints(
                 endpoints =>
