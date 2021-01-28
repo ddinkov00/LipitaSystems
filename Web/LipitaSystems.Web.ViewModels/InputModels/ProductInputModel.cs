@@ -12,11 +12,11 @@
         public string Name { get; set; }
 
         [Required(ErrorMessage = "е задължително")]
-        [Display(Name = "Кратко описание")]
+        [Display(Name = "Описание")]
         public string ShortDescription { get; set; }
 
         [Required(ErrorMessage = "е задължително")]
-        [Display(Name = "Описание")]
+        [Display(Name = "Пълна информация за продукта")]
         public string Description { get; set; }
 
         [Display(Name = "Цена")]
