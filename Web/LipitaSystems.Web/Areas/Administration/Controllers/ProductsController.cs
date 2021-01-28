@@ -119,13 +119,16 @@
                     CategoryId = input.SecondaryCategoryId,
                 };
 
-                foreach (var specification in input.Specifications)
+                if (input.Specifications != null)
                 {
-                    product.Specifications.Add(new Specification
+                    foreach (var specification in input.Specifications)
                     {
-                        Name = specification.Name,
-                        Value = specification.Value,
-                    });
+                        product.Specifications.Add(new Specification
+                        {
+                            Name = specification.Name,
+                            Value = specification.Value,
+                        });
+                    }
                 }
 
                 await this.productRepository.AddAsync(product);
