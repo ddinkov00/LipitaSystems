@@ -22,7 +22,7 @@ namespace LipitaSystems.Web.ViewModels.InputModels
         public string RedirectUrl { get; set; }
 
         [Display(Name = "Място на подредба")]
-        public int Order { get; set; }
+        public int? Order { get; set; }
 
     }
 }
