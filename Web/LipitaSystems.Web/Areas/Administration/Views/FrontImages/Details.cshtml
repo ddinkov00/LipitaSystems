@@ -1,0 +1,79 @@
+@model LipitaSystems.Data.Models.FrontImage
+
+@{ ViewData["Title"] = "Details"; }
+
+<br>
+<br>
+<br>
+<section class="mt-5 container">
+    <h1>Детайли</h1>
+
+    <div>
+        <h4>Заглавна страница</h4>
+        <hr />
+        <img style="max-width: 50%;" class="img-fluid" src="@Model.ImgUrl" />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Адрес на снимка
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ImgUrl)
+            </dd>
+            <dt class="col-sm-2">
+                Заглавие
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Heading)
+            </dd>
+            <dt class="col-sm-2">
+                Съдържание
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Content)
+            </dd>
+            <dt class="col-sm-2">
+                Къде да праща()
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RedirectUrl)
+            </dd>
+            <dt class="col-sm-2">
+                Място в подредба
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Order)
+            </dd>
+            <dt class="col-sm-2">
+                Изтрито ли е
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.IsDeleted)
+            </dd>
+            <dt class="col-sm-2">
+                Кога е изтрито
+
+            </dt>
+            <dd class="col-sm-10">
+                @{ var date = Model.DeletedOn == null ? "-" : Model.DeletedOn.ToString();
+        @Html.DisplayFor(model => date) }
+            </dd>
+            <dt class="col-sm-2">
+                Създадено на
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CreatedOn)
+            </dd>
+            <dt class="col-sm-2">
+                Редактирано на
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ModifiedOn)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Редактирай</a> |
+        <a asp-action="Index">Назад</a>
+    </div>
+
+</section>

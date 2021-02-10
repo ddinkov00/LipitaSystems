@@ -1,27 +1,23 @@
-﻿@model IEnumerable<LipitaSystems.Data.Models.MainCategory>
+﻿@model IEnumerable<LipitaSystems.Data.Models.FrontImage>
 
-@{
-    ViewData["Title"] = "Категории";
-}
+@{ ViewData["Title"] = "Заглавни Снимки"; }
 
 <br>
 <br>
 <br>
 <section class="container mt-5">
-    <h1>Изтрити Главни Категории</h1>
-
-
+    <h1>Изтрити Заглавни Снимки</h1>
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    Име:
+                    Заглавие:
+                </th>
+                <th>
+                    Съдържание:
                 </th>
                 <th>
                     Създадено на:
-                </th>
-                <th>
-                    Променено на:
                 </th>
                 <th></th>
             </tr>
@@ -31,13 +27,13 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.DisplayFor(modelItem => item.Heading)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Content)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CreatedOn)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ModifiedOn)
                     </td>
                     <td>
                         <form asp-action="Restore" asp-route-id="@item.Id">

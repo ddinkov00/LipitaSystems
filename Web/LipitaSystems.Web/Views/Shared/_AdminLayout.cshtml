@@ -49,7 +49,7 @@
             </div>
 
             <!--logo start-->
-            <a href="index.html" class="logo">Lipita systems <span class="lite">Admin</span></a>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="logo">Lipita systems <span class="lite">Admin</span></a>
             <!--logo end-->
 
 
@@ -82,6 +82,7 @@
                             <li><a class="" asp-area="Administration" asp-controller="Orders" asp-action="Index">Поръчки</a></li>
                             <li><a class="" asp-area="Administration" asp-controller="News" asp-action="Index">Новини</a></li>
                             <li><a class="" asp-area="Administration" asp-controller="ContactMessages" asp-action="Index">Съобщения</a></li>
+                            <li><a class="" asp-area="Administration" asp-controller="FrontImages" asp-action="Index">Заглавни снимки</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
@@ -96,6 +97,7 @@
                             <li><a class="" asp-area="Administration" asp-controller="Products" asp-action="Create">Продукт</a></li>
                             <li><a class="" asp-area="Administration" asp-controller="DiscountCodes" asp-action="Create">Код за намаление</a></li>
                             <li><a class="" asp-area="Administration" asp-controller="News" asp-action="Create">Новина</a></li>
+                            <li><a class="" asp-area="Administration" asp-controller="FrontImages" asp-action="Create">Заглавни снимки</a></li>
                         </ul>
                     </li>
                     <li>
@@ -104,7 +106,12 @@
                             <span>Регистриране</span>
                         </a>
                     </li>
-
+                    @*<li>
+                            <a class="" asp-area="Identity" asp-page="/Account/Manage/Index">
+                                <i class="icon_genius"></i>
+                                <span>Акаунт</span>
+                            </a>
+                        </li>*@
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
                             <i class="icon_table"></i>
@@ -119,6 +126,7 @@
                             <li><a class="" asp-area="Administration" asp-controller="News" asp-action="Restore">Новина</a></li>
                             <li><a class="" asp-area="Administration" asp-controller="Orders" asp-action="Restore">Поръчка</a></li>
                             <li><a class="" asp-area="Administration" asp-controller="ContactMessages" asp-action="Restore">Съобщениe</a></li>
+                            <li><a class="" asp-area="Administration" asp-controller="FrontImages" asp-action="Restore">Заглавни снимки</a></li>
                         </ul>
                     </li>
 

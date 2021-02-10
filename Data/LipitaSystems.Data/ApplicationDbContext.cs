@@ -46,6 +46,8 @@
 
         public DbSet<News> News { get; set; }
 
+        public DbSet<FrontImage> FrontImages { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

@@ -1,9 +1,50 @@
 ﻿@using LipitaSystems.Common
+@model List<LipitaSystems.Web.ViewModels.ViewModels.FrontImageViewModel>
 @{
     this.ViewData["Title"] = "Home";
 }
 
-<section id="hero" class="d-flex align-items-center">
+<section id="hero">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+
+        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+        <div class="carousel-inner" role="listbox">
+
+            <!-- Slide 1 -->
+            <div class="carousel-item active" style="background-image: url('@Url.Content("~/img/Business-Screening-Services1-1024x683.jpg")')">
+                <div class="container">
+                    <h2>Добре дошли в <span>Lipita systems</span></h2>
+                    <p>Ние сме малка фирма в IT сферата, занимаваща се с набор от услуги полезни и нужни за всеки бизнес.</p>
+                    <a href="#services" class="btn-get-started scrollto">Какво предлагаме?</a>
+                </div>
+            </div>
+
+            @foreach (var frontImage in Model)
+            {
+                <div class="carousel-item" style="background-image: url(@frontImage.ImageUrl)">
+                    <div class="container">
+                        <h2>@frontImage.Heading</h2>
+                        <p>@frontImage.Content</p>
+                        <a href="@frontImage.RedirectUrl" class="btn-get-started scrollto">Виж повече</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon icofont-simple-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+
+        <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon icofont-simple-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+
+    </div>
+</section>
+<!--<section id="hero" class="d-flex align-items-center">
     <div class="container" data-aos="zoom-out" data-aos-delay="100">
         <h1 class="">
             <strong>Добре дошли в <span>Lipita Systems.</span></strong>
@@ -12,7 +53,8 @@
             <a href="#services" class="btn-get-started scrollto">Какво предлагаме ?</a>
         </div>
     </div>
-</section><!-- End Hero -->
+</section>-->
+<!-- End Hero -->
 
 <main id="main">
 
@@ -191,5 +233,6 @@
 
             <a asp-area="" asp-controller="Home" asp-action="Privacy">Моля прочетете ОБЩИТЕ УСЛОВИЯ за ползването на нашия сайт, услуги и магазин.</a>
         </div>
-    </section>--><!-- End Frequently Asked Questions Section -->
+    </section>-->
+    <!-- End Frequently Asked Questions Section -->
 </main><!-- End #main -->

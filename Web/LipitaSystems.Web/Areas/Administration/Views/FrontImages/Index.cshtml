@@ -1,0 +1,51 @@
+@model IEnumerable<LipitaSystems.Data.Models.FrontImage>
+
+@{ ViewData["Title"] = "Заглавни Снимки"; }
+
+<br>
+<br>
+<br>
+<section class="container mt-5">
+    <h1>Заглавни Снимки</h1>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Създай нова</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Заглавие:
+                </th>
+                <th>
+                    Съдържание:
+                </th>
+                <th>
+                    Създадено на:
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Heading)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Content)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CreatedOn)
+    </td>
+    <td>
+        <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Редактирай</a> |
+        <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.Id">Инфо</a> |
+        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
+    </td>
+</tr>
+}
+        </tbody>
+    </table>
+</section>

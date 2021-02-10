@@ -27,9 +27,9 @@
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
-                              //new CategorySeeder(),
-                              //new DeliveryOfficesSeeder(),
-                              //new AdminSeeder(),
+                              new CategorySeeder(),
+                              new DeliveryOfficesSeeder(),
+                              new AdminSeeder(),
                           };
 
             foreach (var seeder in seeders)

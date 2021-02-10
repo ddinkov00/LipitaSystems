@@ -44,6 +44,11 @@
     <ProjectReference Include="..\LipitaSystems.Web.ViewModels\LipitaSystems.Web.ViewModels.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Views\FrontImages\Details.cshtml" />
+    <Content Remove="Views\FrontImages\Delete.cshtml" />
+    <Content Remove="Views\FrontImages\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Update="Areas\Administration\Views\DiscountCodes\Edit.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -719,6 +724,15 @@
     <Content Update="wwwroot\admin\js\xcharts.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="wwwroot\img\Screenshot 2021-02-10 at 11.38.25.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Digital-Security-and-Control-Market.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\access-control-Hartmann2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\vendors\" />
@@ -753,6 +767,7 @@
     <Folder Include="wwwroot\admin\css\" />
     <Folder Include="wwwroot\admin\js\" />
     <Folder Include="wwwroot\admin\fonts\" />
+    <Folder Include="Areas\Administration\Views\FrontImages\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Startup.cs">

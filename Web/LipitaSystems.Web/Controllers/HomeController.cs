@@ -2,8 +2,10 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Linq;
     using System.Threading.Tasks;
-
+    using LipitaSystems.Data.Common.Repositories;
+    using LipitaSystems.Data.Models;
     using LipitaSystems.Services.Data.Contracts;
     using LipitaSystems.Web.ViewModels;
     using LipitaSystems.Web.ViewModels.InputModels;
@@ -17,22 +19,32 @@
         private readonly ICategoryService categoryService;
         private readonly INewsService newsService;
         private readonly IMemoryCache memoryCache;
+        private readonly IDeletableEntityRepository<FrontImage> frontImageRepo;
 
         public HomeController(
             IContactMessageService contactMessageService,
             ICategoryService categoryService,
             INewsService newsService,
-            IMemoryCache memoryCache)
+            IMemoryCache memoryCache,
+            IDeletableEntityRepository<FrontImage> frontImageRepo)
         {
             this.contactMessageService = contactMessageService;
             this.categoryService = categoryService;
             this.newsService = newsService;
             this.memoryCache = memoryCache;
+            this.frontImageRepo = frontImageRepo;
         }
 
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = this.frontImageRepo.AllAsNoTracking().OrderBy(x => x.Order).Select(x => new FrontImageViewModel
+            {
+                ImageUrl = x.ImgUrl,
+                Heading = x.Heading,
+                Content = x.Content,
+                RedirectUrl = x.RedirectUrl,
+            }).ToList();
+            return this.View(viewModel);
         }
 
         public IActionResult News()
