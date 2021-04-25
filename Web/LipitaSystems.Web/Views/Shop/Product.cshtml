@@ -7,7 +7,7 @@
     <div class="container">
         <section class="mb-0">
             <nav aria-label="breadcrumb" class="">
-                <ol class="breadcrumb bg-white">
+                <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
                     <li class="breadcrumb-item"><a asp-area="" asp-controller="Shop" asp-action="All">Магазин</a></li>
                     <li class="breadcrumb-item"><a asp-area="" asp-controller="Shop" asp-action="AllSubCategories" asp-route-id="@Model.MainCategoryId">@Model.MainCategoryName</a></li>
@@ -103,7 +103,7 @@
                         <hr>
                         @if (Model.PriceAfterDiscout != null)
                         {
-                            <h5>Обща цена: <span id="totalSumField" class="text-danger h4">@Model.PriceAfterDiscout лв.</span></h5>
+                            <h5>Обща цена: <span id="totalSumField" class="text-primary h4">@Model.PriceAfterDiscout лв.</span></h5>
                         }
                         else
                         {

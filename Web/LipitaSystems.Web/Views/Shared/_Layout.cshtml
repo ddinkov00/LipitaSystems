@@ -63,11 +63,9 @@
                 <i class="icofont-phone"></i> +359 894 325 544
             </div>
             <div class="social-links">
-                <a href="#" class="twitter"><i class="icofont-twitter"></i></a>
-                <a href="#" class="facebook"><i class="icofont-facebook"></i></a>
-                <a href="#" class="instagram"><i class="icofont-instagram"></i></a>
-                <a href="#" class="skype"><i class="icofont-skype"></i></a>
-                <a href="#" class="linkedin"><i class="icofont-linkedin"></i></i></a>
+                <a href="https://www.youtube.com/channel/UCbvg7h_WDShC4idXx-wFcuA" class="twitter"><i class="icofont-youtube"></i></a>
+                <a href="https://www.facebook.com/LipitaSystems" class="facebook"><i class="icofont-facebook"></i></a>
+                <a href="https://www.instagram.com/lipitasystems/?fbclid=IwAR3iFgTE_f2gKSCYWwm9dDrmevTCc9Op7NW9LP8KQ5hJcivFqKKqQzxhT-w" class="instagram"><i class="icofont-instagram"></i></a>
             </div>
         </div>
     </div>
@@ -76,7 +74,7 @@
     <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center">
             <a asp-area="" asp-controller="Home" asp-action="Index" class="logo mr-auto">
-                <img src="~/img/Screenshot 2021-02-10 at 11.38.25.png" class="img-fluid" style="transform: scale(1.5)" alt="">
+                <img src="~/img/output-onlinepngtools.png" class="img-fluid" style="transform: scale(1.5)" alt="">
             </a>
 
             <nav class="nav-menu d-none d-lg-block">
@@ -98,11 +96,11 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Контакти</a></li>
                     @if (this.Context.Request.Cookies["cartProducts"] != null)
                     {
-                        <li><a id="cartIconShop" asp-area="" asp-controller="Shop" asp-action="Cart"><i class="icofont-shopping-cart h4 text-primary"></i><i class="icofont-plus-circle text-danger h4"></i></a></li>
+                        <li><a id="cartIconShop" asp-area="" asp-controller="Shop" asp-action="Cart"><i class="icofont-shopping-cart cart-color h4"></i><i class="icofont-plus-circle text-danger h4"></i></a></li>
                     }
                     else
                     {
-                        <li><a id="cartIconShop" asp-area="" asp-controller="Shop" asp-action="Cart"><i class="icofont-shopping-cart h4 text-primary"></i></a></li>
+                        <li><a id="cartIconShop" asp-area="" asp-controller="Shop" asp-action="Cart"><i class="icofont-shopping-cart h4 cart-color"></i></a></li>
 
                     }
                     @if (this.User.Identity.IsAuthenticated)
@@ -166,11 +164,9 @@
                         <h4>Нашите социални платформи</h4>
                         <p>Може да ни намерете на местата посочени долу.</p>
                         <div class="social-links mt-3">
-                            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                            <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-                            <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                            <a href="https://www.youtube.com/channel/UCbvg7h_WDShC4idXx-wFcuA" class="twitter"><i class="bx bxl-youtube"></i></a>
+                            <a href="https://www.facebook.com/LipitaSystems" class="facebook"><i class="bx bxl-facebook"></i></a>
+                            <a href="https://www.instagram.com/lipitasystems/?fbclid=IwAR3iFgTE_f2gKSCYWwm9dDrmevTCc9Op7NW9LP8KQ5hJcivFqKKqQzxhT-w" class="instagram"><i class="bx bxl-instagram"></i></a>
                         </div>
                     </div>
 
@@ -181,9 +177,6 @@
         <div class="container py-4">
             <div class="copyright">
                 &copy; Copyright <strong><span>Lipita Systems</span></strong>. All Rights Reserved
-            </div>
-            <div class="credits">
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
             </div>
         </div>
     </footer><!-- End Footer -->

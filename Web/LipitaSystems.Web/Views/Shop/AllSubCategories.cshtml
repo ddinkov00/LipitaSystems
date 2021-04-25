@@ -6,9 +6,9 @@
     <div class="container" data-aos="fade-up">
 
         <nav aria-label="breadcrumb" class="">
-            <ol class="breadcrumb bg-white">
-                <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
-                <li class="breadcrumb-item"><a asp-area="" asp-controller="Shop" asp-action="All">Магазин</a></li>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a style="color: #00283a" asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
+                <li class="breadcrumb-item"><a style="color: #00283a" asp-area="" asp-controller="Shop" asp-action="All">Магазин</a></li>
                 <li class="breadcrumb-item active" aria-current="page">@Model.Category</li>
             </ol>
         </nav>
@@ -37,8 +37,8 @@
                             </a>
                         </div>
                         <div class="member-info">
-                            <h4><a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-page="1" asp-route-id="@subCategory.Id">@subCategory.Name</a></h4>
-                            <span class="col-2 badge badge-primary text-white">@subCategory.Count</span>
+                            <h4><a asp-area="" asp-controller="Shop" asp-action="Products" asp-route-page="1" asp-route-id="@subCategory.Id" style="color: #00283a">@subCategory.Name</a></h4>
+                            <span class="col-2 badge badge-primary" style="background-color: #00283a;">@subCategory.Count</span>
                         </div>
                     </div>
                 </div>

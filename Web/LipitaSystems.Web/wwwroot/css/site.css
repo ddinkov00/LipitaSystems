@@ -9,20 +9,37 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-    color: #0366d6;
+    color: #00283a;
 }
+
+    a:hover {
+        color: #fa9d28;
+    }
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: #00283a;
+    border-color: #00283a;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
-}
+    .btn-primary:hover{
+        background-color: #fa9d28;
+        border-color: #fa9d28;
+        color: #00283a;
+    }
+
+    .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+    .show > .btn-primary.dropdown-toggle {
+        color: #00283a;
+        background-color: #fa9d28;
+        border-color: #fa9d28;
+    }
+
+        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+        color: #fff;
+        background-color: #1b6ec2;
+        border-color: #1861ac;
+    }
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -63,6 +80,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    background-color: #e9ece9;
 }
 
 .footer {
@@ -102,4 +120,16 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.dropdown-menu {
+    max-width: 80%;
+}
+
+.cart-color {
+    color: #00283a;
+}
+
+.dark-btn {
+
 }
